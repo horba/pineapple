@@ -13,7 +13,9 @@ namespace Pineapple.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "sweet1", "sweet2" };
+            //return new string[] { "sweet1", "sweet2" };
+            Model.Tweets modelReader = new Model.Tweets();
+            return modelReader.GetTweets(4);
         }
 
         // GET api/values/5
