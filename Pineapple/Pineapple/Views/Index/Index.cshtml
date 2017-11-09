@@ -4,11 +4,21 @@
 @{
 }
 <!doctype html>
-<html><head></head>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
 <body>
-hi
-<button id="values">get tweets</button>
-    <div style="min-width: 200px; min-height: 200px; border:1px solid green" id="output"></div>
+    <header class="flex-container">header</header>
+    <div id="main" class="flex-container">
+        <div id="left-column">left column</div>
+        <div id="center-column">
+            <button id="values">Get tweets</button>
+            <div id="output"></div>
+        </div>
+        <div id="right-column">right column</div>
+    </div>
+    <footer class="flex-container">footer</footer>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
     $(function() {
@@ -19,7 +29,7 @@ hi
                 let $output = $("#output");
                 $output.html("");
                 values.forEach(function(v) {
-                    $output.append("<div style=\"border:1px solid blue;margin:10px\">" + v + "</div>");
+                    $output.append("<div class=\"flex-block post\">" + v + "</div>");
                 });
                 
                 
