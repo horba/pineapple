@@ -11,26 +11,26 @@ header{
     background-color: rgba(200, 200, 200, 1);
 }
 
-#main {
+.main {
     display: flex;
     width: 100%;
     height: auto;
     margin-bottom: 60px;
 }
 
-#left-column {
+.left-column {
     width: 20%;
 }
 
-#center-column {
+.center-column {
     width: 60%;
 }
 
-#right-column {
+.right-column {
     width: 20%;
 }
 
-#output {
+.output {
     width: 100%;
     display: flex;
 
@@ -39,7 +39,7 @@ header{
     align-items: stretch;
 }
 
-#values {
+.values {
     width: 100px;
     height: 30px;
     margin: 10px auto;
@@ -50,12 +50,12 @@ header{
     outline: none;
 }
 
-#values:hover {
+.values:hover {
     background-color: rgba(240, 240, 240, 1);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-#values:active {
+.values:active {
     transform: translateY(2px);
 }
 
