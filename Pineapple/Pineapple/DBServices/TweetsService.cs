@@ -14,61 +14,6 @@ namespace Pineapple.DBServices
 
     public class TweetsService : ITweetsService
     {
-
-        //public void AddTweet(string tweet) {
-        //    StreamWriter sr = new StreamWriter("App_Data/Tweets.txt",true);
-        //    sr.WriteLine(tweet);
-        //    sr.Close();
-        //}
-
-
-
-
-        //public List<Tweet> GetLimitTweets(int limit) {
-        //    StreamReader FileReader = File.OpenText("App_Data/Tweets.txt");
-        //    List<string> allLines = new List<string>();
-        //    List<Tweet> allTweets = new List<Tweet>();
-        //    while (true)
-        //    {
-        //        string str = FileReader.ReadLine();
-        //        if (str == null)
-        //            break;
-        //        allLines.Add(str);
-        //    }
-        //    FileReader.Close();
-        //    for (int i = 0; i < limit; i++)
-        //    {
-        //        string[] elements = allLines.ElementAt(allLines.Count - limit+i).Split(' ');
-        //        Tweet tweet = new Tweet(elements[0], elements[1], elements[2]);
-        //        allTweets.Add(tweet);
-        //    }
-        //    return allTweets;
-        //}
-
-
-
-        //public List<Tweet> GetAllTweets()
-        //{
-        //    StreamReader FileReader = File.OpenText("App_Data/Tweets.txt");
-        //    List<string> allLines = new List<string>();
-        //    List<Tweet> allTweets = new List<Tweet>();
-        //    while (true)
-        //    {
-        //        string str = FileReader.ReadLine();
-        //        if (str == null)
-        //            break;
-        //        allLines.Add(str);
-        //    }
-        //    FileReader.Close();
-        //    for (int i = 0; i < allLines.Count; i++)
-        //    {
-        //        string[] elements = allLines.ElementAt(i).Split(' ');
-        //        Tweet tweet = new Tweet(elements[0], elements[1], elements[2]);
-        //        allTweets.Add(tweet);
-        //    }
-        //    return allTweets;
-        //}
-
         public void AddTweet(string tweet)
         {
             DBconnection.ConnectionOpen();

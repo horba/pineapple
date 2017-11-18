@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Collections;
 
 
-namespace Pineapple.DBServices
+namespace DBMigration
 {
     public class DBconnection
     {
@@ -35,7 +35,7 @@ namespace Pineapple.DBServices
             {
                 Console.WriteLine(e.ToString());
             }
-            Console.WriteLine("Connection open, please press any key to write");
+            Console.WriteLine("Connection open.");
         }
 
         public static void ConnectionClose()

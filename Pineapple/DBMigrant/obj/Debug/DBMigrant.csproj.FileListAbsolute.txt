@@ -1,0 +1,7 @@
+D:\Projects\pineapple\Pineapple\DBMigrant\bin\Debug\DBMigrant.exe.config
+D:\Projects\pineapple\Pineapple\DBMigrant\bin\Debug\DBMigrant.exe
+D:\Projects\pineapple\Pineapple\DBMigrant\bin\Debug\DBMigrant.pdb
+D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigrant.csprojResolveAssemblyReference.cache
+D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigrant.csproj.CoreCompileInputs.cache
+D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigrant.exe
+D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigrant.pdb
