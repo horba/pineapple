@@ -1,6 +1,0 @@
-D:\Projects\pineapple\Pineapple\DBMigrant\bin\Debug\DBMigrant.exe.config
-D:\Projects\pineapple\Pineapple\DBMigrant\bin\Debug\DBMigrant.exe
-D:\Projects\pineapple\Pineapple\DBMigrant\bin\Debug\DBMigrant.pdb
-D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigration.csproj.CoreCompileInputs.cache
-D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigrant.exe
-D:\Projects\pineapple\Pineapple\DBMigrant\obj\Debug\DBMigrant.pdb
