@@ -15,60 +15,6 @@ namespace Pineapple.DBServices
     public class TweetsService : ITweetsService
     {
 
-        //public void AddTweet(string tweet) {
-        //    StreamWriter sr = new StreamWriter("App_Data/Tweets.txt",true);
-        //    sr.WriteLine(tweet);
-        //    sr.Close();
-        //}
-
-
-
-
-        //public List<Tweet> GetLimitTweets(int limit) {
-        //    StreamReader FileReader = File.OpenText("App_Data/Tweets.txt");
-        //    List<string> allLines = new List<string>();
-        //    List<Tweet> allTweets = new List<Tweet>();
-        //    while (true)
-        //    {
-        //        string str = FileReader.ReadLine();
-        //        if (str == null)
-        //            break;
-        //        allLines.Add(str);
-        //    }
-        //    FileReader.Close();
-        //    for (int i = 0; i < limit; i++)
-        //    {
-        //        string[] elements = allLines.ElementAt(allLines.Count - limit+i).Split(' ');
-        //        Tweet tweet = new Tweet(elements[0], elements[1], elements[2]);
-        //        allTweets.Add(tweet);
-        //    }
-        //    return allTweets;
-        //}
-
-
-
-        //public List<Tweet> GetAllTweets()
-        //{
-        //    StreamReader FileReader = File.OpenText("App_Data/Tweets.txt");
-        //    List<string> allLines = new List<string>();
-        //    List<Tweet> allTweets = new List<Tweet>();
-        //    while (true)
-        //    {
-        //        string str = FileReader.ReadLine();
-        //        if (str == null)
-        //            break;
-        //        allLines.Add(str);
-        //    }
-        //    FileReader.Close();
-        //    for (int i = 0; i < allLines.Count; i++)
-        //    {
-        //        string[] elements = allLines.ElementAt(i).Split(' ');
-        //        Tweet tweet = new Tweet(elements[0], elements[1], elements[2]);
-        //        allTweets.Add(tweet);
-        //    }
-        //    return allTweets;
-        //}
-
         public void AddTweet(string tweet)
         {
             DBconnection.ConnectionOpen();
@@ -78,7 +24,7 @@ namespace Pineapple.DBServices
                     "INSERT INTO dbo.Tweets (text, date) VALUES (@ParamText, @ParamDate)",
                                                          DBconnection.myConnection);
                 SqlParameter ParamText = myCommand.Parameters.Add("@ParamText", SqlDbType.VarChar, 50);
-                ParamText.Value = tweet+ " from " + DateTime.Now.ToShortDateString();
+                ParamText.Value = tweet + " from " + DateTime.Now.ToShortDateString();
                 SqlParameter ParamDate = myCommand.Parameters.Add("@ParamDate", SqlDbType.DateTime);
                 ParamDate.Value = DateTime.Now;
                 myCommand.ExecuteNonQuery();
@@ -100,10 +46,10 @@ namespace Pineapple.DBServices
                 SqlDataReader myReader = null;
                 SqlCommand myCommand = new SqlCommand("select * from dbo.Tweets", DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
-                string[] fields = { "id", "text", "date" };
+                string[] fields = { "id",  "date" ,"text"};
                 while (myReader.Read())
                 {
-                    Tweet cortage = new Tweet(myReader[fields[0]].ToString(), myReader[fields[1]].ToString(), myReader[fields[2]].ToString());
+                    Tweet cortage = new Tweet(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString());
                     result.Add(cortage);
                 }
 
@@ -126,13 +72,12 @@ namespace Pineapple.DBServices
                 SqlDataReader myReader = null;
                 SqlCommand myCommand = new SqlCommand(String.Format("select top {0} * from dbo.Tweets order by id desc",limit), DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
-                string[] fields = { "id", "text", "date" };
+                string[] fields = { "id", "date" , "text"};
                 while (myReader.Read())
                 {
-                    Tweet cortage = new Tweet(myReader[fields[0]].ToString(), myReader[fields[1]].ToString(), myReader[fields[2]].ToString());
+                    Tweet cortage = new Tweet(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString());
                     result.Add(cortage);
                 }
-
             }
             catch (Exception ex)
             {
@@ -141,6 +86,70 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionClose();
             return result;
         }
+
+        public Tweet GetTweetById(int id)
+        {
+            Tweet result = null;
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand(String.Format("select * from dbo.Tweets where id = {0}",id), DBconnection.myConnection);
+                myReader = myCommand.ExecuteReader();
+                string[] fields = { "id", "date", "text" };
+                myReader.Read();
+                result = new Tweet(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+            return result;
+        }
+
+        public void ChangeTweet(int id, string tweet)
+        {
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlCommand myCommand = new SqlCommand("UPDATE dbo.Tweets SET text = @ParamText, date = @ParamDate where id =  @ParamID",
+                                                         DBconnection.myConnection);
+                SqlParameter ParamText = myCommand.Parameters.Add("@ParamText", SqlDbType.VarChar, 50);
+                ParamText.Value = tweet + " from " + DateTime.Now.ToShortDateString();
+                SqlParameter ParamDate = myCommand.Parameters.Add("@ParamDate", SqlDbType.DateTime);
+                ParamDate.Value = DateTime.Now;
+                SqlParameter ParamID = myCommand.Parameters.Add("@ParamID", SqlDbType.Int);
+                ParamID.Value = id;
+                myCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            DBconnection.ConnectionClose();
+        }
+
+        public void DeleteTweet(int id)
+        {
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlCommand myCommand = new SqlCommand("DELETE FROM dbo.Tweets  WHERE id =  @ParamID",
+                                                         DBconnection.myConnection);
+                SqlParameter ParamID = myCommand.Parameters.Add("@ParamID", SqlDbType.Int);
+                ParamID.Value = id;
+                myCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+        }
+
+
+
 
 
     }
