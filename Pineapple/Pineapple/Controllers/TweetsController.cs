@@ -16,7 +16,6 @@ namespace Pineapple.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            //return new string[] { "sweet1", "sweet2" };
             TweetsService modelReader = new TweetsService();
             List<Tweet> allTweets = modelReader.GetAllTweets();
             List<string> stringTweets = new List<string>();
@@ -30,27 +29,33 @@ namespace Pineapple.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "some swwwettt";
-         
-
+            TweetsService modelReader = new TweetsService();
+            Tweet tweet = modelReader.GetTweetById(id);
+            return tweet.ToString();
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)
         {
+            TweetsService modelReader = new TweetsService();
+            modelReader.AddTweet(value);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+            TweetsService modelReader = new TweetsService();
+            modelReader.ChangeTweet(id, value);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            TweetsService modelReader = new TweetsService();
+            modelReader.DeleteTweet(id);
         }
     }
 }
