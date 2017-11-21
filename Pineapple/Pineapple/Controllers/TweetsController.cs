@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Pineapple.DBServices;
+using Pineapple.Model;
+
 
 namespace Pineapple.Controllers
 {
@@ -13,7 +16,14 @@ namespace Pineapple.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "sweet1", "sweet2" };
+            //return new string[] { "sweet1", "sweet2" };
+            TweetsService modelReader = new TweetsService();
+            List<Tweet> allTweets = modelReader.GetAllTweets();
+            List<string> stringTweets = new List<string>();
+            foreach (Tweet tweet in allTweets) {
+                stringTweets.Add(tweet.ToString());
+            }
+            return stringTweets;
         }
 
         // GET api/values/5
@@ -21,6 +31,8 @@ namespace Pineapple.Controllers
         public string Get(int id)
         {
             return "some swwwettt";
+         
+
         }
 
         // POST api/values
