@@ -7,12 +7,12 @@ namespace Pineapple.Model
 {
     public class Tweet
     {
-        private string id { get; set; }
-        private string date { get; set; }
+        private int id { get; set; }
+        private DateTime date { get; set; }
         private string text { get; set; }
 
 
-        public Tweet(string ID, string Date, string Text) {
+        public Tweet(int ID, DateTime Date, string Text) {
             this.id = ID;
             this.date = Date;
             this.text = Text;
