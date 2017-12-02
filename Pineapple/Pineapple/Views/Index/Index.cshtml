@@ -6,19 +6,41 @@
 <!doctype html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <header>header</header>
+
+     <header>
+			<img class="logo" src="img/Pineapple.png">
+			<div class="HL">  Pineapple</div>
+			<div class="H1">Log in</div>
+    </header>
+
     <div class="main">
-        <div class="left-column">left column</div>
+        <div class="left-column">
+			<div class="H2">Home</div>
+			<div class="H2">Search</div>
+			<div class="H2">About</div>
+		</div>
+
         <div class="center-column">
-            <button class="values" id="values">Get tweets</button>
-            <div class="output" id="output"></div>
+            <div class="output" id="output">
+			</div>
         </div>
-        <div class="right-column">right column</div>
+		
+        <div class="right-column">
+			<img class="avatar" src="img\avatar.png"> 
+			<div class="H2">
+				User Name
+			</div>
+		</div>
+		
     </div>
-    <footer>footer</footer>
+    <footer>
+		<button class="getButton" id="values">Get tweets</button>
+		<textarea rows="1" cols="1" class="textInput"></textarea>
+		<button class="setButton">Add tweet</button>
+	</footer>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
     $(function() {
