@@ -11,47 +11,52 @@
 <body>
 
      <header>
+			
 			<img class="logo" src="img/Pineapple.png">
-			<div class="HL">  Pineapple</div>
-			<div class="H1">Log in</div>
+			<div class="LogoHeader">  Pineapple</div>
+			<div class="SmallHeader">Log in</div>
+
     </header>
 
     <div class="main">
         <div class="left-column">
-			<div class="H2">Home</div>
-			<div class="H2">Search</div>
-			<div class="H2">About</div>
+			<div class="MediumHeader">Home</div>
+			<div class="MediumHeader">Search</div>
+			<div class="MediumHeader">About</div>
 		</div>
-
+		
+		
         <div class="center-column">
-            <div class="output" id="output">
+            <div class="output" id="feed">
 			</div>
         </div>
 		
+		
         <div class="right-column">
-			<img class="avatar" src="img\avatar.png"> 
-			<div class="H2">
+			<img class="avatar" src="img/avatar.png"> 
+			<div class="MediumHeader">
 				User Name
 			</div>
 		</div>
-		
     </div>
-    <footer>
-		<button class="getButton" id="values">Get tweets</button>
+	
+	<button class="get-tweet" id="BTNGetTweets">Get tweets</button>
 		<textarea rows="1" cols="1" class="textInput"></textarea>
-		<button class="setButton">Add tweet</button>
+		<button class="add-tweet">Add tweet</button>
+    <footer>
+		
 	</footer>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
     $(function() {
-        $("#values").click(function(e) {
+        $("#BTNGetTweets").click(function(e) {
             e.preventDefault();
             $.get("/api/tweets").done(function (data) {
                 let values = data;
-                let $output = $("#output");
-                $output.html("");
+                let $feed = $("#feed");
+                $feed.html("");
                 values.forEach(function(v) {
-                    $output.append("<div class=\"post\">" + v + "</div>");
+                    $feed.append("<div class=\"feed\">" + v + "</div>");
                 });
             });
         });
