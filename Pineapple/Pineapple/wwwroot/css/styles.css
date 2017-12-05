@@ -27,8 +27,7 @@ header{
 }
 
 
-.LogoHeader{
-	margin-left: 10px;
+.logo-header{
 	color:#008FD6;
 	margin-left: 20px;
 	line-height: 140px;
@@ -39,14 +38,14 @@ header{
 }
 
 
-.SmallHeader{ 
+.small-header{ 
 	color:#008FD6;
 	font-size: 20px;
 	text-align: right;
 	margin-right: 20px;
 }
 
-.MediumHeader{ 
+.medium-header{ 
 	color:#008FD6;
 	font-size: 30px;
 	text-align: center;
@@ -81,7 +80,9 @@ header{
 }
 
 .get-tweet {
-	font-family: Impact,Charcoal, sans-serif;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
     width: 200px;
     height: 50px;
     margin: 5px auto;
@@ -102,15 +103,17 @@ header{
 }
 
 .add-tweet {
-	font-family: Impact,Charcoal, sans-serif;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
     width: 15%;
     height: 50px;
-	margin: 5px auto;
-    background-color:#ffffff;
+    margin: 5px auto;
+    background-color: #ffffff;
     border: 4px solid #008FD6;
     border-radius: 5px;
     outline: none;
-	vertical-align:middle;
+    vertical-align: middle;
 }
 
 .add-tweet:hover {
