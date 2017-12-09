@@ -9,27 +9,54 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <header>header</header>
+
+     <header>
+			
+			<img class="logo" src="img/Pineapple.png">
+			<div class="logo-header">  Pineapple</div>
+			<div class="small-header">Log in</div>
+
+    </header>
+
     <div class="main">
-        <div class="left-column">left column</div>
+        <div class="left-column">
+			<div class="medium-header">Home</div>
+			<div class="medium-header">Search</div>
+			<div class="medium-header">About</div>
+		</div>
+		
+		
         <div class="center-column">
-            <button class="values" id="values">Get tweets</button>
-            <div class="output" id="output"></div>
+            <div class="output" id="feed">
+			</div>
         </div>
-        <div class="right-column">right column</div>
+		
+		
+        <div class="right-column">
+			<img class="avatar" src="img/avatar.png"> 
+			<div class="medium-header">
+				User Name
+			</div>
+		</div>
     </div>
-    <footer>footer</footer>
+	
+	<button class="get-tweet" id="BTNGetTweets">Get tweets</button>
+		<textarea rows="1" cols="1" class="textInput"></textarea>
+		<button class="add-tweet">Add tweet</button>
+    <footer>
+		
+	</footer>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
     $(function() {
-        $("#values").click(function(e) {
+        $("#BTNGetTweets").click(function(e) {
             e.preventDefault();
             $.get("/api/tweets").done(function (data) {
                 let values = data;
-                let $output = $("#output");
-                $output.html("");
+                let $feed = $("#feed");
+                $feed.html("");
                 values.forEach(function(v) {
-                    $output.append("<div class=\"post\">" + v + "</div>");
+                    $feed.append("<div class=\"feed\">" + v + "</div>");
                 });
             });
         });
