@@ -1,1 +1,0 @@
-ALTER TABLE dbo.Tweets ADD name VARCHAR(20) NULL  
