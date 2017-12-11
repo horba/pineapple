@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Новая папка2\**" />
+    <Content Remove="wwwroot\Новая папка2\**" />
+    <EmbeddedResource Remove="wwwroot\Новая папка2\**" />
+    <None Remove="wwwroot\Новая папка2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Views\Index\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
