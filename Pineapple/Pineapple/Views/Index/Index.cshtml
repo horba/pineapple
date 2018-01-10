@@ -7,74 +7,58 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="~/css/ModalFormStyles.css">
 </head>
 <body>
-    <header>
-            <div class="header-logo">
-                LOGO
-            </div>
-            <div class="header-btns">
-                <input class="login-button" id="login-form" type="button" value="Login" />
-            </div>
+
+     <header>
+			
+			<img class="logo" src="img/Pineapple.png">
+			<div class="logo-header">  Pineapple</div>
+			<div class="small-header">Log in</div>
+
     </header>
+
     <div class="main">
-        <div class="left-column">left column</div>
+        <div class="left-column">
+			<div class="medium-header">Home</div>
+			<div class="medium-header">Search</div>
+			<div class="medium-header">About</div>
+		</div>
+		
+		
         <div class="center-column">
-            <button class="values" id="values">Get tweets</button>
-            <div class="output" id="output"></div>
+            <div class="output" id="feed">
+			</div>
         </div>
-        <div class="right-column">right column</div>
+		
+		
+        <div class="right-column">
+			<img class="avatar" src="img/avatar.png"> 
+			<div class="medium-header">
+				User Name
+			</div>
+		</div>
     </div>
-    <div id="modal_form">
-        <div class="form-control">
-            <input type="text" name="login" id="username" tabindex="1" placeholder="Login">
-        </div>
-        <div class="form-control">
-            <input type="text" name="password" id="password" tabindex="2" placeholder="Password">
-        </div>
-        <div class="form-control">
-            <input class="login-button" id="login" type="button" value="Login" />
-        </div>
-        <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
-        <!-- Тут любoе сoдержимoе -->
-    </div>
-    <div id="overlay"></div>
-    <footer>footer</footer>
+	
+	<button class="get-tweet" id="BTNGetTweets">Get tweets</button>
+		<textarea rows="1" cols="1" class="textInput"></textarea>
+		<button class="add-tweet">Add tweet</button>
+    <footer>
+		
+	</footer>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script>
     $(function() {
-        $("#values").click(function(e) {
+        $("#BTNGetTweets").click(function(e) {
             e.preventDefault();
             $.get("/api/tweets").done(function (data) {
                 let values = data;
-                let $output = $("#output");
-                $output.html("");
+                let $feed = $("#feed");
+                $feed.html("");
                 values.forEach(function(v) {
-                    $output.append("<div class=\"post\">" + v + "</div>");
+                    $feed.append("<div class=\"feed\">" + v + "</div>");
                 });
             });
-        });
-    });
-    //Скрипт модальной формы логина.
-    $(document).ready(function () {
-        $('#login-form').click(function (event) { 
-            event.preventDefault(); 
-            $('#overlay').fadeIn(400, 
-                function () { 
-                    $('#modal_form')
-                        .css('display', 'block') 
-                        .animate({ opacity: 1, top: '50%' }, 200); 
-                });
-        });
-        $('#modal_close, #overlay').click(function () { 
-            $('#modal_form')
-                .animate({ opacity: 0, top: '45%' }, 200,  
-                function () { 
-                    $(this).css('display', 'none'); 
-                    $('#overlay').fadeOut(400); 
-                }
-                );
         });
     });
 </script>
