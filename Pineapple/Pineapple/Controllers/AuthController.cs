@@ -9,7 +9,7 @@ namespace Pineapple.Controllers
 {
     public class AuthController :Controller
     {
-        public LoginResponseModel Login(User currentUser)
+        public LoginResponseModel Login(LoginModel currentUser)
         {
             if (currentUser.UserName == "test")
             {
