@@ -4,28 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.Model;
+using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
     public class AuthController :Controller
     {
-        public LoginResponseModel Login(LoginModel currentUser)
+        IUserLogin UserLogin;
+        public AuthController(IUserLogin userLogin)
         {
-            if (currentUser.UserName == "test")
-            {
-                if (currentUser.Password == "Passw0rd")
-                {
-                    return new LoginResponseModel("succes", "null");
-                }
-                else
-                {
-                    return new LoginResponseModel("failure", "Wrong password");
-                }
-            }
-            else
-            {
-                return new LoginResponseModel("failure", "Wrong user");
-            }
+            UserLogin = userLogin;
+        }
+        public LoginResponseModel Login(LoginModel loginModel)
+        {
+            return UserLogin.Login(loginModel);
         }
         public IActionResult Register()
         {
