@@ -94,14 +94,14 @@ header {
     outline: none;
 }
 
-    .get-tweet:hover {
-        background-color: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.get-tweet:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .get-tweet:active {
-        transform: translateY(2px);
-    }
+.get-tweet:active {
+    transform: translateY(2px);
+}
 
 .add-tweet {
     font-family: inherit;
@@ -117,14 +117,14 @@ header {
     vertical-align: middle;
 }
 
-    .add-tweet:hover {
-        background-color: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.add-tweet:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .add-tweet:active {
-        transform: translateY(2px);
-    }
+.add-tweet:active {
+    transform: translateY(2px);
+}
 
 textarea {
     float: left;
@@ -216,7 +216,6 @@ footer {
     margin: 0;
     margin-bottom: 20px;
 }
-}
 
 #modal_form {
     width: 300px;
@@ -235,15 +234,15 @@ footer {
     padding: 20px 10px;
 }
 
-    #modal_form #modal_close {
-        width: 21px;
-        height: 21px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        display: block;
-    }
+#modal_form #modal_close {
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: block;
+}
 
 #overlay {
     z-index: 3;
@@ -273,11 +272,11 @@ footer {
     vertical-align: middle;
 }
 
-    .log-in:hover {
-        background-color: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.log-in:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .log-in:active {
-        transform: translateY(2px);
-    }
+.log-in:active {
+    transform: translateY(2px);
+}
