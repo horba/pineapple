@@ -49,9 +49,5 @@ namespace DBMigration
                 Console.WriteLine(e.ToString());
             }
         }
-
-      
-
-
     }
 }
