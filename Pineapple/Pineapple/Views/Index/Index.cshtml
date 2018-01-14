@@ -14,7 +14,7 @@
     <header>
         <img class="logo" src="img/Pineapple.png">
         <div class="logo-header">  Pineapple</div>
-        <div class="small-header">Log in</div>
+        <button class="log-in" id="login">Log in</button>
         <button class="button" id="SignUp">Sign up</button>
     </header>
     <div class="main">
@@ -26,9 +26,9 @@
         <div class="center-column">
             <div class="output" id="feed">
             </div>
-        </div>	
+        </div>
         <div class="right-column">
-            <img class="avatar" src="img/avatar.png"> 
+            <img class="avatar" src="img/avatar.png">
             <div class="medium-header">
                 User Name
             </div>
@@ -37,6 +37,23 @@
     <button class="get-tweet" id="BTNGetTweets">Get tweets</button>
     <textarea rows="1" cols="1" class="textInput"></textarea>
     <button class="add-tweet">Add tweet</button>
+
+    <div id="modal_form">
+        <div class="form-control">
+            <input type="text" name="login" id="username" tabindex="1" placeholder="Login">
+        </div>
+        <div class="form-control">
+            <input type="text" name="password" id="password" tabindex="2" placeholder="Password">
+        </div>
+        <div>
+            <input class="login" id="login1" type="button" value="Login" />
+        </div>
+        <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
+        <!-- Тут любoе сoдержимoе -->
+    </div>
+
+    <div id="overlay"></div>
+
     <div class="blackout hidden" id="blackout-register">
         <button class="blackout-close" id="blackout-close-register"></button>
         <div class="wrapper">
@@ -89,143 +106,166 @@
             <div class="wrapper-two">
                 <div class="message-window">
                     <p id="messageHead"></p>
-                    <p id="message"></p>   
+                    <p id="message"></p>
                 </div>
             </div>
         </div>
     </div>
-    <footer>
-    </footer>
-<script src="js/jquery-3.2.1.min.js"></script>
-<script>
-    $(function() {
-        $("#BTNGetTweets").click(function(e) {
-            e.preventDefault();
-            $.get("/api/tweets").done(function (data) {
-                let values = data;
-                let $feed = $("#feed");
-                $feed.html("");
-                values.forEach(function(v) {
-                    $feed.append("<div class=\"feed\">" + v + "</div>");
+    <footer></footer>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <footer></footer>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#BTNGetTweets").click(function (e) {
+                e.preventDefault();
+                $.get("/api/tweets").done(function (data) {
+                    let values = data;
+                    let $feed = $("#feed");
+                    $feed.html("");
+                    values.forEach(function (v) {
+                        $feed.append("<div class=\"feed\">" + v + "</div>");
+                    });
                 });
+            });
+
+            $("#SignUp").click(function (e) {
+                $("#blackout-register").removeClass("hidden");
+                $("#blackout-register").addClass("active");
+            });
+
+            $("#blackout-close-register").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
+            });
+            $("#register-cancel").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
+            });
+
+            $("#registerForm").submit(function (e) {
+
+                var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
+                var data = $("#registerForm").serialize();
+
+                $(".input-area").removeClass("right wrong");
+                $(".error-info").text("");
+
+                $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
+
+                $.post("/api/register", data, function (response) {
+
+                    var error = document.getElementsByClassName("error-info");
+
+                    if (response.nick == "true") {
+                        $("#Nick").addClass("right");
+                    } else {
+                        $("#Nick").addClass("wrong");
+                        error[0].innerHTML = response.nick;
+                    }
+
+                    if (response.firstName == "true") {
+                        $("#Name").addClass("right");
+                    } else {
+                        $("#Name").addClass("wrong");
+                        error[1].innerHTML = response.firstName;
+                    }
+
+                    if (response.secondName == "true") {
+                        $("#SName").addClass("right");
+                    } else {
+                        $("#SName").addClass("wrong");
+                        error[2].innerHTML = response.secondName;
+                    }
+
+                    if (response.email == "true") {
+                        $("#EMail").addClass("right");
+                    } else {
+                        $("#EMail").addClass("wrong");
+                        error[3].innerHTML = response.email;
+                    }
+
+                    if (response.password == "true") {
+                        $("#Pass").addClass("right");
+                    } else {
+                        $("#Pass").addClass("wrong");
+                        error[4].innerHTML = response.password;
+                    }
+
+                    if (response.rPassword == "true") {
+                        $("#RPass").addClass("right");
+                    } else {
+                        $("#RPass").addClass("wrong");
+                        error[5].innerHTML = response.rPassword;
+                    }
+
+                    if (response.status != null) {
+
+                        if (response.status == "true") {
+                            $("#messageHead").html("Successful registration");
+                            $("#message").html("You have been successfully registered.");
+                        } else {
+                            $("#messageHead").html("Someone is wrong");
+                            $("#message").html(response.status);
+                        }
+
+                        $("#blackout-register").removeClass("active");
+                        setTimeout(function () {
+                            $("#blackout-register").addClass("hidden");
+                            $("#blackout-message").removeClass("hidden");
+                            $("#blackout-message").addClass("active");
+
+                            $(".input-area").removeClass("right wrong");
+                            $(".error-info").text("");
+                        }, 600);
+                    }
+                    $("#loadRegButton").html('');
+
+                }, "json");
+
+                return false;
+            });
+
+            $(".input-area").focus(function (e) {
+                $(this).removeClass("right wrong");
+                document.getElementsByClassName("error-info")[$(this).index() / 2 - 1].innerHTML = "";
+            });
+
+            $("#blackout-close-message").click(function (e) {
+                $("#blackout-message").removeClass("active");
+                setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
             });
         });
 
-        $("#SignUp").click(function (e) {
-            $("#blackout-register").removeClass("hidden");
-            $("#blackout-register").addClass("active");
-        });
+        $(document).ready(function () {
+            $('#login').click(function (event) {
+                event.preventDefault();
+                $('#overlay').fadeIn(400,
+                    function () {
+                        $('#modal_form')
+                            .css('display', 'block')
+                            .animate({ opacity: 1, top: '50%' }, 200);
+                    });
+            });
 
-        $("#blackout-close-register").click(function (e) {
-            $("#blackout-register").removeClass("active");
-            setTimeout(function () {
-                $("#blackout-register").addClass("hidden");
-                $(".input-area").removeClass("right wrong");
-                $(".error-info").text("");
-            }, 600);
-        });
-        $("#register-cancel").click(function (e) {
-            $("#blackout-register").removeClass("active");
-            setTimeout(function () {
-                $("#blackout-register").addClass("hidden");
-                $(".input-area").removeClass("right wrong");
-                $(".error-info").text("");
-            }, 600);
-        });
-
-        $("#registerForm").submit(function (e) {
-
-            var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
-            var data = $("#registerForm").serialize();
-
-            $(".input-area").removeClass("right wrong");
-            $(".error-info").text("");
-
-            $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
-
-            $.post("/api/register", data, function (response) {
-
-                var error = document.getElementsByClassName("error-info");
-
-                if (response.nick == "true") {
-                    $("#Nick").addClass("right");
-                } else { 
-                    $("#Nick").addClass("wrong");
-                    error[0].innerHTML = response.nick;
-                }
-
-                if (response.firstName == "true") {
-                    $("#Name").addClass("right");
-                } else {
-                    $("#Name").addClass("wrong");
-                    error[1].innerHTML = response.firstName;
-                }
-
-                if (response.secondName == "true") {
-                    $("#SName").addClass("right");
-                } else {
-                    $("#SName").addClass("wrong");
-                    error[2].innerHTML = response.secondName;
-                }
-
-                if (response.email == "true") {
-                    $("#EMail").addClass("right");
-                } else {
-                    $("#EMail").addClass("wrong");
-                    error[3].innerHTML = response.email;
-                }
-
-                if (response.password == "true") {
-                    $("#Pass").addClass("right");
-                } else {
-                    $("#Pass").addClass("wrong");
-                    error[4].innerHTML = response.password;
-                }
-
-                if (response.rPassword == "true") {
-                    $("#RPass").addClass("right");
-                } else {
-                    $("#RPass").addClass("wrong");
-                    error[5].innerHTML = response.rPassword;
-                }
-
-                if (response.status != null) {
-
-                    if (response.status == "true") {
-                        $("#messageHead").html("Successful registration");
-                        $("#message").html("You have been successfully registered.");
-                    } else {
-                        $("#messageHead").html("Someone is wrong");
-                        $("#message").html(response.status);
+            $('#modal_close, #overlay').click(function () {
+                $('#modal_form')
+                    .animate({ opacity: 0, top: '45%' }, 200,
+                    function () {
+                        $(this).css('display', 'none');
+                        $('#overlay').fadeOut(400);
                     }
-
-                    $("#blackout-register").removeClass("active");
-                    setTimeout(function () {
-                        $("#blackout-register").addClass("hidden");
-                        $("#blackout-message").removeClass("hidden");
-                        $("#blackout-message").addClass("active");
-
-                        $(".input-area").removeClass("right wrong");
-                        $(".error-info").text("");
-                    }, 600);
-                }
-                $("#loadRegButton").html('');
-
-            }, "json");
-
-            return false;
+                    );
+            });
         });
-
-        $(".input-area").focus(function (e) {
-            $(this).removeClass("right wrong");
-            document.getElementsByClassName("error-info")[$(this).index() / 2 - 1].innerHTML = "";
-        });
-
-        $("#blackout-close-message").click(function (e) {
-            $("#blackout-message").removeClass("active");
-            setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
-        });
-    });
-</script>
+    </script>
 </body>
 </html>
