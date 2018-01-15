@@ -1,0 +1,181 @@
+﻿.blackout {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    -webkit-animation: fade_out .6s;
+    -moz-animation: fade_out .6s;
+    animation: fade_out .6s;
+    opacity: 0;
+    z-index: 5;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    display: block;
+    opacity: 1;
+    -webkit-animation: fade_in .6s;
+    -moz-animation: fade_in .6s;
+    animation: fade_in .6s;
+}
+
+.blackout-close {
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    background-image: url("../img/close.png");
+    background-size: 100%;
+    outline: none;
+    transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    -moz-transition: ease-in-out 0.2s all;
+    -webkit-transition: ease-in-out 0.2s all;
+}
+
+.blackout-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+@-webkit-keyframes fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fade_out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+@-moz-keyframes fade_out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+@keyframes fade_out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.wrapper {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.wrapper-two {
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.register-form {
+    display: inline-block;
+    background-color: rgba(255,255,255,1);
+    width: 290px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+@media only screen and (min-width: 600px) {
+    .register-form {
+        width: 50%;
+    }
+}
+
+.register-form > p {
+    text-align: center;
+    font-family: Codropsicons, Arial;
+    font-size: 28px;
+    margin: 0;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(8, 146, 245, 1);
+}
+
+.input-area {
+    width: 100%;
+    height: 32px;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border: none;
+    background-color: rgba(235, 235, 235, 1);
+    font-family: Codropsicons, Arial;
+    font-size: 16px;
+}
+
+.input-area.wrong {
+    border: 2px solid rgba(200, 0, 0, 1);
+}
+
+.register-label {
+    display: inline-block;
+    font-family: Codropsicons, Arial;
+    margin: 5px 0;
+    padding-left: 5px;
+}
+
+.label-text {
+    position: relative;
+    bottom: 5px;
+    margin-left: 5px;
+}
+
+.register-button{
+    width: 49%;
+    height: 30px;
+    margin: 10px 0 0 0;
+    font-size: 16px;
+}
+
+.register-button.left {
+    float: left;
+}

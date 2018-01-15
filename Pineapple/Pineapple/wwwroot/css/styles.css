@@ -1,4 +1,9 @@
-﻿body {
+﻿@font-face {
+    font-family: Codropsicons;
+    src: url("../Fonts/codropsicons.ttf");
+}
+
+body {
     margin: 0;
     width: 100%;
     height: 100%;
@@ -12,37 +17,33 @@ header {
     background-color: #ffffff;
 }
 
-
-.logo {
-    width: 80px;
-    vertical-align: middle;
-    margin-left: 65px;
-    float: left;
+.logo{
+      width: 80px;
+	  vertical-align: middle;
+	  margin-left: 65px;
+	  float: left;
 }
 
-
-.avatar {
-    width: 80%;
-    margin-left: 10%;
+.avatar{
+      width: 80%;
+	  margin-left: 10%;
 }
 
-
-.logo-header {
-    color: #008FD6;
-    margin-left: 20px;
-    line-height: 140px;
-    font-size: 40px;
-    vertical-align: middle;
-    text-align: left;
-    float: left;
+.logo-header{
+	color:#008FD6;
+	margin-left: 20px;
+	line-height: 140px;
+	font-size: 40px;
+	vertical-align:middle;
+	text-align: left;
+	 float: left;
 }
 
-
-.small-header {
-    color: #008FD6;
-    font-size: 20px;
-    text-align: right;
-    margin-right: 20px;
+.small-header{ 
+	color:#008FD6;
+	font-size: 20px;
+	text-align: right;
+	margin-right: 20px;
 }
 
 .medium-header {
@@ -93,14 +94,14 @@ header {
     outline: none;
 }
 
-    .get-tweet:hover {
-        background-color: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.get-tweet:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .get-tweet:active {
-        transform: translateY(2px);
-    }
+.get-tweet:active {
+    transform: translateY(2px);
+}
 
 .add-tweet {
     font-family: inherit;
@@ -116,14 +117,14 @@ header {
     vertical-align: middle;
 }
 
-    .add-tweet:hover {
-        background-color: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.add-tweet:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .add-tweet:active {
-        transform: translateY(2px);
-    }
+.add-tweet:active {
+    transform: translateY(2px);
+}
 
 textarea {
     float: left;
@@ -135,7 +136,6 @@ textarea {
     border-radius: 5px;
     outline: none;
 }
-
 
 .feed {
     width: 100%;
@@ -156,6 +156,67 @@ footer {
     bottom: 0px;
 }
 
+.button {
+    font-family: Codropsicons, Arial;
+    font-size: 18px;
+    border: 2px solid rgba(8, 146, 245, 1);
+    width: 120px;
+    height: 35px;
+    float: right;
+    margin: 10px 20px;
+    background-color: rgba(255,255,255,1);
+    color: rgba(8, 146, 245, 1);
+    outline: none;
+    transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    -moz-transition: ease-in-out 0.2s all;
+    -webkit-transition: ease-in-out 0.2s all;
+}
+
+.button:hover {
+    background-color: rgba(8, 146, 245, 1);
+    color: rgba(255,255,255,1);
+}
+
+.button:active {
+    transform: translateY(2px);
+    -o-transform: translateY(2px);
+    -moz-transform: translateY(2px);
+    -webkit-transform: translateY(2px);
+}
+
+.message-window {
+    display: inline-block;
+    background-color: rgba(255,255,255,1);
+    width: 290px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+@media only screen and (min-width: 600px) {
+    .message-window {
+        width: 50%;
+    }
+}
+
+.message-window > p:first-child {
+    text-align: center;
+    font-family: Codropsicons, Arial;
+    font-size: 28px;
+    margin: 0;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(8, 146, 245, 1);
+}
+
+.message-window > p:last-child {
+    text-align: center;
+    font-family: Codropsicons, Arial;
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
 #modal_form {
     width: 300px;
     height: 300px;
@@ -173,15 +234,15 @@ footer {
     padding: 20px 10px;
 }
 
-    #modal_form #modal_close {
-        width: 21px;
-        height: 21px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        display: block;
-    }
+#modal_form #modal_close {
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: block;
+}
 
 #overlay {
     z-index: 3;
@@ -211,11 +272,11 @@ footer {
     vertical-align: middle;
 }
 
-    .log-in:hover {
-        background-color: rgba(240, 240, 240, 1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.log-in:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .log-in:active {
-        transform: translateY(2px);
-    }
+.log-in:active {
+    transform: translateY(2px);
+}

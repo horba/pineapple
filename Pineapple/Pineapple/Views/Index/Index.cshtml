@@ -7,6 +7,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/registerForm.css">
 </head>
 <body>
 
@@ -15,23 +16,18 @@
         <img class="logo" src="img/Pineapple.png">
         <div class="logo-header">  Pineapple</div>
         <button class="log-in" id="login">Log in</button>
-
+        <button class="button" id="SignUp">Sign up</button>
     </header>
-
     <div class="main">
         <div class="left-column">
             <div class="medium-header">Home</div>
             <div class="medium-header">Search</div>
             <div class="medium-header">About</div>
         </div>
-
-
         <div class="center-column">
             <div class="output" id="feed">
             </div>
         </div>
-
-
         <div class="right-column">
             <img class="avatar" src="img/avatar.png">
             <div class="medium-header">
@@ -39,7 +35,6 @@
             </div>
         </div>
     </div>
-
     <button class="get-tweet" id="BTNGetTweets">Get tweets</button>
     <textarea rows="1" cols="1" class="textInput"></textarea>
     <button class="add-tweet">Add tweet</button>
@@ -60,6 +55,42 @@
 
     <div id="overlay"></div>
 
+    <div class="blackout hidden" id="blackout-register">
+        <button class="blackout-close" id="blackout-close-register"></button>
+        <div class="wrapper">
+            <div class="wrapper-two">
+                <form class="register-form" id="registerForm">
+                    <p>Registration</p>
+                    <label for="Nick" class="register-label">Nickname*</label>
+                    <input type="text" class="input-area" id="Nick" placeholder="Type your nickname" required />
+                    <label for="Name" class="register-label">First name</label>
+                    <input type="text" class="input-area" id="Name" placeholder="Type your name" />
+                    <label for="SName" class="register-label">Second name</label>
+                    <input type="text" class="input-area" id="SName" placeholder="Type your second name" />
+                    <label for="EMail" class="register-label">E-Mail*</label>
+                    <input type="email" class="input-area" id="EMail" placeholder="Type your e-Mail" required />
+                    <label for="Pass" class="register-label">Password*</label>
+                    <input type="password" class="input-area" id="Pass" placeholder="Type your password" required />
+                    <label for="RPass" class="register-label">Repeat password*</label>
+                    <input type="password" class="input-area" id="RPass" placeholder="Repeat your password" required />
+
+                    <input type="submit" class="button register-button left" id="register-apply" value="Sign up" />
+                    <input type="button" class="button register-button" id="register-cancel" value="Cancel" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="blackout hidden" id="blackout-message">
+        <button class="blackout-close" id="blackout-close-message"></button>
+        <div class="wrapper">
+            <div class="wrapper-two">
+                <div class="message-window">
+                    <p id="messageHead"></p>
+                    <p id="message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer></footer>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script>
@@ -74,6 +105,40 @@
                         $feed.append("<div class=\"feed\">" + v + "</div>");
                     });
                 });
+            });
+
+            $("#SignUp").click(function (e) {
+                $("#blackout-register").removeClass("hidden");
+                $("#blackout-register").addClass("active");
+            });
+
+            $("#blackout-close-register").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () { $("#blackout-register").addClass("hidden");}, 600);
+            });
+            $("#register-cancel").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () { $("#blackout-register").addClass("hidden"); }, 600);
+            });
+
+            $("#registerForm").submit(function (e) {
+
+                $("#messageHead").html("Successful registration");
+                $("#message").html("You have been successfully registered (but it is not).");
+
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $("#blackout-message").removeClass("hidden");
+                    $("#blackout-message").addClass("active");
+                }, 600);
+
+                return false;
+            });
+
+            $("#blackout-close-message").click(function (e) {
+                $("#blackout-message").removeClass("active");
+                setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
             });
         });
 
@@ -94,8 +159,7 @@
                     function () {
                         $(this).css('display', 'none');
                         $('#overlay').fadeOut(400);
-                    }
-                    );
+                    });
             });
         });
     </script>
