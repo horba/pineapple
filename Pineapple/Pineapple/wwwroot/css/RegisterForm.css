@@ -142,25 +142,52 @@
 
 .input-area {
     width: 100%;
-    height: 32px;
+    height: 30px;
     margin-bottom: 10px;
     padding: 0 5px;
     box-sizing: border-box;
-    border: none;
+    border: 2px solid transparent;
     background-color: rgba(235, 235, 235, 1);
     font-family: Codropsicons, Arial;
     font-size: 16px;
+    outline: none;
+}
+
+.input-area.right {
+    border: 2px solid rgba(0, 200, 0, 1);
 }
 
 .input-area.wrong {
     border: 2px solid rgba(200, 0, 0, 1);
 }
 
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
 .register-label {
-    display: inline-block;
+    display: flex;
+    flex-shrink: 0;
+    align-items: flex-end;
     font-family: Codropsicons, Arial;
     margin: 5px 0;
     padding-left: 5px;
+}
+
+.error-info {
+    display: flex;
+    flex-shrink: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: right;
+    font-family: Codropsicons, Arial;
+    font-size: 12px;
+    color: rgba(200,0,0,1);
+    padding-bottom: 5px;
+    box-sizing: border-box;
+    word-wrap: break-word;
 }
 
 .label-text {
@@ -170,6 +197,7 @@
 }
 
 .register-button{
+    position: relative;
     width: 49%;
     height: 30px;
     margin: 10px 0 0 0;
@@ -178,4 +206,10 @@
 
 .register-button.left {
     float: left;
+}
+
+.load-button {
+    width: 100%;
+    height: 100%;
+    margin: 0;
 }

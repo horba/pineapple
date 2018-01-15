@@ -8,11 +8,10 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" type="text/css" href="css/registerForm.css">
+    <link rel="stylesheet" type="text/css" href="css/loadAnimation.css">
 </head>
 <body>
-
     <header>
-
         <img class="logo" src="img/Pineapple.png">
         <div class="logo-header">  Pineapple</div>
         <button class="log-in" id="login">Log in</button>
@@ -61,20 +60,41 @@
             <div class="wrapper-two">
                 <form class="register-form" id="registerForm">
                     <p>Registration</p>
-                    <label for="Nick" class="register-label">Nickname*</label>
-                    <input type="text" class="input-area" id="Nick" placeholder="Type your nickname" required />
-                    <label for="Name" class="register-label">First name</label>
-                    <input type="text" class="input-area" id="Name" placeholder="Type your name" />
-                    <label for="SName" class="register-label">Second name</label>
-                    <input type="text" class="input-area" id="SName" placeholder="Type your second name" />
-                    <label for="EMail" class="register-label">E-Mail*</label>
-                    <input type="email" class="input-area" id="EMail" placeholder="Type your e-Mail" required />
-                    <label for="Pass" class="register-label">Password*</label>
-                    <input type="password" class="input-area" id="Pass" placeholder="Type your password" required />
-                    <label for="RPass" class="register-label">Repeat password*</label>
-                    <input type="password" class="input-area" id="RPass" placeholder="Repeat your password" required />
+                    <div class="info-container">
+                        <label for="Nick" class="register-label">Nickname*</label>
+                        <div class="error-info"></div>
+                    </div>
+                    <input type="text" name="nick" class="input-area" id="Nick" placeholder="Type your nickname" required />
+                    <div class="info-container">
+                        <label for="Name" class="register-label">First name</label>
+                        <div class="error-info"></div>
+                    </div>
+                    <input type="text" name="firstName" class="input-area" id="Name" placeholder="Type your name" />
+                    <div class="info-container">
+                        <label for="SName" class="register-label">Second name</label>
+                        <div class="error-info"></div>
+                    </div>
+                    <input type="text" name="secondName" class="input-area" id="SName" placeholder="Type your second name" />
+                    <div class="info-container">
+                        <label for="EMail" class="register-label">E-Mail*</label>
+                        <div class="error-info"></div>
+                    </div>
+                    <input type="email" name="email" class="input-area" id="EMail" placeholder="Type your e-Mail" required />
+                    <div class="info-container">
+                        <label for="Pass" class="register-label">Password*</label>
+                        <div class="error-info"></div>
+                    </div>
+                    <input type="password" name="password" class="input-area" id="Pass" placeholder="Type your password" required />
+                    <div class="info-container">
+                        <label for="RPass" class="register-label">Repeat password*</label>
+                        <div class="error-info"></div>
+                    </div>
+                    <input type="password" name="rPassword" class="input-area" id="RPass" placeholder="Repeat your password" required />
 
-                    <input type="submit" class="button register-button left" id="register-apply" value="Sign up" />
+                    <div class="register-button left">
+                        <input type="submit" class="button load-button" id="register-apply" value="Sign up" />
+                        <div id="loadRegButton"></div>
+                    </div>
                     <input type="button" class="button register-button" id="register-cancel" value="Cancel" />
                 </form>
             </div>
@@ -114,26 +134,107 @@
 
             $("#blackout-close-register").click(function (e) {
                 $("#blackout-register").removeClass("active");
-                setTimeout(function () { $("#blackout-register").addClass("hidden");}, 600);
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
             });
             $("#register-cancel").click(function (e) {
                 $("#blackout-register").removeClass("active");
-                setTimeout(function () { $("#blackout-register").addClass("hidden"); }, 600);
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
             });
 
             $("#registerForm").submit(function (e) {
 
-                $("#messageHead").html("Successful registration");
-                $("#message").html("You have been successfully registered (but it is not).");
+                var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
+                var data = $("#registerForm").serialize();
 
-                $("#blackout-register").removeClass("active");
-                setTimeout(function () {
-                    $("#blackout-register").addClass("hidden");
-                    $("#blackout-message").removeClass("hidden");
-                    $("#blackout-message").addClass("active");
-                }, 600);
+                $(".input-area").removeClass("right wrong");
+                $(".error-info").text("");
+
+                $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
+
+                $.post("/api/register", data, function (response) {
+
+                    var error = document.getElementsByClassName("error-info");
+
+                    if (response.nick == "true") {
+                        $("#Nick").addClass("right");
+                    } else {
+                        $("#Nick").addClass("wrong");
+                        error[0].innerHTML = response.nick;
+                    }
+
+                    if (response.firstName == "true") {
+                        $("#Name").addClass("right");
+                    } else {
+                        $("#Name").addClass("wrong");
+                        error[1].innerHTML = response.firstName;
+                    }
+
+                    if (response.secondName == "true") {
+                        $("#SName").addClass("right");
+                    } else {
+                        $("#SName").addClass("wrong");
+                        error[2].innerHTML = response.secondName;
+                    }
+
+                    if (response.email == "true") {
+                        $("#EMail").addClass("right");
+                    } else {
+                        $("#EMail").addClass("wrong");
+                        error[3].innerHTML = response.email;
+                    }
+
+                    if (response.password == "true") {
+                        $("#Pass").addClass("right");
+                    } else {
+                        $("#Pass").addClass("wrong");
+                        error[4].innerHTML = response.password;
+                    }
+
+                    if (response.rPassword == "true") {
+                        $("#RPass").addClass("right");
+                    } else {
+                        $("#RPass").addClass("wrong");
+                        error[5].innerHTML = response.rPassword;
+                    }
+
+                    if (response.status != null) {
+
+                        if (response.status == "true") {
+                            $("#messageHead").html("Successful registration");
+                            $("#message").html("You have been successfully registered.");
+                        } else {
+                            $("#messageHead").html("Someone is wrong");
+                            $("#message").html(response.status);
+                        }
+
+                        $("#blackout-register").removeClass("active");
+                        setTimeout(function () {
+                            $("#blackout-register").addClass("hidden");
+                            $("#blackout-message").removeClass("hidden");
+                            $("#blackout-message").addClass("active");
+
+                            $(".input-area").removeClass("right wrong");
+                            $(".error-info").text("");
+                        }, 600);
+                    }
+                    $("#loadRegButton").html('');
+
+                }, "json");
 
                 return false;
+            });
+
+            $(".input-area").focus(function (e) {
+                $(this).removeClass("right wrong");
+                document.getElementsByClassName("error-info")[$(this).index() / 2 - 1].innerHTML = "";
             });
 
             $("#blackout-close-message").click(function (e) {
