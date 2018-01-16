@@ -41,8 +41,8 @@
     </div>
 
     <button class="get-tweet" id="BTNGetTweets">Get tweets</button>
-    <textarea rows="1" cols="1" class="textInput"></textarea>
-    <button class="add-tweet">Add tweet</button>
+    <textarea rows="1" cols="1" class="textInput" id="TXTAREAAddTweet"></textarea>
+    <button class="add-tweet" id="BTNAddTweet">Add tweet</button>
 
     <div id="modal_form">
         <div class="form-control">
@@ -74,6 +74,12 @@
                         $feed.append("<div class=\"feed\">" + v + "</div>");
                     });
                 });
+            });
+        });
+
+        $(function () {
+            $("#BTNAddTweet").click(function (e) {
+                $.post("/api/tweets", { value: $("#TXTAREAAddTweet").val()});
             });
         });
 
