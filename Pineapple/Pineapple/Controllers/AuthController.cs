@@ -8,7 +8,7 @@ using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
-    public class AuthController :Controller
+    public class AuthController : Controller
     {
         IUserLogin UserLogin;
         public AuthController(IUserLogin userLogin)
