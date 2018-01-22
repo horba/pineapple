@@ -196,16 +196,17 @@
     margin-left: 5px;
 }
 
-.register-button{
+.register-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+} 
+
+.register-button {
     position: relative;
     width: 49%;
     height: 30px;
     margin: 10px 0 0 0;
     font-size: 16px;
-}
-
-.register-button.left {
-    float: left;
 }
 
 .load-button {
