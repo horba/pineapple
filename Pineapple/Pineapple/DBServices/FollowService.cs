@@ -13,13 +13,6 @@ namespace Pineapple.DBServices
     public class FollowService
     {
 
-
-        //string query = "CREATE TABLE Followers(" +
-        //     "CurrentID int FOREIGN KEY REFERENCES Users(ID)," +
-        //     "TargetID int FOREIGN KEY REFERENCES Users(ID), " +
-        //     "CONSTRAINT PK_Followers PRIMARY KEY(CurrentID, TargetID)" +
-        //     ");";
-
         public void AddFollow(int currentUser, int targetUser)
         {
             DBconnection.ConnectionOpen();
@@ -28,10 +21,8 @@ namespace Pineapple.DBServices
                 SqlCommand myCommand = new SqlCommand(
                     "INSERT INTO dbo.Followers (CurrentID, TargetID) VALUES (@ParamCurrent, @ParamTarget)",
                                                          DBconnection.myConnection);
-                SqlParameter ParamCurrent = myCommand.Parameters.Add("@ParamCurrent", SqlDbType.Int);
-                ParamCurrent.Value = currentUser;
-                SqlParameter ParamTarget = myCommand.Parameters.Add("@ParamTarget", SqlDbType.Int);
-                ParamTarget.Value = targetUser;
+                SqlParameter ParamCurrent = myCommand.Parameters.AddWithValue("@ParamCurrent", currentUser);
+                SqlParameter ParamTarget = myCommand.Parameters.AddWithValue("@ParamTarget", targetUser);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -40,7 +31,6 @@ namespace Pineapple.DBServices
             }
             DBconnection.ConnectionClose();
         }
-
         
         public List<FollowModel> GetAllFollows()
         {
@@ -67,7 +57,6 @@ namespace Pineapple.DBServices
             return result;
         }
         
-
         public List<FollowModel> GetFollowersByCurrentUser(int currentUser) {
             List<FollowModel> result = new List<FollowModel>();
             DBconnection.ConnectionOpen();
@@ -91,8 +80,7 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionClose();
             return result;
         }
-
-
+        
         public List<FollowModel> GetFollowersByTargetUser(int targetUser) {
                 List<FollowModel> result = new List<FollowModel>();
                 DBconnection.ConnectionOpen();
@@ -117,8 +105,7 @@ namespace Pineapple.DBServices
                 return result;
             
         }
-
-
+        
         public void DeleteFollow(int currentUser, int targetUser) {
             DBconnection.ConnectionOpen();
             try
