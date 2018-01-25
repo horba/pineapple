@@ -16,13 +16,14 @@ namespace Pineapple.DBServices
         {
             get
             {
-                return "user id=;" +
-                       "password=;" +
-                       "Data Source=;" +
-                       "Trusted_Connection=yes;" +
-                       "database=Pineapple; " +
-                       "connection timeout=3";
+                return "user id=test1;" +
+     "password=ythfpuflfnm;" +
+     "data source=win-1o0ieh1eb53\\sqlexpress;" +
+     "trusted_connection=yes;" +
+     "database=pineapple; " +
+     "connection timeout=3";
             }
+
         }
         public static void ConnectionOpen()
         {
