@@ -13,13 +13,6 @@ namespace Pineapple.DBServices
     public class FollowService
     {
 
-
-        //string query = "CREATE TABLE Followers(" +
-        //     "CurrentID int FOREIGN KEY REFERENCES Users(ID)," +
-        //     "TargetID int FOREIGN KEY REFERENCES Users(ID), " +
-        //     "CONSTRAINT PK_Followers PRIMARY KEY(CurrentID, TargetID)" +
-        //     ");";
-
         public void AddFollow(int currentUser, int targetUser)
         {
             DBconnection.ConnectionOpen();
