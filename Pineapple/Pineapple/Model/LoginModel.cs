@@ -7,12 +7,12 @@ namespace Pineapple.Model
 {
     public class LoginModel
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public LoginModel(string userName, string password)
-        {
-            UserName = userName;
-            Password = password;
-        }
+        public string name { get; set; }
+        public string password { get; set; }
+        //public LoginModel(string userName, string password)
+        //{
+        //    name = userName;
+        //    this.password = password;
+        //}
     }
 }

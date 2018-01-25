@@ -7,12 +7,12 @@ namespace Pineapple.Model
 {
     public class LoginResponseModel
     {
-        public string Status { get; set; }
-        public string Error { get; set; }
+        public string statuss { get; set; }
+        public string errorr { get; set; }
         public LoginResponseModel(string status, string error)
         {
-            Status = status;
-            Error = error;
+            this.statuss = status;
+            this.errorr = error;
         }
     }
 }
