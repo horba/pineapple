@@ -16,9 +16,6 @@ namespace Pineapple.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            FollowService modelReader1 = new FollowService();
-           modelReader1.DeleteFollow(1,3);
-
             TweetsService modelReader = new TweetsService();
             List<Tweet> allTweets = modelReader.GetAllTweets();
             List<string> stringTweets = new List<string>();
