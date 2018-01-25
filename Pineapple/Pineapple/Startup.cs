@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Pineapple.Services;
+using Pineapple.Controllers;
 
 namespace Pineapple
 {
@@ -29,6 +31,7 @@ namespace Pineapple
         {
             // Add framework services.
             services.AddMvc();
+            services.AddTransient<IUserAuth, UserAuth>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

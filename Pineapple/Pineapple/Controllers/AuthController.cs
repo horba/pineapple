@@ -8,16 +8,19 @@ using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
+    [Route("api/[controller]")]
     public class AuthController :Controller
     {
-        IUserLogin UserLogin;
-        public AuthController(IUserLogin userLogin)
+        IUserAuth UserLogin;
+        public AuthController(IUserAuth userLogin)
         {
             UserLogin = userLogin;
         }
-        public LoginResponseModel Login(LoginModel loginModel)
+        [HttpPost]
+        public IActionResult Login(LoginModel loginModel)
         {
-            return UserLogin.Login(loginModel);
+            return new ObjectResult(UserLogin.Login(loginModel));
+            //return new ObjectResult(new LoginResponseModel("lol", "kek"));
         }
         public IActionResult Register()
         {

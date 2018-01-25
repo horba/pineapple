@@ -6,13 +6,13 @@ using Pineapple.Model;
 
 namespace Pineapple.Services
 {
-    public class UserLogin : IUserLogin
+    public class UserAuth : IUserAuth
     {
         public LoginResponseModel Login(LoginModel loginModel)
         {
-            if (loginModel.UserName == "test")
+            if (loginModel.name == "test")
             {
-                if (loginModel.Password == "Passw0rd")
+                if (loginModel.password == "Passw0rd")
                 {
                     return new LoginResponseModel("succes", "null");
                 }

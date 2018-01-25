@@ -40,13 +40,13 @@
 
     <div id="modal_form">
         <div class="form-control">
-            <input type="text" name="login" id="username" tabindex="1" placeholder="Login">
+            <input type="text" name="UserName" id="UserName" tabindex="1" placeholder="Login">
         </div>
         <div class="form-control">
-            <input type="text" name="password" id="password" tabindex="2" placeholder="Password">
+            <input type="text" name="Password" id="Password" tabindex="2" placeholder="Password">
         </div>
         <div>
-            <input class="login" id="login1" type="button" value="Login" />
+            <input class="login" id="LoginFormBtn" type="button" value="Login" />
         </div>
         <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
         <!-- Тут любoе сoдержимoе -->
@@ -241,18 +241,16 @@
                 $("#blackout-message").removeClass("active");
                 setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
             });
-        });
 
-        $(document).ready(function () {
-            $('#login').click(function (event) {
-                event.preventDefault();
-                $('#overlay').fadeIn(400,
-                    function () {
-                        $('#modal_form')
-                            .css('display', 'block')
-                            .animate({ opacity: 1, top: '50%' }, 200);
-                    });
-            });
+            //$('#login').click(function (event) {
+            //    event.preventDefault();
+            //    $('#overlay').fadeIn(400,
+            //        function () {
+            //            $('#modal_form')
+            //                .css('display', 'block')
+            //                .animate({ opacity: 1, top: '50%' }, 200);
+            //        });
+            //});
 
             $('#modal_close, #overlay').click(function () {
                 $('#modal_form')
@@ -262,6 +260,14 @@
                         $('#overlay').fadeOut(400);
                     });
             });
+
+            $('#login').click(function () {
+                var data = {name:"test",password:"Passw0rd"}
+                $.post("api/auth",data,function (model) {
+                    window.alert(model.errorr);
+                });
+            });
+
         });
     </script>
 </body>
