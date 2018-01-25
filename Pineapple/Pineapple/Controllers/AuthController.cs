@@ -20,7 +20,6 @@ namespace Pineapple.Controllers
         public IActionResult Login(LoginModel loginModel)
         {
             return new ObjectResult(UserLogin.Login(loginModel));
-            //return new ObjectResult(new LoginResponseModel("lol", "kek"));
         }
         public IActionResult Register()
         {

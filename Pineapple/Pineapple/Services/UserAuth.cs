@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Pineapple.Model;
+using Pineapple.DBServices;
+using System.Data.SqlClient;
 
 namespace Pineapple.Services
 {
@@ -10,20 +12,20 @@ namespace Pineapple.Services
     {
         public LoginResponseModel Login(LoginModel loginModel)
         {
-            if (loginModel.name == "test")
+            DBconnection.ConnectionOpen();
+
+            SqlCommand myCommand = new SqlCommand("SELECT COUNT(*) FROM dbo.Users WHERE Nick = @ParamNick AND Password = @ParamPass",DBconnection.myConnection);
+            SqlParameter parameter = myCommand.Parameters.AddWithValue("@ParamNick",loginModel.name);
+            SqlParameter ParamPass = myCommand.Parameters.AddWithValue("@ParamPass", loginModel.password);
+            //SqlDataReader DataReader = myCommand.ExecuteReader();
+            int count = Convert.ToInt32(myCommand.ExecuteScalar());
+            if (count == 1)
             {
-                if (loginModel.password == "Passw0rd")
-                {
-                    return new LoginResponseModel("succes", "null");
-                }
-                else
-                {
-                    return new LoginResponseModel("failure", "Wrong password");
-                }
+                return new LoginResponseModel("accept","null");
             }
-            else
+            else 
             {
-                return new LoginResponseModel("failure", "Wrong user");
+                return new LoginResponseModel("ban","Invalid Login or Password");
             }
         }
     }

@@ -9,10 +9,5 @@ namespace Pineapple.Model
     {
         public string name { get; set; }
         public string password { get; set; }
-        //public LoginModel(string userName, string password)
-        //{
-        //    name = userName;
-        //    this.password = password;
-        //}
     }
 }
