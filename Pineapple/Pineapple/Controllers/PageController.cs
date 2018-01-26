@@ -15,10 +15,12 @@ namespace Pineapple.Controllers
             //возвращает главную сраницу или страницу твитов, в зависимости от того, авторизирован ли пользователь
             bool auth = true;
 
-            if (auth) {
-                return View("~/Views/UserPage/UserPage.cshtml");
+            if (auth)
+            {
+                return View("~/Views/UserPage/UserPage.cshtml", new UsersController().Get());
             }
-            else {
+            else
+            {
                 return View("~/Views/MainPage/MainPage.cshtml");
             }
         }

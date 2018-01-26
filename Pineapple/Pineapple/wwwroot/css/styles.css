@@ -51,10 +51,10 @@ header {
     padding-left: 2%;
 }
 
-.logo{
+.logo {
     height: 100%;
-	vertical-align: middle;
-	float: left;
+    vertical-align: middle;
+    float: left;
 }
 
 .logo-header {
@@ -65,16 +65,16 @@ header {
     margin-left: 10px;
 }
 
-.avatar{
-      width: 80%;
-	  margin-left: 10%;
+.avatar {
+    width: 80%;
+    margin-left: 10%;
 }
 
-.small-header{ 
-	color:#008FD6;
-	font-size: 20px;
-	text-align: right;
-	margin-right: 20px;
+.small-header {
+    color: #008FD6;
+    font-size: 20px;
+    text-align: right;
+    margin-right: 20px;
 }
 
 .main {
@@ -85,7 +85,7 @@ header {
 }
 
 .left-column {
-    flex-basis: 15%;
+    width: 15%;
     height: 100%;
 }
 
@@ -93,6 +93,325 @@ header {
     color: #008FD6;
     font-size: 30px;
     text-align: center;
+}
+
+.users-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+    cursor: default;
+}
+
+.users-head {
+    font-family: Codropsicons, Arial;
+    font-size: 1.2em;
+    text-align: center;
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+
+.user-container {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 50px;
+    border-bottom: 1px solid rgba(200,200,200,1);
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.users-container:last-of-type {
+    border-bottom: none;
+}
+
+.user-nick {
+    flex-shrink: 1;
+    width: 100%;
+    font-family: Codropsicons, Arial;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.follow-button {
+    flex-shrink: 0;
+    width: 35px;
+    height: 25px;
+    border: 1.5px solid rgba(8,146,254,1);
+    border-radius: 5px;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+
+.follow-button.load {
+    animation: ease load-border 1s infinite;
+    -moz-animation: ease load-border 1s infinite;
+    -webkit-animation: ease load-border 1s infinite;
+    cursor: default;
+}
+
+.follow-button.load:hover, .follow-button.success:hover, .follow-button.fail:hover {
+    background-color: transparent;
+}
+
+.follow-button.load::before, .follow-button.load::after {
+    animation: ease load-bgcolor 1s infinite;
+    -moz-animation: ease load-bgcolor 1s infinite;
+    -webkit-animation: ease load-bgcolor 1s infinite;
+}
+
+.follow-button.load > .user-icon {
+    animation: ease load-color 1s infinite;
+    -moz-animation: ease load-color 1s infinite;
+    -webkit-animation: ease load-color 1s infinite;
+}
+    
+@keyframes load-border {
+    0% {
+    border: 1.5px solid rgba(8,146,254,1);
+}
+
+50% {
+    border: 1.5px solid rgba(200,200,200,1);
+}
+
+100% {
+    border: 1.5px solid rgba(8,146,254,1);
+}
+}
+@-moz-keyframes load-border {
+    0% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+
+    50% {
+        border: 1.5px solid rgba(200,200,200,1);
+    }
+
+    100% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+}
+@-webkit-keyframes load-border {
+    0% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+
+    50% {
+        border: 1.5px solid rgba(200,200,200,1);
+    }
+
+    100% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+}
+
+@keyframes load-bgcolor {
+    0% {
+        background-color: rgba(8,146,254,1);
+    }
+
+    50% {
+        background-color: rgba(200,200,200,1);
+    }
+
+    100% {
+        background-color: rgba(8,146,254,1);
+    }
+}
+@-moz-keyframes load-bgcolor {
+    0% {
+        background-color: rgba(8,146,254,1);
+    }
+
+    50% {
+        background-color: rgba(200,200,200,1);
+    }
+
+    100% {
+        background-color: rgba(8,146,254,1);
+    }
+}
+@-webkit-keyframes load-bgcolor {
+    0% {
+        background-color: rgba(8,146,254,1);
+    }
+
+    50% {
+        background-color: rgba(200,200,200,1);
+    }
+
+    100% {
+        background-color: rgba(8,146,254,1);
+    }
+}
+
+@keyframes load-color {
+    0% {
+        color: rgba(8,146,254,1);
+    }
+
+    50% {
+        color: rgba(200,200,200,1);
+    }
+
+    100% {
+        color: rgba(8,146,254,1);
+    }
+}
+@-moz-keyframes load-color {
+    0% {
+        color: rgba(8,146,254,1);
+    }
+
+    50% {
+        color: rgba(200,200,200,1);
+    }
+
+    100% {
+        color: rgba(8,146,254,1);
+    }
+}
+@-webkit-keyframes load-color {
+    0% {
+        color: rgba(8,146,254,1);
+    }
+
+    50% {
+        color: rgba(200,200,200,1);
+    }
+
+    100% {
+        color: rgba(8,146,254,1);
+    }
+}
+
+.follow-button:hover {
+    background-color: rgba(8,146,254,1);
+}
+
+.follow-button.success {
+    width: 25px;
+    border-color: rgba(0,200,0,1);
+    border-radius: 12.5px;
+    cursor: default;
+}
+
+.follow-button.fail {
+    width: 25px;
+    border-color: rgba(200,0,0,1);
+    border-radius: 12.5px;
+    cursor: default;
+}
+
+.follow-button:hover::before, .follow-button:hover::after {
+    background-color: rgba(255,255,255,1);
+}
+
+.follow-button.success:hover::before, .follow-button.success:hover::after {
+    background-color: rgba(0,200,0,1);
+}
+
+.follow-button.fail:hover::before, .follow-button.fail:hover::after {
+    background-color: rgba(200,0,0,1);
+}
+
+.follow-button::before {
+    content: "";
+    width: 8px;
+    height: 1.5px;
+    background-color: rgba(8,146,254,1);
+    position: absolute;
+    left: 4px;
+    top: 10.5px;
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+
+.follow-button.success::before {
+    background-color: rgba(0,200,0,1);
+    width: 7px;
+    top: 13px;
+    left: 4px;
+    transform: rotateZ(45deg);
+    -o-transform: rotateZ(45deg);
+    -moz-transform: rotateZ(45deg);
+    -webkit-transform: rotateZ(45deg);
+}
+
+.follow-button.fail::before {
+    background-color: rgba(0,200,0,1);
+    width: 12px;
+    left: 5.5px;
+}
+
+.follow-button::after {
+    content: "";
+    width: 8px;
+    height: 1.5px;
+    background-color: rgba(8,146,254,1);
+    position: absolute;
+    left: 4px;
+    top: 10.5px;
+    transform: rotateZ(90deg);
+    -o-transform: rotateZ(90deg);
+    -moz-transform: rotateZ(90deg);
+    -webkit-transform: rotateZ(90deg);
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+
+.follow-button.success::after {
+    width: 12px;
+    left: 7.5px;
+    top: 11.5px;
+    background-color: rgba(0,200,0,1);
+    transform: rotateZ(135deg);
+    -o-transform: rotateZ(135deg);
+    -moz-transform: rotateZ(135deg);
+    -webkit-transform: rotateZ(135deg);
+}
+
+.follow-button.fail::after {
+    background-color: rgba(200,0,0,1);
+    width: 12px;
+    left: 5.5px;
+    transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+}
+
+.follow-button > .user-icon {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    color: rgba(8,146,254,1);
+    opacity: 1;
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+
+.follow-button:hover > .user-icon {
+    color: rgba(255,255,255,1);
+}
+
+.follow-button.success > .user-icon, .follow-button.fail > .user-icon {
+    opacity: 0;
 }
 
 .center-column {

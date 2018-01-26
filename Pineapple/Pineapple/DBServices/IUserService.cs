@@ -8,6 +8,8 @@ namespace Pineapple.DBServices
 {
     interface IUserService
     {
+        List<UserModel> GetUsers();
+
         string CheckUserNick(string nick);
         string CheckUserEmail(string email);
         string CheckUserFirstName(string firstName);
