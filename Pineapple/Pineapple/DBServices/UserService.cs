@@ -11,7 +11,7 @@ namespace Pineapple.DBServices
 {
     public class UserService : IUserService
     {
-        public List<UserModel> GetUsers()
+        public List<UserModel> GetLastRegisteredUsers(int count)
         {
 
             List<UserModel> users = new List<UserModel>();
@@ -20,18 +20,20 @@ namespace Pineapple.DBServices
             try
             {
                 SqlDataReader myReader = null;
-                SqlCommand myCommand = new SqlCommand("SELECT TOP 10 Nick FROM dbo.Users ORDER BY RegistrationDate DESC", DBconnection.myConnection);
+                SqlCommand myCommand = new SqlCommand("SELECT TOP "+count+" Nick, Id FROM dbo.Users ORDER BY RegistrationDate DESC", DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
 
                 while (myReader.Read())
                 {
-                    users.Add(new UserModel(myReader["Nick"].ToString()));
+                    users.Add(new UserModel(Convert.ToInt32(myReader["Id"]), myReader["Nick"].ToString(), false));
                 }
             }
             catch (Exception e)
             {
-                users.Add(new UserModel(e.Message));
+                users.Add(new UserModel(0, e.Message, false));
             }
+
+            DBconnection.ConnectionClose();
 
             return users;
         }

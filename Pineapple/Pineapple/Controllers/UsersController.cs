@@ -11,12 +11,12 @@ namespace Pineapple.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        [HttpGet]
-        public List<UserModel> Get() {
+        [HttpGet("{count}")]
+        public List<UserModel> Get(int count) {
 
             UserService us = new UserService();
 
-            return us.GetUsers();
+            return us.GetLastRegisteredUsers(count);
         }
     }
 }

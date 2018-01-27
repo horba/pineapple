@@ -14,9 +14,10 @@
             @{
                 foreach (var user in Model)
                 {
+                    string status = user.CurrentFollow ? "follow" : "";
                     <div class='user-container'>
                         <p class='user-nick'>@user.Nick</p>
-                        <div class='follow-button' data-login="@user.Nick">
+                        <div class='follow-button @status' data-id="@user.Id">
                             <div class="fa fa-user user-icon"></div>
                         </div>
                     </div>
@@ -57,9 +58,20 @@
         });
 
         $(".follow-button").click(function (e) {
-            if (!$(this).hasClass("load") && !$(this).hasClass("success") && !$(this).hasClass("fail")) {
-                $(this).addClass("load");
-                setTimeout(function followEnd(obj) { $(obj).removeClass("load"); $(obj).addClass("success");}, 5000, this);
+
+            var button = $(this);
+
+            if (!button.hasClass("load") && !button.hasClass("follow") && !button.hasClass("fail")) {
+                button.addClass("load");
+                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response == "true") {
+                        button.addClass("follow");
+                    } else { 
+                        button.addClass("fail");
+                        console.log(response);
+                    }
+                });
             }
         });
     });
