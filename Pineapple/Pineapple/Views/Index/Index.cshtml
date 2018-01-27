@@ -6,40 +6,40 @@
 <!doctype html>
 <html>
 <head>
+    <title>Pineapple</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/registerForm.css">
+    <link rel="stylesheet" type="text/css" href="css/loadAnimation.css">
+    <link rel="stylesheet" type="text/css" href="css/loadLogo.css">
 </head>
 <body>
-
-    <header>
-
-        <img class="logo" src="img/Pineapple.png">
-        <div class="logo-header">  Pineapple</div>
-        <button class="log-in" id="login">Log in</button>
-
-    </header>
-
-    <div class="main">
-        <div class="left-column">
-            <div class="medium-header">Home</div>
-            <div class="medium-header">Search</div>
-            <div class="medium-header">About</div>
+    <div id="logo" class="load-logo">
+        <div class="logo-container">
+            <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                 xmlns:cc="http://creativecommons.org/ns#"
+                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                 xmlns:svg="http://www.w3.org/2000/svg"
+                 xmlns="http://www.w3.org/2000/svg"
+                 id="svg8"
+                 version="1.1"
+                 viewBox="0 0 26.458332 45.475327"
+                 height="45.475327mm"
+                 width="26.458332mm">
+                <g transform="translate(-97.312144,-127.50481)"
+                   id="layer1">
+                    <path class="path"
+                          d="m 110.49107,172.80183 -5.96549,0.0214 -7.061956,-14.49528 7.162556,-14.50072 -7.162556,-9.79368 h 6.840636 l 2.33387,3.18864 3.86295,-9.56592 3.86295,9.33816 2.49482,-3.0368 h 6.76016 l -7.64542,9.8696 7.56494,14.27295 -7.00159,14.72848 -6.04587,-0.0268"
+                          fill="none"
+                          stroke="#0892fe"
+                          stroke-width="0.5"
+                          stroke-miterlimit="4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                </g>
+            </svg>
         </div>
-
-
-        <div class="center-column">
-            <div class="output" id="feed">
-            </div>
-        </div>
-
-
-        <div class="right-column">
-            <img class="avatar" src="img/avatar.png">
-            <div class="medium-header">
-                User Name
-            </div>
-        </div>
+        <p>Loading...</p>
     </div>
-
     <button class="get-tweet" id="BTNGetTweets">Get tweets</button>
     <textarea rows="1" cols="1" class="textInput" id="TXTAREAAddTweet"></textarea>
     <button class="add-tweet" id="BTNAddTweet">Add tweet</button>
@@ -56,13 +56,11 @@
         </div>
         <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
         <!-- Тут любoе сoдержимoе -->
+    <div id="pageContainer">
     </div>
-
-    <div id="overlay"></div>
-
-    <footer></footer>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script>
+
         $(function () {
             $("#BTNGetTweets").click(function (e) {
                 e.preventDefault();
@@ -84,24 +82,10 @@
         });
 
         $(document).ready(function () {
-            $('#login').click(function (event) {
-                event.preventDefault();
-                $('#overlay').fadeIn(400,
-                    function () {
-                        $('#modal_form')
-                            .css('display', 'block')
-                            .animate({ opacity: 1, top: '50%' }, 200);
-                    });
-            });
-
-            $('#modal_close, #overlay').click(function () {
-                $('#modal_form')
-                    .animate({ opacity: 0, top: '45%' }, 200,
-                    function () {
-                        $(this).css('display', 'none');
-                        $('#overlay').fadeOut(400);
-                    }
-                    );
+            $.get("/Page", function (response) {
+                $("#pageContainer").html(response);
+                $("#logo").addClass("close");
+                setTimeout(function () { $("#logo").addClass("hidden");}, 600);
             });
         });
     </script>
