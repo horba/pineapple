@@ -25,9 +25,9 @@ namespace Pineapple.Controllers
 
                 List<UserModel> lastRegisteredUsers = new UsersController().Get(10);
 
-                /*for (int i = 0; i < lastRegisteredUsers.Count; i++) {
+                for (int i = 0; i < lastRegisteredUsers.Count; i++) {
                     lastRegisteredUsers[i].CurrentFollow = fs.CheckFollow(Convert.ToInt32(Request.Cookies["id"]), lastRegisteredUsers[i].Id);
-                }*/
+                }
 
                 return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);
             }

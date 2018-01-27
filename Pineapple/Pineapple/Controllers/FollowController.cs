@@ -22,14 +22,14 @@ namespace Pineapple.Controllers
             {
                 currentUser = Convert.ToInt32(Request.Cookies["id"]);
 
-                /*if (!fs.CheckFollow(currentUser, targetUser))
-                {*/
+                if (!fs.CheckFollow(currentUser, targetUser))
+                {
                     fs.AddFollow(currentUser, targetUser);
                     return "true";
-                /*}
+                }
                 else {
                     return "Already follow";
-                }*/
+                }
             }
 
             return "Not logged in";
