@@ -19,7 +19,7 @@
         <input type="text" name="password" id="password" tabindex="2" placeholder="Password">
     </div>
     <div>
-        <input class="login" id="login1" type="button" value="Login" />
+        <input class="login" id="LoginFormBtn" type="button" value="Login" />
     </div>
     <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
     <!-- Тут любoе сoдержимoе -->
@@ -224,6 +224,15 @@
                         $(this).css('display', 'none');
                         $('#overlay').fadeOut(400);
                     });
+            });
+
+            $('#LoginFormBtn').click(function () {
+                var data = { name: $("#username").val(), password: $("#password").val() }
+                $.post("api/auth", data, function (model) {
+                    $.get("/Page", function (resp) { 
+                        $("#pageContainer").html(resp);
+                    });
+                });
             });
         });
 </script>

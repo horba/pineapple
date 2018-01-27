@@ -19,7 +19,21 @@ namespace Pineapple.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel loginModel)
         {
-            return new ObjectResult(UserLogin.Login(loginModel));
+            List<string> response = UserLogin.Login(loginModel).ToList();
+            if (response.Count == 3)
+            {
+                Response.Cookies.Append("session_id", response[2]);
+                return new ObjectResult(new LoginResponseModel("accept", "null"));
+            }
+            else
+            {
+                return new ObjectResult(new LoginResponseModel("ban", "Invalid Login or Password"));
+            }
+        }
+        [HttpGet]
+        public IActionResult GetUser()
+        {
+            return new ObjectResult(UserAuth.GetUserBySession(Request.Cookies["session_id"]));
         }
         public IActionResult Register()
         {

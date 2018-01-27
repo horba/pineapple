@@ -8,6 +8,6 @@ namespace Pineapple.Services
 {
     public interface IUserAuth
     {
-        LoginResponseModel Login(LoginModel loginModel);
+        IEnumerable<string> Login(LoginModel loginModel);
     }
 }
