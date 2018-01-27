@@ -55,8 +55,9 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionClose();
             return result;
         }
-        
-        public List<FollowModel> GetFollowersByCurrentUser(int currentUser) {
+
+        public List<FollowModel> GetFollowersByCurrentUser(int currentUser)
+        {
             List<FollowModel> result = new List<FollowModel>();
             DBconnection.ConnectionOpen();
             try
@@ -79,38 +80,40 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionClose();
             return result;
         }
-        
-        public List<FollowModel> GetFollowersByTargetUser(int targetUser) {
-                List<FollowModel> result = new List<FollowModel>();
-                DBconnection.ConnectionOpen();
-                try
-                {
-                    SqlDataReader myReader = null;
-                    SqlCommand myCommand = new SqlCommand(String.Format("select * from dbo.Followers where TargetID = {0}", targetUser), DBconnection.myConnection);
-                    myReader = myCommand.ExecuteReader();
-                    string[] fields = { "CurrentID", "TargetID" };
-                    while (myReader.Read())
-                    {
-                        FollowModel cortage = new FollowModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToInt32(myReader[fields[1]]));
-                        result.Add(cortage);
-                    }
 
-                }
-                catch (Exception ex)
+        public List<FollowModel> GetFollowersByTargetUser(int targetUser)
+        {
+            List<FollowModel> result = new List<FollowModel>();
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand(String.Format("select * from dbo.Followers where TargetID = {0}", targetUser), DBconnection.myConnection);
+                myReader = myCommand.ExecuteReader();
+                string[] fields = { "CurrentID", "TargetID" };
+                while (myReader.Read())
                 {
-                    Console.WriteLine(ex.ToString());
+                    FollowModel cortage = new FollowModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToInt32(myReader[fields[1]]));
+                    result.Add(cortage);
                 }
-                DBconnection.ConnectionClose();
-                return result;
-            
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+            return result;
+
         }
-        
-        public void DeleteFollow(int currentUser, int targetUser) {
+
+        public void DeleteFollow(int currentUser, int targetUser)
+        {
             DBconnection.ConnectionOpen();
             try
             {
                 SqlCommand myCommand = new SqlCommand(String.Format("DELETE FROM dbo.Followers  WHERE CurrentID = {0} AND TargetID = {1}", currentUser, targetUser)
-                    ,DBconnection.myConnection);
+                    , DBconnection.myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -120,5 +123,26 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionClose();
         }
 
+        public bool CheckFollow(int currentUser, int targetUser)
+        {
+            bool result = true;
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand(String.Format("SELECT count(*) FROM dbo.Followers WHERE CurrentID = {0} AND TargetID = {1}", currentUser, targetUser), DBconnection.myConnection);
+                myReader = myCommand.ExecuteReader();
+                while (myReader.Read())
+                {
+                    result = Convert.ToBoolean(myReader[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+            return result;
+        }
     }
 }
