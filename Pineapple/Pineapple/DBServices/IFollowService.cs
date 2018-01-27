@@ -13,5 +13,6 @@ namespace Pineapple.DBServices
         List<FollowModel> GetFollowersByCurrentUser(int currentUser);
         List<FollowModel> GetFollowersByTargertUser(int targetUser);
         void DeleteFollow(int currentUser, int targetUser);
+        bool CheckFollow(int currentUser, int targetUser);
     }
 }
