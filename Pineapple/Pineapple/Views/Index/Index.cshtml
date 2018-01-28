@@ -159,7 +159,7 @@
 
                 $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
 
-                $.post("/api/register", data, function (response) {
+                $.post("/api/user/register", data, function (response) {
 
                     var error = document.getElementsByClassName("error-info");
 

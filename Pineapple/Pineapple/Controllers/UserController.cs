@@ -12,7 +12,7 @@ namespace Pineapple.Controllers
     public class UserController : Controller
     {
         // POST
-        [HttpPost]
+        [HttpPost("register")]
         public UserModel Post(UserModel data)
         {
             data.Email = data.Email.ToLower();
