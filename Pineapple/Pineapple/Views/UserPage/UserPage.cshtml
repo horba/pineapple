@@ -1,0 +1,45 @@
+﻿<header>
+    <div class="logo-wrapper">
+        <img class="logo" src="img/Pineapple.png">
+        <div class="logo-header">  Pineapple</div>
+    </div>
+</header>
+<div class="main">
+    <div class="left-column">
+        <div class="medium-header">Home</div>
+        <div class="medium-header">Search</div>
+        <div class="medium-header">About</div>
+    </div>
+    <div class="center-column">
+        <div class="input-wrapper">
+            <textarea rows="1" cols="1" class="textInput" placeholder="Write your tweet"></textarea>
+            <button class="button add-tweet">Add tweet</button>
+            <button class="button get-tweet" id="BTNGetTweets">Get tweets</button>
+        </div>
+        <div class="output-wrapper">
+            <div class="output" id="feed"></div>
+        </div>
+        </div>
+        <div class="right-column">
+            <img class="avatar" src="img/avatar.png">
+            <div class="medium-header">
+                User Name
+            </div>
+        </div>
+    </div>
+<footer>© 2018 Pineapple, Inc.</footer>
+<script>
+    $(function () {
+        $("#BTNGetTweets").click(function (e) {
+            e.preventDefault();
+            $.get("/api/tweets").done(function (data) {
+                let values = data;
+                let $feed = $("#feed");
+                $feed.html("");
+                values.forEach(function (v) {
+                    $feed.append("<div class=\"feed\">" + v + "</div>");
+                });
+            });
+        });
+    });
+</script>

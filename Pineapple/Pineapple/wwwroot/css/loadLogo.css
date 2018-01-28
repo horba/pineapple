@@ -1,0 +1,51 @@
+﻿.load-logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    -webkit-transition: opacity .6s ease;
+    -moz-transition: opacity .6s ease;
+    -o-transition: opacity .6s ease;
+    transition: opacity .6s ease;
+}
+
+.load-logo.close {
+    opacity: 0;
+}
+
+.load-logo.hidden {
+    display: none;
+}
+
+.load-logo > p{
+    font-family: Arial;
+    font-size: 1.2em;
+    color: rgba(8, 146, 254, 1);
+}
+
+.logo-container {
+    width: 100px;
+}
+
+.path {
+    stroke-dasharray: 143;
+    stroke-dashoffset: 143;
+    stroke-opacity: 1;
+    animation: dash 4s linear forwards infinite;
+}
+
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 144;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: -144;
+    }
+}
