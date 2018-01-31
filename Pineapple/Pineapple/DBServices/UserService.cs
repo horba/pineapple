@@ -11,6 +11,51 @@ namespace Pineapple.DBServices
 {
     public class UserService : IUserService
     {
+        public List<UserModel> GetAllUsers()
+        {
+            List<UserModel> result = new List<UserModel>();
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand("select * from dbo.Users", DBconnection.myConnection);
+                myReader = myCommand.ExecuteReader();
+                string[] fields = { "Id", "Nick", "FirstName", "SecondName", "Email", "Password" };
+                while (myReader.Read())
+                {
+                    UserModel cortage = new UserModel(Convert.ToInt32(myReader[fields[0]]), myReader[fields[1]].ToString(), myReader[fields[2]].ToString(), myReader[fields[3]].ToString(), myReader[fields[4]].ToString(), myReader[fields[5]].ToString());
+                    result.Add(cortage);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+            return result;
+        }
+
+        public UserModel GetUserById(int id)
+        {
+            UserModel result = null;
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand(String.Format("select * from dbo.Users where id = {0}", id), DBconnection.myConnection);
+                myReader = myCommand.ExecuteReader();
+                string[] fields = { "Id", "Nick", "FirstName", "SecondName", "Email", "Password" };
+                myReader.Read();
+                result = new UserModel(Convert.ToInt32(myReader[fields[0]]), myReader[fields[1]].ToString(), myReader[fields[2]].ToString(), myReader[fields[3]].ToString(), myReader[fields[4]].ToString(), myReader[fields[5]].ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+            return result;
+        }
+
         public List<UserModel> GetLastRegisteredUsers(int count)
         {
 
