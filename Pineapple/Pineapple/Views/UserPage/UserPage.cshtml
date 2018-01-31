@@ -74,5 +74,9 @@
                 });
             }
         });
+
+        $.get("/api/auth", function (data) {
+            $("#UserName").text(data.nick);
+        });
     });
 </script>

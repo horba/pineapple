@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.Model;
 using Pineapple.DBServices;
+using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
@@ -14,22 +15,26 @@ namespace Pineapple.Controllers
         [HttpGet]
         public ActionResult Page()
         {
-            //возвращает главную сраницу или страницу твитов, в зависимости от того, авторизирован ли пользователь
-            bool auth = true;
-
-            if (auth)
+            if (Request.Cookies.ContainsKey("session_id"))
             {
-                FollowService fs = new FollowService();
+                RegisterData user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    FollowService fs = new FollowService();
 
-                Response.Cookies.Append("id", "2");
+                    List<UserModel> lastRegisteredUsers = new UsersController().Get(10);
 
-                List<UserModel> lastRegisteredUsers = new UsersController().Get(10);
+                    for (int i = 0; i < lastRegisteredUsers.Count; i++)
+                    {
+                        lastRegisteredUsers[i].CurrentFollow = fs.CheckFollow(Convert.ToInt32(Request.Cookies["id"]), lastRegisteredUsers[i].Id);
+                    }
 
-                for (int i = 0; i < lastRegisteredUsers.Count; i++) {
-                    lastRegisteredUsers[i].CurrentFollow = fs.CheckFollow(Convert.ToInt32(Request.Cookies["id"]), lastRegisteredUsers[i].Id);
+                    return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);
                 }
-
-                return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);
+                else
+                {
+                    return View("~/Views/MainPage/MainPage.cshtml");
+                }
             }
             else
             {
