@@ -85,7 +85,6 @@ namespace Pineapple.DBServices
 
         public string CheckUserNick(string nick)
         {
-
             string status = "true";
 
             if (nick.Length > 50)
@@ -229,10 +228,9 @@ namespace Pineapple.DBServices
 
             return status;
         }
-
+        
         public string RegisterUser(UserModel data)
         {
-
             string status = "true";
 
             DBconnection.ConnectionOpen();
