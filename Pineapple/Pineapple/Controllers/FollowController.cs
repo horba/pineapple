@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.DBServices;
 using Pineapple.Model;
+using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
@@ -18,17 +19,19 @@ namespace Pineapple.Controllers
 
             FollowService fs = new FollowService();
 
-            if (Request.Cookies["id"] != null)
+            if (Request.Cookies.ContainsKey("session_id"))
             {
-                currentUser = Convert.ToInt32(Request.Cookies["id"]);
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"])) {
+                    currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
 
-                if (!fs.CheckFollow(currentUser, targetUser))
-                {
-                    fs.AddFollow(currentUser, targetUser);
-                    return "true";
-                }
-                else {
-                    return "Already follow";
+                    if (!fs.CheckFollow(currentUser, targetUser))
+                    {
+                        fs.AddFollow(currentUser, targetUser);
+                        return "true";
+                    }
+                    else {
+                        return "Already follow";
+                    }
                 }
             }
 

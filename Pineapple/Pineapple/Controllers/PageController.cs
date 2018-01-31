@@ -17,16 +17,20 @@ namespace Pineapple.Controllers
         {
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                RegisterData user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
                     FollowService fs = new FollowService();
+                    int currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
 
                     List<UserModel> lastRegisteredUsers = new UsersController().Get(10);
 
                     for (int i = 0; i < lastRegisteredUsers.Count; i++)
                     {
-                        lastRegisteredUsers[i].CurrentFollow = fs.CheckFollow(Convert.ToInt32(Request.Cookies["id"]), lastRegisteredUsers[i].Id);
+                        if (lastRegisteredUsers[i].Id == currentUser) {
+                            lastRegisteredUsers.Remove(lastRegisteredUsers[i]);
+                        }
+
+                        lastRegisteredUsers[i].CurrentFollow = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id);
                     }
 
                     return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);
