@@ -14,7 +14,7 @@
             @{
                 foreach (var user in Model)
                 {
-                    string status = user.CurrentFollow ? "follow" : "";
+                    string status = user.Status == "True" ? "follow" : "";
                     <div class='user-container'>
                         <p class='user-nick'>@user.Nick</p>
                         <div class='follow-button @status' data-id="@user.Id">

@@ -12,8 +12,10 @@ namespace Pineapple.DBServices
     public class FollowService : IFollowService
     {
 
-        public void AddFollow(int currentUser, int targetUser)
+        public bool AddFollow(int currentUser, int targetUser)
         {
+            bool status = true;
+
             DBconnection.ConnectionOpen();
             try
             {
@@ -27,8 +29,12 @@ namespace Pineapple.DBServices
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+
+                status = false;
             }
             DBconnection.ConnectionClose();
+
+            return status;
         }
         
         public List<FollowModel> GetAllFollowers()

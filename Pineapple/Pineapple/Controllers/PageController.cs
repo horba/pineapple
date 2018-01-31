@@ -30,7 +30,7 @@ namespace Pineapple.Controllers
                             lastRegisteredUsers.Remove(lastRegisteredUsers[i]);
                         }
 
-                        lastRegisteredUsers[i].CurrentFollow = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id);
+                        lastRegisteredUsers[i].Status = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id).ToString();
                     }
 
                     return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);

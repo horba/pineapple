@@ -26,8 +26,13 @@ namespace Pineapple.Controllers
 
                     if (!fs.CheckFollow(currentUser, targetUser))
                     {
-                        fs.AddFollow(currentUser, targetUser);
-                        return "true";
+                        if (fs.AddFollow(currentUser, targetUser))
+                        {
+                            return "true";
+                        }
+                        else {
+                            return "Something is wrong. Try again later.";
+                        }
                     }
                     else {
                         return "Already follow";

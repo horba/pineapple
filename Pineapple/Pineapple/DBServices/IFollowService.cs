@@ -8,7 +8,7 @@ namespace Pineapple.DBServices
 {
     interface IFollowService
     {
-        void AddFollow(int currentUser, int targetUser);
+        bool AddFollow(int currentUser, int targetUser);
         List<FollowModel> GetAllFollowers();
         List<FollowModel> GetFollowersByCurrentUser(int currentUser);
         List<FollowModel> GetFollowersByTargetUser(int targetUser);

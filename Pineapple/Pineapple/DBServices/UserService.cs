@@ -70,12 +70,12 @@ namespace Pineapple.DBServices
 
                 while (myReader.Read())
                 {
-                    users.Add(new UserModel(Convert.ToInt32(myReader["Id"]), myReader["Nick"].ToString(), false));
+                    users.Add(new UserModel() { Id = Convert.ToInt32(myReader["Id"]), Nick = myReader["Nick"].ToString(), Status = "false" });
                 }
             }
             catch (Exception e)
             {
-                users.Add(new UserModel(0, e.Message, false));
+                users.Add(new UserModel() { Id = 0, Nick = e.Message, Status = "false"});
             }
 
             DBconnection.ConnectionClose();
@@ -230,7 +230,7 @@ namespace Pineapple.DBServices
             return status;
         }
 
-        public string RegisterUser(RegisterData data)
+        public string RegisterUser(UserModel data)
         {
 
             string status = "true";
