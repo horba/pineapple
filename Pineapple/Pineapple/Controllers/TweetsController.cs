@@ -17,9 +17,9 @@ namespace Pineapple.Controllers
         public IEnumerable<string> Get()
         {
             TweetsService modelReader = new TweetsService();
-            List<Tweet> allTweets = modelReader.GetAllTweets();
+            List<TweetModel> allTweets = modelReader.GetAllTweets();
             List<string> stringTweets = new List<string>();
-            foreach (Tweet tweet in allTweets)
+            foreach (TweetModel tweet in allTweets)
             {
                 stringTweets.Add(tweet.ToString());
             }
@@ -31,7 +31,7 @@ namespace Pineapple.Controllers
         public string Get(int id)
         {
             TweetsService modelReader = new TweetsService();
-            Tweet tweet = modelReader.GetTweetById(id);
+            TweetModel tweet = modelReader.GetTweetById(id);
             return tweet.ToString();
         }
 
@@ -40,7 +40,11 @@ namespace Pineapple.Controllers
         public void Post(string value)
         {
             TweetsService modelReader = new TweetsService();
-            modelReader.AddTweet(value);
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                int idOfAuthor = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                modelReader.AddTweet(value, idOfAuthor);
+            }
         }
 
         // PUT api/values/5

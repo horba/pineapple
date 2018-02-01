@@ -24,7 +24,7 @@ namespace Pineapple.DBServices
                     "INSERT INTO dbo.Tweets (text, date) VALUES (@ParamText, @ParamDate)",
                                                          DBconnection.myConnection);
                 SqlParameter ParamText = myCommand.Parameters.Add("@ParamText", SqlDbType.VarChar, 50);
-                ParamText.Value = tweet + " from " + DateTime.Now.ToShortDateString();
+                ParamText.Value = tweet;
                 SqlParameter ParamDate = myCommand.Parameters.Add("@ParamDate", SqlDbType.DateTime);
                 ParamDate.Value = DateTime.Now;
                 myCommand.ExecuteNonQuery();
@@ -36,20 +36,40 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionClose();
         }
 
-
-        public List<Tweet> GetAllTweets()
+        public void AddTweet(string tweet, int idOfAuthor)
         {
-            List<Tweet> result = new List<Tweet>();
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlCommand myCommand = new SqlCommand(
+                    "INSERT INTO dbo.Tweets (text, date, idOfAuthor) VALUES (@ParamText, @ParamDate, @ParamIdOfAuthor)",
+                                                         DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@ParamText", tweet);
+                myCommand.Parameters.AddWithValue("@ParamDate", DateTime.Now);
+                myCommand.Parameters.AddWithValue("@ParamIdOfAuthor", idOfAuthor);
+                myCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            DBconnection.ConnectionClose();
+        }
+
+
+        public List<TweetModel> GetAllTweets()
+        {
+            List<TweetModel> result = new List<TweetModel>();
             DBconnection.ConnectionOpen();
             try
             {
                 SqlDataReader myReader = null;
                 SqlCommand myCommand = new SqlCommand("select * from dbo.Tweets", DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
-                string[] fields = { "id",  "date" ,"text"};
+                string[] fields = { "id",  "date" ,"text", "idOfAuthor"};
                 while (myReader.Read())
                 {
-                    Tweet cortage = new Tweet(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString());
+                    TweetModel cortage = new TweetModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString(), Convert.ToInt32(myReader[fields[3]]));
                     result.Add(cortage);
                 }
 
@@ -57,25 +77,26 @@ namespace Pineapple.DBServices
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+               
             }
             DBconnection.ConnectionClose();
             return result;
 
         }
 
-        public List<Tweet> GetLimitTweets(int limit)
+        public List<TweetModel> GetLimitTweets(int limit)
         {
-            List<Tweet> result = new List<Tweet>();
+            List<TweetModel> result = new List<TweetModel>();
             DBconnection.ConnectionOpen();
             try
             {
                 SqlDataReader myReader = null;
                 SqlCommand myCommand = new SqlCommand(String.Format("select top {0} * from dbo.Tweets order by id desc",limit), DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
-                string[] fields = { "id", "date" , "text"};
+                string[] fields = { "id", "date" , "text", "idOfAuthor" };
                 while (myReader.Read())
                 {
-                    Tweet cortage = new Tweet(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString());
+                    TweetModel cortage = new TweetModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString(), Convert.ToInt32(myReader[fields[3]]));
                     result.Add(cortage);
                 }
             }
@@ -87,18 +108,18 @@ namespace Pineapple.DBServices
             return result;
         }
 
-        public Tweet GetTweetById(int id)
+        public TweetModel GetTweetById(int id)
         {
-            Tweet result = null;
+            TweetModel result = null;
             DBconnection.ConnectionOpen();
             try
             {
                 SqlDataReader myReader = null;
                 SqlCommand myCommand = new SqlCommand(String.Format("select * from dbo.Tweets where id = {0}",id), DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
-                string[] fields = { "id", "date", "text" };
+                string[] fields = { "id", "date", "text", "idOfAuthor" };
                 myReader.Read();
-                result = new Tweet(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString());
+                result = new TweetModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString(), Convert.ToInt32(myReader[fields[3]]));
             }
             catch (Exception ex)
             {

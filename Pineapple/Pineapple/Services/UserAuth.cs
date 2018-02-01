@@ -61,7 +61,7 @@ namespace Pineapple.Services
             }
         }
 
-        public static RegisterData GetUserBySession(string sessionId)
+        public static UserModel GetUserBySession(string sessionId)
         {
             DBconnection.ConnectionOpen();
             SqlCommand sqlCommand = new SqlCommand
@@ -80,11 +80,12 @@ namespace Pineapple.Services
                 Connection = DBconnection.myConnection
             };
             reader = sqlCommand.ExecuteReader();
-            RegisterData FindedUser = new RegisterData();
+            UserModel FindedUser = new UserModel();
 
             if (reader.HasRows)
             {
                 reader.Read();
+                FindedUser.Id = (int)reader.GetValue(0);
                 FindedUser.Nick = (string)reader.GetValue(1);
                 FindedUser.FirstName = (string)reader.GetValue(2);
                 FindedUser.SecondName = (string)reader.GetValue(3);

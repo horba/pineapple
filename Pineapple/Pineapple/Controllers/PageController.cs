@@ -16,7 +16,7 @@ namespace Pineapple.Controllers
         {
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                RegisterData user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
                     return View("~/Views/UserPage/UserPage.cshtml");
