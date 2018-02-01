@@ -85,7 +85,7 @@ namespace Pineapple.Services
             if (reader.HasRows)
             {
                 reader.Read();
-                FindedUser.Id = (int)reader.GetValue(0);
+                FindedUser.Id = Convert.ToInt32(reader.GetValue(0));
                 FindedUser.Nick = (string)reader.GetValue(1);
                 FindedUser.FirstName = (string)reader.GetValue(2);
                 FindedUser.SecondName = (string)reader.GetValue(3);

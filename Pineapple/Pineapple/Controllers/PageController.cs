@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Pineapple.Services;
 using Pineapple.Model;
+using Pineapple.DBServices;
+using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
@@ -16,10 +17,22 @@ namespace Pineapple.Controllers
         {
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    return View("~/Views/UserPage/UserPage.cshtml");
+                    FollowService fs = new FollowService();
+                    int currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+
+                    List<UserModel> lastRegisteredUsers = new UsersController().Get(10);
+
+                    for (int i = 0; i < lastRegisteredUsers.Count; i++)
+                    {
+                        if (lastRegisteredUsers[i].Id == currentUser) 
+                        {
+                            lastRegisteredUsers.Remove(lastRegisteredUsers[i]);
+                        }
+                        lastRegisteredUsers[i].Status = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id).ToString();
+                    }
+                    return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);                 
                 }
                 else
                 {
