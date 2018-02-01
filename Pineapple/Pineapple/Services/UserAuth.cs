@@ -72,10 +72,10 @@ namespace Pineapple.Services
             }
         }
 
-        public static RegisterData GetUserBySession(string sessionId)
+        public static UserModel GetUserBySession(string sessionId)
         {
             DBconnection.ConnectionOpen();
-            RegisterData FindedUser = new RegisterData();
+            UserModel FindedUser = new UserModel();
             SqlCommand sqlCommand = new SqlCommand
             {
                 CommandText = string.Format("SELECT * FROM Sessions WHERE session_id = '{0}'", sessionId),
