@@ -56,8 +56,35 @@ namespace Pineapple.DBServices
             return result;
         }
 
-        public string CheckUserNick(string nick) {
+        public List<UserModel> GetLastRegisteredUsers(int count)
+        {
 
+            List<UserModel> users = new List<UserModel>();
+
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand("SELECT TOP "+count+" Nick, Id FROM dbo.Users ORDER BY RegistrationDate DESC", DBconnection.myConnection);
+                myReader = myCommand.ExecuteReader();
+
+                while (myReader.Read())
+                {
+                    users.Add(new UserModel() { Id = Convert.ToInt32(myReader["Id"]), Nick = myReader["Nick"].ToString(), Status = "false" });
+                }
+            }
+            catch (Exception e)
+            {
+                users.Add(new UserModel() { Id = 0, Nick = e.Message, Status = "false"});
+            }
+
+            DBconnection.ConnectionClose();
+
+            return users;
+        }
+
+        public string CheckUserNick(string nick)
+        {
             string status = "true";
 
             if (nick.Length > 50)
@@ -66,7 +93,8 @@ namespace Pineapple.DBServices
                 return status;
             }
 
-            if (!Regex.IsMatch(nick, "^[A-Za-z0-9_]{1,}$")) {
+            if (!Regex.IsMatch(nick, "^[A-Za-z0-9_]{1,}$"))
+            {
                 status = "Use latin, numbers and underscore";
                 return status;
             }
@@ -79,11 +107,13 @@ namespace Pineapple.DBServices
 
                 int count = Convert.ToInt32(myCommand.ExecuteScalar());
 
-                if (count != 0) {
+                if (count != 0)
+                {
                     status = "This nickname already exist";
                 }
             }
-            catch(Exception e) {
+            catch (Exception e)
+            {
                 status = e.ToString();
             }
             DBconnection.ConnectionClose();
@@ -129,10 +159,12 @@ namespace Pineapple.DBServices
             return status;
         }
 
-        public string CheckUserFirstName(string firstName) {
+        public string CheckUserFirstName(string firstName)
+        {
             string status = "true";
 
-            if (firstName == "") {
+            if (firstName == "")
+            {
                 return status;
             }
 
@@ -173,10 +205,12 @@ namespace Pineapple.DBServices
             return status;
         }
 
-        public string CheckUserPassword(string password) {
+        public string CheckUserPassword(string password)
+        {
             string status = "true";
 
-            if (password.Length < 8) {
+            if (password.Length < 8)
+            {
                 status = "Short password";
             }
 
@@ -194,20 +228,21 @@ namespace Pineapple.DBServices
 
             return status;
         }
-
-        public string RegisterUser(UserModel data) {
-
+        
+        public string RegisterUser(UserModel data)
+        {
             string status = "true";
 
             DBconnection.ConnectionOpen();
             try
             {
-                SqlCommand myCommand = new SqlCommand("INSERT INTO dbo.Users (Nick, FirstName, SecondName, Email, Password) VALUES (@Nick, @FirstName, @SecondName, @Email, @Password)", DBconnection.myConnection);
-                SqlParameter Nick = myCommand.Parameters.AddWithValue("@Nick", data.Nick);
-                SqlParameter FirstName = myCommand.Parameters.AddWithValue("@FirstName", data.FirstName);
-                SqlParameter SecondName = myCommand.Parameters.AddWithValue("@SecondName", data.SecondName);
-                SqlParameter Email = myCommand.Parameters.AddWithValue("@Email", data.Email);
-                SqlParameter Password = myCommand.Parameters.AddWithValue("@Password", CreateMD5(data.Password));
+                SqlCommand myCommand = new SqlCommand("INSERT INTO dbo.Users (Nick, FirstName, SecondName, Email, Password, RegistrationDate) VALUES (@Nick, @FirstName, @SecondName, @Email, @Password, @Date)", DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@Nick", data.Nick);
+                myCommand.Parameters.AddWithValue("@FirstName", data.FirstName);
+                myCommand.Parameters.AddWithValue("@SecondName", data.SecondName);
+                myCommand.Parameters.AddWithValue("@Email", data.Email);
+                myCommand.Parameters.AddWithValue("@Password", CreateMD5(data.Password));
+                myCommand.Parameters.AddWithValue("@Date", DateTime.UtcNow);
 
                 myCommand.ExecuteNonQuery();
             }

@@ -7,32 +7,37 @@ using System.Collections;
 using Pineapple.Model;
 using System.Data;
 
-
 namespace Pineapple.DBServices
 {
-    public class FollowService
+    public class FollowService : IFollowService
     {
 
-        public void AddFollow(int currentUser, int targetUser)
+        public bool AddFollow(int currentUser, int targetUser)
         {
+            bool status = true;
+
             DBconnection.ConnectionOpen();
             try
             {
                 SqlCommand myCommand = new SqlCommand(
                     "INSERT INTO dbo.Followers (CurrentID, TargetID) VALUES (@ParamCurrent, @ParamTarget)",
                                                          DBconnection.myConnection);
-                SqlParameter ParamCurrent = myCommand.Parameters.AddWithValue("@ParamCurrent", currentUser);
-                SqlParameter ParamTarget = myCommand.Parameters.AddWithValue("@ParamTarget", targetUser);
+                myCommand.Parameters.AddWithValue("@ParamCurrent", currentUser);
+                myCommand.Parameters.AddWithValue("@ParamTarget", targetUser);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+
+                status = false;
             }
             DBconnection.ConnectionClose();
-        }
 
-        public List<FollowModel> GetAllFollows()
+            return status;
+        }
+        
+        public List<FollowModel> GetAllFollowers()
         {
             List<FollowModel> result = new List<FollowModel>();
             DBconnection.ConnectionOpen();

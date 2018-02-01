@@ -9,6 +9,21 @@
         <div class="medium-header">Home</div>
         <div class="medium-header">Search</div>
         <div class="medium-header">About</div>
+        <div class="users-container" id="users">
+            <p class="users-head">Last registered users</p>
+            @{
+                foreach (var user in Model)
+                {
+                    string status = user.Status == "True" ? "follow" : "";
+                    <div class='user-container'>
+                        <p class='user-nick'>@user.Nick</p>
+                        <div class='follow-button @status' data-id="@user.Id">
+                            <div class="fa fa-user user-icon"></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
     <div class="center-column">
         <div class="input-wrapper">
@@ -19,14 +34,14 @@
         <div class="output-wrapper">
             <div class="output" id="feed"></div>
         </div>
-        </div>
-        <div class="right-column">
-            <img class="avatar" src="img/avatar.png">
-            <div class="medium-header">
-                User Name
-            </div>
+    </div>
+    <div class="right-column">
+        <img class="avatar" src="img/avatar.png">
+        <div class="medium-header">
+            User Name
         </div>
     </div>
+</div>
 <footer>© 2018 Pineapple, Inc.</footer>
 <script>
     $(function () {
@@ -40,6 +55,28 @@
                     $feed.append("<div class=\"feed\">" + v + "</div>");
                 });
             });
+        });
+
+        $(".follow-button").click(function (e) {
+
+            var button = $(this);
+
+            if (!button.hasClass("load") && !button.hasClass("follow") && !button.hasClass("fail")) {
+                button.addClass("load");
+                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response == "true") {
+                        button.addClass("follow");
+                    } else { 
+                        button.addClass("fail");
+                        console.log(response);
+                    }
+                });
+            }
+        });
+
+        $.get("/api/auth", function (data) {
+            $("#UserName").text(data.nick);
         });
     });
 </script>
