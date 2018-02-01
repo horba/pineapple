@@ -27,8 +27,8 @@
     </div>
     <div class="center-column">
         <div class="input-wrapper">
-            <textarea rows="1" cols="1" class="textInput" placeholder="Write your tweet"></textarea>
-            <button class="button add-tweet">Add tweet</button>
+            <textarea rows="1" cols="1" class="textInput" placeholder="Write your tweet" id="TXTAREAAddTweet"></textarea>
+            <button class="button add-tweet" id="BTNAddTweet">Add tweet</button>
             <button class="button get-tweet" id="BTNGetTweets">Get tweets</button>
         </div>
         <div class="output-wrapper">
@@ -37,7 +37,7 @@
     </div>
     <div class="right-column">
         <img class="avatar" src="img/avatar.png">
-        <div class="medium-header">
+        <div class="medium-header" id="UserName">
             User Name
         </div>
     </div>
@@ -45,6 +45,10 @@
 <footer>© 2018 Pineapple, Inc.</footer>
 <script>
     $(function () {
+        $("#BTNAddTweet").click(function (e) {            
+            $.post("/api/tweets", { value: $("#TXTAREAAddTweet").val()});
+        });
+
         $("#BTNGetTweets").click(function (e) {
             e.preventDefault();
             $.get("/api/tweets").done(function (data) {
@@ -79,4 +83,5 @@
             $("#UserName").text(data.nick);
         });
     });
+
 </script>

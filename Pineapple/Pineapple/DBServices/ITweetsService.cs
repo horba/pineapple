@@ -9,9 +9,9 @@ namespace Pineapple.DBServices
 {
     interface ITweetsService{
         void AddTweet(string tweet);
-        List<Tweet> GetLimitTweets(int limit);
-        List<Tweet> GetAllTweets();
-        Tweet GetTweetById(int id);
+        List<TweetModel> GetLimitTweets(int limit);
+        List<TweetModel> GetAllTweets();
+        TweetModel GetTweetById(int id);
         void ChangeTweet(int id, string tweet);
         void DeleteTweet(int id);
     }

@@ -18,7 +18,7 @@ namespace DBMigration
             {
                 return "user id=;" +
                        "password=;" +
-                       "Data Source = DESKTOP-U397L7T\\SQLEXPRESS;" +
+                       "Data Source = DESKTOP-9RLB0GR;" +
                        "Trusted_Connection=yes;" +
                        "database=Pineapple; " +
                        "connection timeout=3";
