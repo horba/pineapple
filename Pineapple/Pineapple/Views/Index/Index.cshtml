@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/registerForm.css">
     <link rel="stylesheet" type="text/css" href="css/loadAnimation.css">
     <link rel="stylesheet" type="text/css" href="css/loadLogo.css">
+    <link rel="stylesheet" type="text/css" href="Fonts/font-awesome/css/font-awesome.css">
 </head>
 <body>
     <div id="logo" class="load-logo">
@@ -40,10 +41,162 @@
         </div>
         <p>Loading...</p>
     </div>
+    <button class="get-tweet" id="BTNGetTweets">Get tweets</button>
+    <textarea rows="1" cols="1" class="textInput" id="TXTAREAAddTweet"></textarea>
+    <button class="add-tweet" id="BTNAddTweet">Add tweet</button>
+
+    <div id="modal_form">
+        <div class="form-control">
+            <input type="text" name="login" id="username" tabindex="1" placeholder="Login">
+        </div>
+        <div class="form-control">
+            <input type="text" name="password" id="password" tabindex="2" placeholder="Password">
+        </div>
+        <div>
+            <input class="login" id="login1" type="button" value="Login" />
+        </div>
+        <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
+        <!-- Тут любoе сoдержимoе -->
     <div id="pageContainer">
     </div>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script>
+
+        $(function () {
+            $("#BTNGetTweets").click(function (e) {
+                e.preventDefault();
+                $.get("/api/tweets").done(function (data) {
+                    let values = data;
+                    let $feed = $("#feed");
+                    $feed.html("");
+                    values.forEach(function (v) {
+                        $feed.append("<div class=\"feed\">" + v + "</div>");
+                    });
+                });
+            });
+            
+             $(function () {
+            $("#BTNAddTweet").click(function (e) {
+                $.post("/api/tweets", { value: $("#TXTAREAAddTweet").val()});
+            });
+
+
+            $("#SignUp").click(function (e) {
+                $("#blackout-register").removeClass("hidden");
+                $("#blackout-register").addClass("active");
+            });
+
+            $("#blackout-close-register").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
+            });
+            $("#register-cancel").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
+            });
+
+            $("#registerForm").submit(function (e) {
+
+                var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
+                var data = $("#registerForm").serialize();
+
+                $(".input-area").removeClass("right wrong");
+                $(".error-info").text("");
+
+                $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
+
+                $.post("/api/user/register", data, function (response) {
+
+                    var error = document.getElementsByClassName("error-info");
+
+                    if (response.nick == "true") {
+                        $("#Nick").addClass("right");
+                    } else {
+                        $("#Nick").addClass("wrong");
+                        error[0].innerHTML = response.nick;
+                    }
+
+                    if (response.firstName == "true") {
+                        $("#Name").addClass("right");
+                    } else {
+                        $("#Name").addClass("wrong");
+                        error[1].innerHTML = response.firstName;
+                    }
+
+                    if (response.secondName == "true") {
+                        $("#SName").addClass("right");
+                    } else {
+                        $("#SName").addClass("wrong");
+                        error[2].innerHTML = response.secondName;
+                    }
+
+                    if (response.email == "true") {
+                        $("#EMail").addClass("right");
+                    } else {
+                        $("#EMail").addClass("wrong");
+                        error[3].innerHTML = response.email;
+                    }
+
+                    if (response.password == "true") {
+                        $("#Pass").addClass("right");
+                    } else {
+                        $("#Pass").addClass("wrong");
+                        error[4].innerHTML = response.password;
+                    }
+
+                    if (response.rPassword == "true") {
+                        $("#RPass").addClass("right");
+                    } else {
+                        $("#RPass").addClass("wrong");
+                        error[5].innerHTML = response.rPassword;
+                    }
+
+                    if (response.status != null) {
+
+                        if (response.status == "true") {
+                            $("#messageHead").html("Successful registration");
+                            $("#message").html("You have been successfully registered.");
+                        } else {
+                            $("#messageHead").html("Someone is wrong");
+                            $("#message").html(response.status);
+                        }
+
+                        $("#blackout-register").removeClass("active");
+                        setTimeout(function () {
+                            $("#blackout-register").addClass("hidden");
+                            $("#blackout-message").removeClass("hidden");
+                            $("#blackout-message").addClass("active");
+
+                            $(".input-area").removeClass("right wrong");
+                            $(".error-info").text("");
+                        }, 600);
+                    }
+                    $("#loadRegButton").html('');
+
+                }, "json");
+
+                return false;
+            });
+
+            $(".input-area").focus(function (e) {
+                $(this).removeClass("right wrong");
+                document.getElementsByClassName("error-info")[$(this).index() / 2 - 1].innerHTML = "";
+            });
+
+            $("#blackout-close-message").click(function (e) {
+                $("#blackout-message").removeClass("active");
+                setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
+            });
+        });
+
         $(document).ready(function () {
             $.get("/Page", function (response) {
                 $("#pageContainer").html(response);

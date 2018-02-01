@@ -61,6 +61,9 @@
     <Compile Include="IMigration.cs" />
     <Compile Include="Migrations\201801111704.cs" />
     <Compile Include="Migrations\201802011728.cs" />
+    <Compile Include="Migrations\201801241250.cs" />
+    <Compile Include="Migrations\201801251308.cs" />
+    <Compile Include="Migrations\201801242320.cs" />
     <Compile Include="Migrations\Example.cs" />
     <Compile Include="Migrator.cs" />
     <Compile Include="Program.cs" />

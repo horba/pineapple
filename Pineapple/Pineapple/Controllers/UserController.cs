@@ -9,17 +9,17 @@ using Pineapple.Model;
 namespace Pineapple.Controllers
 {
     [Route("api/[controller]")]
-    public class RegisterController : Controller
+    public class UserController : Controller
     {
         // POST
-        [HttpPost]
-        public RegisterData Post(RegisterData data)
+        [HttpPost("register")]
+        public UserModel Post(UserModel data)
         {
             data.Email = data.Email.ToLower();
             data.FirstName = data.FirstName == null ? "" : data.FirstName;
             data.SecondName = data.SecondName == null ? "" : data.SecondName;
 
-            RegisterData response = new RegisterData();
+            UserModel response = new UserModel();
             UserService user = new UserService();
 
             response.Nick = user.CheckUserNick(data.Nick);
@@ -36,6 +36,29 @@ namespace Pineapple.Controllers
             }
 
             return response;
+        }
+
+        // GET api/values
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            UserService modelReader = new UserService();
+            List<UserModel> allUsers = modelReader.GetAllUsers();
+            List<string> stringUsers = new List<string>();
+            foreach (UserModel user in allUsers)
+            {
+                stringUsers.Add(user.ToStringWithoutPassword());
+            }
+            return stringUsers;
+        }
+
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            UserService modelReader = new UserService();
+            UserModel user = modelReader.GetUserById(id);
+            return user.ToStringWithoutPassword();
         }
     }
 }
