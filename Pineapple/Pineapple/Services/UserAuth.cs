@@ -15,7 +15,7 @@ namespace Pineapple.Services
             DBconnection.ConnectionOpen();
             SqlCommand myCommand = new SqlCommand("SELECT * FROM Users WHERE Nick = @ParamNick AND Password = @ParamPass",DBconnection.myConnection);
             SqlParameter parameter = myCommand.Parameters.AddWithValue("@ParamNick",loginModel.name);
-            SqlParameter ParamPass = myCommand.Parameters.AddWithValue("@ParamPass", loginModel.password);
+            SqlParameter ParamPass = myCommand.Parameters.AddWithValue("@ParamPass", UserService.CreateMD5(loginModel.password));
             SqlDataReader myDataReader = myCommand.ExecuteReader();
             object id = null, nick = null;
             if (myDataReader.HasRows)
@@ -32,12 +32,23 @@ namespace Pineapple.Services
                 return new List<string>() { "ban", "Invalid Login or Password" };
             }
             myDataReader.Close();
-            myCommand = new SqlCommand("INSERT INTO Sessions (session_id,user_id) VALUES (@ParamSession,@ParamUser)",DBconnection.myConnection);
-            SqlParameter session = myCommand.Parameters.AddWithValue("@ParamSession", nick.GetHashCode());
+            myCommand = new SqlCommand("INSERT INTO Sessions (user_id) VALUES (@ParamUser)",DBconnection.myConnection);
             SqlParameter user = myCommand.Parameters.AddWithValue("@ParamUser", (int)id);
             myCommand.ExecuteNonQuery();
+
+            myCommand.CommandText = "SELECT * FROM Sessions WHERE user_id = @ParamUser";
+            myDataReader = myCommand.ExecuteReader();
+            int CurrentSesion = 0;
+            if (myDataReader.HasRows)
+            {
+                while (myDataReader.Read())
+                {
+                    CurrentSesion = (int)myDataReader.GetValue(0);
+                }
+            }
+
             DBconnection.ConnectionClose();
-            return new List<string>() { "accept", "null",nick.GetHashCode().ToString() };
+            return new List<string>() { "accept", "null",CurrentSesion.ToString() };
         }
 
         public static bool CheckUserSession(string SessionId)
@@ -64,15 +75,25 @@ namespace Pineapple.Services
         public static UserModel GetUserBySession(string sessionId)
         {
             DBconnection.ConnectionOpen();
+            UserModel FindedUser = new UserModel();
             SqlCommand sqlCommand = new SqlCommand
             {
                 CommandText = string.Format("SELECT * FROM Sessions WHERE session_id = '{0}'", sessionId),
                 Connection = DBconnection.myConnection
             };
             SqlDataReader reader = sqlCommand.ExecuteReader();
-            reader.Read();
-            int userid = (int)reader.GetValue(1);
-            reader.Close();
+            int userid = 0;
+            if (reader.HasRows)
+            {
+                reader.Read();
+                userid = (int)reader.GetValue(1);
+                reader.Close();
+            }
+            else
+            {
+                FindedUser.Status = "NOT FIND";
+                return FindedUser;
+            }
 
             sqlCommand = new SqlCommand
             {
@@ -80,12 +101,11 @@ namespace Pineapple.Services
                 Connection = DBconnection.myConnection
             };
             reader = sqlCommand.ExecuteReader();
-            UserModel FindedUser = new UserModel();
 
             if (reader.HasRows)
             {
                 reader.Read();
-                FindedUser.Id = Convert.ToInt32(reader.GetValue(0));
+                FindedUser.Id = (int)reader.GetValue(0);
                 FindedUser.Nick = (string)reader.GetValue(1);
                 FindedUser.FirstName = (string)reader.GetValue(2);
                 FindedUser.SecondName = (string)reader.GetValue(3);
