@@ -6,8 +6,8 @@ using Pineapple.Model;
 
 namespace Pineapple.Services
 {
-    public interface IUserLogin
+    public interface IUserAuth
     {
-        LoginResponseModel Login(LoginModel loginModel);
+        IEnumerable<string> Login(LoginModel loginModel);
     }
 }
