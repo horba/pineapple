@@ -75,6 +75,7 @@ namespace Pineapple.Services
         public static RegisterData GetUserBySession(string sessionId)
         {
             DBconnection.ConnectionOpen();
+            RegisterData FindedUser = new RegisterData();
             SqlCommand sqlCommand = new SqlCommand
             {
                 CommandText = string.Format("SELECT * FROM Sessions WHERE session_id = '{0}'", sessionId),
@@ -90,7 +91,8 @@ namespace Pineapple.Services
             }
             else
             {
-
+                FindedUser.Status = "NOT FIND";
+                return FindedUser;
             }
 
             sqlCommand = new SqlCommand
@@ -99,7 +101,6 @@ namespace Pineapple.Services
                 Connection = DBconnection.myConnection
             };
             reader = sqlCommand.ExecuteReader();
-            RegisterData FindedUser = new RegisterData();
 
             if (reader.HasRows)
             {
