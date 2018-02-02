@@ -60,6 +60,7 @@
     <Compile Include="DBconnection.cs" />
     <Compile Include="IMigration.cs" />
     <Compile Include="Migrations\201801111704.cs" />
+    <Compile Include="Migrations\201802022100.cs" />
     <Compile Include="Migrations\201802011728.cs" />
     <Compile Include="Migrations\201801241250.cs" />
     <Compile Include="Migrations\201801251308.cs" />
