@@ -26,7 +26,7 @@ namespace Pineapple.DBServices
                 SqlParameter ParamText = myCommand.Parameters.Add("@ParamText", SqlDbType.VarChar, 50);
                 ParamText.Value = tweet;
                 SqlParameter ParamDate = myCommand.Parameters.Add("@ParamDate", SqlDbType.DateTime);
-                ParamDate.Value = DateTime.Now;
+                ParamDate.Value = DateTime.UtcNow;
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
