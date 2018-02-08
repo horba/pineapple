@@ -15,12 +15,11 @@
     z-index: 5;
 }
 
-.hidden {
+.blackout.hidden {
     display: none;
 }
 
-.active {
-    display: flex;
+.blackout.active {
     opacity: 1;
     -webkit-animation: fade_in .6s;
     -moz-animation: fade_in .6s;

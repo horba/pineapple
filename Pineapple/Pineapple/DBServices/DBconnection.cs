@@ -18,7 +18,7 @@ namespace Pineapple.DBServices
             {
                 return "user id=;" +
                        "password=;" +
-                       "Data Source= DESKTOP-9RLB0GR;" +
+                       "Data Source= DESKTOP-U397L7T\\SQLEXPRESS;" +
                        "Trusted_Connection=yes;" +
                        "database=Pineapple; " +
                        "connection timeout=3";

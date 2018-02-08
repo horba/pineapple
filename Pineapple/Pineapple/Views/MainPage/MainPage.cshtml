@@ -13,10 +13,10 @@
     <button class="blackout-close" id="blackout-close-login"></button>
     <form class="modal-window" id="loginForm">
         <p>Autorization</p>
-        <label for="Nick" class="form-label">Nickname*</label>
-        <input type="text" name="nick" class="input-area" placeholder="Type your nickname" required />
-        <label for="Pass" class="form-label">Password*</label>
-        <input type="password" name="password" class="input-area" placeholder="Type your password" required />
+        <label for="loginNickname" class="form-label">Nickname*</label>
+        <input type="text" name="nickname" class="input-area" id="loginNickname" placeholder="Type your nickname" required />
+        <label for="loginPass" class="form-label">Password*</label>
+        <input type="password" name="password" class="input-area" id="loginPass" placeholder="Type your password" required />
         <div class="login-error" id="loginError"></div>
         <div class="login-button-wrapper">
             <div class="login-button">
@@ -32,20 +32,20 @@
     <form class="modal-window" id="registerForm">
         <p>Registration</p>
         <div class="info-container">
-            <label for="Nick" class="form-label">Nickname*</label>
+            <label for="Nickname" class="form-label">Nickname*</label>
             <div class="error-info"></div>
         </div>
-        <input type="text" name="nick" class="input-area" id="Nick" placeholder="Type your nickname" required />
+        <input type="text" name="nickname" class="input-area" id="Nickname" placeholder="Type your nickname" required />
         <div class="info-container">
             <label for="Name" class="form-label">First name</label>
             <div class="error-info"></div>
         </div>
-        <input type="text" name="firstName" class="input-area" id="Name" placeholder="Type your name" />
+        <input type="text" name="firstName" class="input-area" id="Name" placeholder="Type your first name" />
         <div class="info-container">
-            <label for="SName" class="form-label">Second name</label>
+            <label for="LName" class="form-label">Last name</label>
             <div class="error-info"></div>
         </div>
-        <input type="text" name="secondName" class="input-area" id="SName" placeholder="Type your second name" />
+        <input type="text" name="lastName" class="input-area" id="LName" placeholder="Type your last name" />
         <div class="info-container">
             <label for="EMail" class="form-label">E-Mail*</label>
             <div class="error-info"></div>
@@ -151,9 +151,9 @@
                     var error = document.getElementsByClassName("error-info");
 
                     if (response.nick == "true") {
-                        $("#Nick").addClass("right");
+                        $("#Nickname").addClass("right");
                     } else {
-                        $("#Nick").addClass("wrong");
+                        $("#Nickname").addClass("wrong");
                         error[0].innerHTML = response.nick;
                     }
 
@@ -165,9 +165,9 @@
                     }
 
                     if (response.secondName == "true") {
-                        $("#SName").addClass("right");
+                        $("#LName").addClass("right");
                     } else {
-                        $("#SName").addClass("wrong");
+                        $("#LName").addClass("wrong");
                         error[2].innerHTML = response.secondName;
                     }
 

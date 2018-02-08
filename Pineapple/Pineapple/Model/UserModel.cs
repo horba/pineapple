@@ -7,10 +7,10 @@ namespace Pineapple.Model
 {
     public class UserModel
     {
-        public UserModel(int id, string nick, string firstName, string secondName, string email, string password)
+        public UserModel(int id, string nickname, string firstName, string secondName, string email, string password)
         {
             Id = id;
-            Nick = nick;
+            Nickname = nickname;
             FirstName = firstName;
             SecondName = secondName;
             Email = email;
@@ -23,7 +23,7 @@ namespace Pineapple.Model
         }
 
         public int Id { get; set; }
-        public string Nick { get; set; }
+        public string Nickname { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string Email { get; set; }
@@ -33,12 +33,12 @@ namespace Pineapple.Model
 
         public override string ToString()
         {
-            return Id + " " + Nick + " " + FirstName + " "+ SecondName + " " + Email + " " + Password;
+            return Id + " " + Nickname + " " + FirstName + " "+ SecondName + " " + Email + " " + Password;
         }
 
         public string ToStringWithoutPassword()
         {
-            return Id + " " + Nick + " " + FirstName + " " + SecondName + " " + Email;
+            return Id + " " + Nickname + " " + FirstName + " " + SecondName + " " + Email;
         }
     }
 }

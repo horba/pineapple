@@ -15,7 +15,7 @@ namespace Pineapple.Services
             DBconnection.ConnectionOpen();
 
             int userId = 0;
-            string userNick = "";
+            string username = "";
             string sessionId = "";
 
             try
@@ -33,7 +33,7 @@ namespace Pineapple.Services
                     }
                     else {
                         userId = (int)myDataReader["Id"];
-                        userNick = (string)myDataReader["Nick"];
+                        username = (string)myDataReader["Nick"];
                     }
                 }
                 else
@@ -43,7 +43,7 @@ namespace Pineapple.Services
                 }
                 myDataReader.Close();
 
-                sessionId = UserService.CreateMD5(userNick + DateTime.Now.ToString());
+                sessionId = UserService.CreateMD5(username + DateTime.Now.ToString());
 
                 myCommand = new SqlCommand("INSERT INTO Sessions (user_id, session_id, date) VALUES (@ParamUser, @ParamSession, @ParamDate)",DBconnection.myConnection);
                 myCommand.Parameters.AddWithValue("@ParamUser", userId);
@@ -108,7 +108,7 @@ namespace Pineapple.Services
                 else
                 {
                     DBconnection.ConnectionClose();
-                    FindedUser.Status = "Not find";
+                    FindedUser.Status = "Not found";
                     return FindedUser;
                 }
 
@@ -122,7 +122,7 @@ namespace Pineapple.Services
                 if (reader.Read())
                 {
                     FindedUser.Id = (int)reader.GetValue(0);
-                    FindedUser.Nick = (string)reader.GetValue(1);
+                    FindedUser.Nickname = (string)reader.GetValue(1);
                     FindedUser.FirstName = (string)reader.GetValue(2);
                     FindedUser.SecondName = (string)reader.GetValue(3);
                     FindedUser.Email = (string)reader.GetValue(4);
