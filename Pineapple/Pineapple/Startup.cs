@@ -22,14 +22,13 @@ namespace Pineapple
         public Startup(IHostingEnvironment env)
         {
             log4net.Config.XmlConfigurator.Configure();
-            
-            LogUsing4net _Log = new LogUsing4net(); 
-            _Log.WriteWarning("Some text");
-            _Log.WriteInfo("Some text");
-            _Log.WriteFatal("Some text");
-            _Log.WriteDebug("Some text");
-            _Log.WriteError("Some text");
-             _Log.WriteDebugExp("Some text",new Exception("Exception"));
+
+            LogUsing4net.WriteWarning("Some text");
+            LogUsing4net.WriteInfo("Some text");
+            LogUsing4net.WriteFatal("Some text");
+            LogUsing4net.WriteDebug("Some text");
+            LogUsing4net.WriteError("Some text");
+            LogUsing4net.WriteDebugExp("Some text",new Exception("Exception"));
 
 
             var builder = new ConfigurationBuilder()
@@ -48,7 +47,6 @@ namespace Pineapple
             // Add framework services.
             services.AddMvc();
             services.AddTransient<IUserAuth, UserAuth>();
-            services.AddTransient<ILogG, LogUsing4net>();
 
         }
 

@@ -11,50 +11,47 @@ using log4net.Config;
 
 namespace Pineapple.Services
 {
-    public class LogUsing4net : ILogG
+    public class LogUsing4net
     {
 
-        private readonly log4net.ILog log;
-
-        public LogUsing4net() {this.log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-    }
-
-        public void WriteInfo(string text)
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
+        public static void  WriteInfo(string text)
         { log.Info(text); }
 
-        public void WriteError(string text)
+        public static void  WriteError(string text)
         { log.Error(text); }
 
-        public void WriteWarning(string text)
+        public static void  WriteWarning(string text)
         { log.Warn(text); }
 
-        public void WriteDebug(string text)
+        public static void  WriteDebug(string text)
         { log.Debug(text); }
 
-        public void WriteFatal(string text)
+        public static void  WriteFatal(string text)
         { log.Fatal(text); }
 
-        public void WriteInfoExp(string text, Exception e)
+        public static void  WriteInfoExp(string text, Exception e)
         {
             log.Info(text,e);
         }
 
-        public void WriteErrorExp(string text, Exception e)
+        public static void  WriteErrorExp(string text, Exception e)
         {
             log.Error(text, e);
         }
 
-        public void WriteWarningExp(string text, Exception e)
+        public static void  WriteWarningExp(string text, Exception e)
         {
             log.Warn(text, e);
         }
 
-        public void WriteDebugExp(string text, Exception e)
+        public static void  WriteDebugExp(string text, Exception e)
         {
             log.Debug(text, e);
         }
 
-        public void WriteFatalExp(string text, Exception e)
+        public static void  WriteFatalExp(string text, Exception e)
         {
             log.Fatal(text, e);
         }
