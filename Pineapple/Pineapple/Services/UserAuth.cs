@@ -10,7 +10,7 @@ namespace Pineapple.Services
 {
     public class UserAuth : IUserAuth
     {
-        public IEnumerable<string> Login(LoginModel loginModel)
+        public LoginResponseModel Login(LoginModel loginModel)
         {
             DBconnection.ConnectionOpen();
 
@@ -20,8 +20,8 @@ namespace Pineapple.Services
 
             try
             {
-                SqlCommand myCommand = new SqlCommand("SELECT * FROM Users WHERE Nick = @ParamNick", DBconnection.myConnection);
-                myCommand.Parameters.AddWithValue("@ParamNick", loginModel.Nick);
+                SqlCommand myCommand = new SqlCommand("SELECT * FROM Users WHERE Nick = @Nickname", DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@Nickname", loginModel.Nickname);
                 SqlDataReader myDataReader = myCommand.ExecuteReader();
                 
                 if (myDataReader.Read())
@@ -29,7 +29,7 @@ namespace Pineapple.Services
                     if (UserService.CreateMD5(loginModel.Password) != (string)myDataReader["Password"])
                     {
                         DBconnection.ConnectionClose();
-                        return new List<string>() { "false", "Invalide password" };
+                        return new LoginResponseModel (false, "", "Invalide password");
                     }
                     else {
                         userId = (int)myDataReader["Id"];
@@ -39,7 +39,7 @@ namespace Pineapple.Services
                 else
                 {
                     DBconnection.ConnectionClose();
-                    return new List<string>() { "false", "Invalide nickname" };
+                    return new LoginResponseModel(false, "", "Invalide nickname");
                 }
                 myDataReader.Close();
 
@@ -54,11 +54,11 @@ namespace Pineapple.Services
             catch (Exception e)
             {
                 DBconnection.ConnectionClose();
-                return new List<string>() { "false", e.Message };
+                return new LoginResponseModel(false, "", e.Message);
             }
             DBconnection.ConnectionClose();
 
-            return new List<string>() { "true", sessionId };
+            return new LoginResponseModel(true, sessionId, "");
         }
 
         public static bool CheckUserSession(string sessionId)
@@ -124,7 +124,7 @@ namespace Pineapple.Services
                     FindedUser.Id = (int)reader.GetValue(0);
                     FindedUser.Nickname = (string)reader.GetValue(1);
                     FindedUser.FirstName = (string)reader.GetValue(2);
-                    FindedUser.SecondName = (string)reader.GetValue(3);
+                    FindedUser.LastName = (string)reader.GetValue(3);
                     FindedUser.Email = (string)reader.GetValue(4);
                     FindedUser.Password = (string)reader.GetValue(5);
                 }

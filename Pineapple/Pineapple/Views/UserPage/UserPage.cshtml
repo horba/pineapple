@@ -16,7 +16,7 @@
                 {
                     string status = user.Status == "True" ? "follow" : "";
                     <div class='user-container'>
-                        <p class='user-nick'>@user.Nick</p>
+                        <p class='user-nick'>@user.Nickname</p>
                         <div class='follow-button @status' data-id="@user.Id">
                             <div class="fa fa-user user-icon"></div>
                         </div>
@@ -80,7 +80,7 @@
         });
 
         $.get("/api/auth", function (data) {
-            $("#UserName").text(data.nick);
+            $("#UserName").text(data.nickname);
         });
     });
 

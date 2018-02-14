@@ -70,12 +70,12 @@ namespace Pineapple.DBServices
 
                 while (myReader.Read())
                 {
-                    users.Add(new UserModel() { Id = Convert.ToInt32(myReader["Id"]), Nick = myReader["Nick"].ToString(), Status = "false" });
+                    users.Add(new UserModel() { Id = Convert.ToInt32(myReader["Id"]), Nickname = myReader["Nick"].ToString(), Status = "false" });
                 }
             }
             catch (Exception e)
             {
-                users.Add(new UserModel() { Id = 0, Nick = e.Message, Status = "false"});
+                users.Add(new UserModel() { Id = 0, Nickname = e.Message, Status = "false"});
             }
 
             DBconnection.ConnectionClose();
@@ -83,17 +83,17 @@ namespace Pineapple.DBServices
             return users;
         }
 
-        public string CheckUserNick(string nick)
+        public string CheckUserNick(string nickname)
         {
             string status = "true";
 
-            if (nick.Length > 50)
+            if (nickname.Length > 50)
             {
                 status = "Long nickname";
                 return status;
             }
 
-            if (!Regex.IsMatch(nick, "^[A-Za-z0-9_]{1,}$"))
+            if (!Regex.IsMatch(nickname, "^[A-Za-z0-9_]{1,}$"))
             {
                 status = "Use latin, numbers and underscore";
                 return status;
@@ -102,8 +102,8 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionOpen();
             try
             {
-                SqlCommand myCommand = new SqlCommand("SELECT count(*) FROM dbo.Users WHERE Nick = @ParamNick", DBconnection.myConnection);
-                SqlParameter ParamNick = myCommand.Parameters.AddWithValue("@ParamNick", nick);
+                SqlCommand myCommand = new SqlCommand("SELECT count(*) FROM dbo.Users WHERE Nick = @Nickname", DBconnection.myConnection);
+                SqlParameter ParamNick = myCommand.Parameters.AddWithValue("@Nickname", nickname);
 
                 int count = Convert.ToInt32(myCommand.ExecuteScalar());
 
@@ -236,10 +236,10 @@ namespace Pineapple.DBServices
             DBconnection.ConnectionOpen();
             try
             {
-                SqlCommand myCommand = new SqlCommand("INSERT INTO dbo.Users (Nick, FirstName, SecondName, Email, Password, RegistrationDate) VALUES (@Nick, @FirstName, @SecondName, @Email, @Password, @Date)", DBconnection.myConnection);
-                myCommand.Parameters.AddWithValue("@Nick", data.Nick);
+                SqlCommand myCommand = new SqlCommand("INSERT INTO dbo.Users (Nick, FirstName, SecondName, Email, Password, RegistrationDate) VALUES (@Nickname, @FirstName, @LastName, @Email, @Password, @Date)", DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@Nickname", data.Nickname);
                 myCommand.Parameters.AddWithValue("@FirstName", data.FirstName);
-                myCommand.Parameters.AddWithValue("@SecondName", data.SecondName);
+                myCommand.Parameters.AddWithValue("@LastName", data.LastName);
                 myCommand.Parameters.AddWithValue("@Email", data.Email);
                 myCommand.Parameters.AddWithValue("@Password", CreateMD5(data.Password));
                 myCommand.Parameters.AddWithValue("@Date", DateTime.UtcNow);

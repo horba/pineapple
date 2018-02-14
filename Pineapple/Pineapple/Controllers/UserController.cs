@@ -17,19 +17,19 @@ namespace Pineapple.Controllers
         {
             data.Email = data.Email.ToLower();
             data.FirstName = data.FirstName == null ? "" : data.FirstName;
-            data.SecondName = data.SecondName == null ? "" : data.SecondName;
+            data.LastName = data.LastName == null ? "" : data.LastName;
 
             UserModel response = new UserModel();
             UserService user = new UserService();
 
-            response.Nick = user.CheckUserNick(data.Nick);
+            response.Nickname = user.CheckUserNick(data.Nickname);
             response.Email = user.CheckUserEmail(data.Email);
             response.FirstName = user.CheckUserFirstName(data.FirstName);
-            response.SecondName = user.CheckUserSecondName(data.SecondName);
+            response.LastName = user.CheckUserSecondName(data.LastName);
             response.Password = user.CheckUserPassword(data.Password);
             response.RPassword = user.CheckUserRPassword(data.Password, data.RPassword);
 
-            if (response.Nick == "true" && response.Email == "true" && response.FirstName == "true" && response.SecondName == "true" &&
+            if (response.Nickname == "true" && response.Email == "true" && response.FirstName == "true" && response.LastName == "true" &&
                 response.Password == "true" && response.RPassword == "true")
             {
                 response.Status = user.RegisterUser(data);

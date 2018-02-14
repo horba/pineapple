@@ -7,11 +7,13 @@ namespace Pineapple.Model
 {
     public class LoginResponseModel
     {
-        public string Status { get; set; }
+        public bool Status { get; set; }
+        public string SessionId { get; set; }
         public string Error { get; set; }
-        public LoginResponseModel(string status, string error)
+        public LoginResponseModel(bool status, string sessionId, string error)
         {
             Status = status;
+            SessionId = sessionId;
             Error = error;
         }
     }

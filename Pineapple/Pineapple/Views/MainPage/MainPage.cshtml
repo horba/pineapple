@@ -106,7 +106,7 @@
 
                     $("#loadLogButton").html('');
 
-                    if (response.status == "true") {
+                    if (response.status == true) {
                         $("#logo").removeClass("hidden");
                         $("#logo").removeClass("close");
                         $.get("/Page", function (resp) {
@@ -150,11 +150,11 @@
 
                     var error = document.getElementsByClassName("error-info");
 
-                    if (response.nick == "true") {
+                    if (response.nickname == "true") {
                         $("#Nickname").addClass("right");
                     } else {
                         $("#Nickname").addClass("wrong");
-                        error[0].innerHTML = response.nick;
+                        error[0].innerHTML = response.nickname;
                     }
 
                     if (response.firstName == "true") {
@@ -164,11 +164,11 @@
                         error[1].innerHTML = response.firstName;
                     }
 
-                    if (response.secondName == "true") {
+                    if (response.lastName == "true") {
                         $("#LName").addClass("right");
                     } else {
                         $("#LName").addClass("wrong");
-                        error[2].innerHTML = response.secondName;
+                        error[2].innerHTML = response.lastName;
                     }
 
                     if (response.email == "true") {

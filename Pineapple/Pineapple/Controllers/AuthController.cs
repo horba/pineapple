@@ -16,15 +16,15 @@ namespace Pineapple.Controllers
         {
             UserAuth UserLogin = new UserAuth();
 
-            List<string> response = UserLogin.Login(loginModel).ToList();
-            if (response[0] == "true")
+            LoginResponseModel response = UserLogin.Login(loginModel);
+            if (response.Status == true)
             {
-                Response.Cookies.Append("session_id", response[1]);
-                return new ObjectResult(new LoginResponseModel("true", ""));
+                Response.Cookies.Append("session_id", response.SessionId);
+                return new ObjectResult(new { status = true, error = "" });
             }
             else
             {
-                return new ObjectResult(new LoginResponseModel("false", response[1]));
+                return new ObjectResult(new { status = false, error = response.Error });
             }
         }
 
