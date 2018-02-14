@@ -72,12 +72,49 @@ namespace Pineapple.DBServices
                     TweetModel cortage = new TweetModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString(), Convert.ToInt32(myReader[fields[3]]));
                     result.Add(cortage);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());               
+            }
+            DBconnection.ConnectionClose();
+            return result;
+        }
 
+        public List<TweetModel> GetTweetsFromFeed(int idOfCurrentUser)
+        {
+            List<TweetModel> result = new List<TweetModel>();
+            FollowService followService = new FollowService();
+            List<FollowModel> SendersOfTweets = followService.GetFollowersByCurrentUser(idOfCurrentUser);
+            if (SendersOfTweets.Count == 0)
+            {
+                return null;
+            }
+            string SendersID = "";
+            for (int i = 0; i < SendersOfTweets.Count - 1; i++)
+            {
+                SendersID += SendersOfTweets[i].TargetUser + ", ";
+            }
+            SendersID += SendersOfTweets[SendersOfTweets.Count - 1].TargetUser;
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                DateTime timeLimit = DateTime.UtcNow;
+                timeLimit.AddDays(-2);
+                SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.Tweets WHERE idOfAuthor IN(" + SendersID + ") AND date > @ParamDate ORDER BY date DESC", DBconnection.myConnection);
+                SqlParameter ParamDate = myCommand.Parameters.AddWithValue("@ParamDate", timeLimit);
+                myReader = myCommand.ExecuteReader();
+                string[] fields = { "id", "date", "text", "idOfAuthor" };
+                while (myReader.Read())
+                {
+                    TweetModel cortage = new TweetModel(Convert.ToInt32(myReader[fields[0]]), Convert.ToDateTime(myReader[fields[1]]), myReader[fields[2]].ToString(), Convert.ToInt32(myReader[fields[3]]));
+                    result.Add(cortage);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-               
             }
             DBconnection.ConnectionClose();
             return result;

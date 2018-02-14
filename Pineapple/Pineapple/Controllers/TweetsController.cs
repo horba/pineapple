@@ -16,12 +16,19 @@ namespace Pineapple.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            TweetsService modelReader = new TweetsService();
-            List<TweetModel> allTweets = modelReader.GetAllTweets();
             List<string> stringTweets = new List<string>();
-            foreach (TweetModel tweet in allTweets)
+            TweetsService modelReader = new TweetsService();
+            if (Request.Cookies.ContainsKey("session_id"))
             {
-                stringTweets.Add(tweet.ToString());
+                int idOfCurrentUser = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                List<TweetModel> tweetsFromFeed = modelReader.GetTweetsFromFeed(idOfCurrentUser);
+                if (tweetsFromFeed != null)
+                {
+                    foreach (TweetModel tweet in tweetsFromFeed)
+                    {
+                        stringTweets.Add(tweet.ToString());
+                    }
+                }
             }
             return stringTweets;
         }
