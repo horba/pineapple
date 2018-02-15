@@ -11,6 +11,7 @@ namespace Pineapple.DBServices
         void AddTweet(string tweet);
         List<TweetModel> GetLimitTweets(int limit);
         List<TweetModel> GetAllTweets();
+        List<TweetModel> GetTweetsFromFeed(int idOfCurrentUser);
         TweetModel GetTweetById(int id);
         void ChangeTweet(int id, string tweet);
         void DeleteTweet(int id);
