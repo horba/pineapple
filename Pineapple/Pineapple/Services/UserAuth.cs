@@ -10,109 +10,132 @@ namespace Pineapple.Services
 {
     public class UserAuth : IUserAuth
     {
-        public IEnumerable<string> Login(LoginModel loginModel)
+        public LoginResponseModel Login(LoginModel loginModel)
         {
             DBconnection.ConnectionOpen();
-            SqlCommand myCommand = new SqlCommand("SELECT * FROM Users WHERE Nick = @ParamNick AND Password = @ParamPass",DBconnection.myConnection);
-            SqlParameter parameter = myCommand.Parameters.AddWithValue("@ParamNick",loginModel.name);
-            SqlParameter ParamPass = myCommand.Parameters.AddWithValue("@ParamPass", UserService.CreateMD5(loginModel.password));
-            SqlDataReader myDataReader = myCommand.ExecuteReader();
-            object id = null, nick = null;
-            if (myDataReader.HasRows)
+
+            int userId = 0;
+            string username = "";
+            string sessionId = "";
+
+            try
             {
-                while (myDataReader.Read())
+                SqlCommand myCommand = new SqlCommand("SELECT * FROM Users WHERE Nick = @Nickname", DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@Nickname", loginModel.Nickname);
+                SqlDataReader myDataReader = myCommand.ExecuteReader();
+                
+                if (myDataReader.Read())
                 {
-                    id = myDataReader.GetValue(0);
-                    nick = myDataReader.GetValue(1);
+                    if (UserService.CreateMD5(loginModel.Password) != (string)myDataReader["Password"])
+                    {
+                        DBconnection.ConnectionClose();
+                        return new LoginResponseModel (false, "", "Invalide password");
+                    }
+                    else {
+                        userId = (int)myDataReader["Id"];
+                        username = (string)myDataReader["Nick"];
+                    }
                 }
+                else
+                {
+                    DBconnection.ConnectionClose();
+                    return new LoginResponseModel(false, "", "Invalide nickname");
+                }
+                myDataReader.Close();
+
+                sessionId = UserService.CreateMD5(username + DateTime.Now.ToString());
+
+                myCommand = new SqlCommand("INSERT INTO Sessions (user_id, session_id, date) VALUES (@ParamUser, @ParamSession, @ParamDate)",DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@ParamUser", userId);
+                myCommand.Parameters.AddWithValue("@ParamSession", sessionId);
+                myCommand.Parameters.AddWithValue("@ParamDate", DateTime.UtcNow);
+                myCommand.ExecuteNonQuery();
             }
-            else
+            catch (Exception e)
             {
                 DBconnection.ConnectionClose();
-                return new List<string>() { "ban", "Invalid Login or Password" };
+                return new LoginResponseModel(false, "", e.Message);
             }
-            myDataReader.Close();
-            myCommand = new SqlCommand("INSERT INTO Sessions (user_id) VALUES (@ParamUser)",DBconnection.myConnection);
-            SqlParameter user = myCommand.Parameters.AddWithValue("@ParamUser", (int)id);
-            myCommand.ExecuteNonQuery();
-
-            myCommand.CommandText = "SELECT * FROM Sessions WHERE user_id = @ParamUser";
-            myDataReader = myCommand.ExecuteReader();
-            int CurrentSesion = 0;
-            if (myDataReader.HasRows)
-            {
-                while (myDataReader.Read())
-                {
-                    CurrentSesion = (int)myDataReader.GetValue(0);
-                }
-            }
-
             DBconnection.ConnectionClose();
-            return new List<string>() { "accept", "null",CurrentSesion.ToString() };
+
+            return new LoginResponseModel(true, sessionId, "");
         }
 
-        public static bool CheckUserSession(string SessionId)
+        public static bool CheckUserSession(string sessionId)
         {
+            bool status = false;
+
             DBconnection.ConnectionOpen();
-            SqlCommand sqlCommand = new SqlCommand
+            try
             {
-                CommandText = String.Format("SELECT COUNT(*) FROM Sessions WHERE session_id = '{0}'", SessionId),
-                Connection = DBconnection.myConnection
-            };
-            int count = Convert.ToInt32(sqlCommand.ExecuteScalar());
-            if(count == 1)
-            {
-                DBconnection.ConnectionClose();
-                return true;
+                SqlCommand sqlCommand = new SqlCommand
+                {
+                    CommandText = String.Format("SELECT COUNT(*) FROM Sessions WHERE session_id = '{0}'", sessionId),
+                    Connection = DBconnection.myConnection
+                };
+                int count = Convert.ToInt32(sqlCommand.ExecuteScalar());
+
+                status = count == 1 ? true : false;
             }
-            else
-            {
-                DBconnection.ConnectionClose();
-                return false;
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
             }
+            DBconnection.ConnectionClose();
+
+            return status;
         }
 
         public static UserModel GetUserBySession(string sessionId)
         {
-            DBconnection.ConnectionOpen();
             UserModel FindedUser = new UserModel();
-            SqlCommand sqlCommand = new SqlCommand
-            {
-                CommandText = string.Format("SELECT * FROM Sessions WHERE session_id = '{0}'", sessionId),
-                Connection = DBconnection.myConnection
-            };
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-            int userid = 0;
-            if (reader.HasRows)
-            {
-                reader.Read();
-                userid = (int)reader.GetValue(1);
-                reader.Close();
-            }
-            else
-            {
-                FindedUser.Status = "NOT FIND";
-                return FindedUser;
-            }
 
-            sqlCommand = new SqlCommand
+            DBconnection.ConnectionOpen();
+            try
             {
-                CommandText = String.Format("SELECT * FROM Users WHERE Id = '{0}'",userid),
-                Connection = DBconnection.myConnection
-            };
-            reader = sqlCommand.ExecuteReader();
+                SqlCommand sqlCommand = new SqlCommand
+                {
+                    CommandText = string.Format("SELECT * FROM Sessions WHERE session_id = '{0}'", sessionId),
+                    Connection = DBconnection.myConnection
+                };
+                SqlDataReader reader = sqlCommand.ExecuteReader();
 
-            if (reader.HasRows)
-            {
-                reader.Read();
-                FindedUser.Id = (int)reader.GetValue(0);
-                FindedUser.Nick = (string)reader.GetValue(1);
-                FindedUser.FirstName = (string)reader.GetValue(2);
-                FindedUser.SecondName = (string)reader.GetValue(3);
-                FindedUser.Email = (string)reader.GetValue(4);
-                FindedUser.Password = (string)reader.GetValue(5);
+                int userid = 0;
+                if (reader.Read())
+                {
+                    userid = (int)reader["user_id"];
+                    reader.Close();
+                }
+                else
+                {
+                    DBconnection.ConnectionClose();
+                    FindedUser.Status = "Not found";
+                    return FindedUser;
+                }
+
+                sqlCommand = new SqlCommand
+                {
+                    CommandText = String.Format("SELECT * FROM Users WHERE Id = '{0}'", userid),
+                    Connection = DBconnection.myConnection
+                };
+                reader = sqlCommand.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    FindedUser.Id = (int)reader.GetValue(0);
+                    FindedUser.Nickname = (string)reader.GetValue(1);
+                    FindedUser.FirstName = (string)reader.GetValue(2);
+                    FindedUser.LastName = (string)reader.GetValue(3);
+                    FindedUser.Email = (string)reader.GetValue(4);
+                    FindedUser.Password = (string)reader.GetValue(5);
+                }
             }
-            
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                FindedUser.Status = "Error";
+            }
+            DBconnection.ConnectionClose();
+
             return FindedUser;
         }
     }

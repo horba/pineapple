@@ -4,106 +4,130 @@
         <div class="logo-header">  Pineapple</div>
     </div>
     <div>
-        <button class="button" id="login">Log in</button>
+        <button class="button" id="LogIn">Log in</button>
         <button class="button" id="SignUp">Sign up</button>
     </div>
 </header>
-
 <div class="info">You are on the our main page of Pineapple project — replica of twitter. Register, authorize and share the new around you!</div>
-
-<div id="modal_form">
-    <div class="form-control">
-        <input type="text" name="login" id="username" tabindex="1" placeholder="Login">
-    </div>
-    <div class="form-control">
-        <input type="text" name="password" id="password" tabindex="2" placeholder="Password">
-    </div>
-    <div>
-        <input class="login" id="LoginFormBtn" type="button" value="Login" />
-    </div>
-    <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
-    <!-- Тут любoе сoдержимoе -->
+<div class="blackout hidden" id="blackout-login">
+    <button class="blackout-close" id="blackout-close-login"></button>
+    <form class="modal-window" id="loginForm">
+        <p>Autorization</p>
+        <label for="loginNickname" class="form-label">Nickname*</label>
+        <input type="text" name="nickname" class="input-area" id="loginNickname" placeholder="Type your nickname" required />
+        <label for="loginPass" class="form-label">Password*</label>
+        <input type="password" name="password" class="input-area" id="loginPass" placeholder="Type your password" required />
+        <div class="login-error" id="loginError"></div>
+        <div class="login-button-wrapper">
+            <div class="login-button">
+                <input type="submit" class="button load-button" id="login-apply" value="Log in" />
+                <div id="loadLogButton"></div>
+            </div>
+            <input type="button" class="button login-button" id="login-cancel" value="Cancel" />
+        </div>
+    </form>
 </div>
-
-<div id="overlay"></div>
-
 <div class="blackout hidden" id="blackout-register">
     <button class="blackout-close" id="blackout-close-register"></button>
-    <div class="wrapper">
-        <div class="wrapper-two">
-            <form class="register-form" id="registerForm">
-                <p>Registration</p>
-                <div class="info-container">
-                    <label for="Nick" class="register-label">Nickname*</label>
-                    <div class="error-info"></div>
-                </div>
-                <input type="text" name="nick" class="input-area" id="Nick" placeholder="Type your nickname" required />
-                <div class="info-container">
-                    <label for="Name" class="register-label">First name</label>
-                    <div class="error-info"></div>
-                </div>
-                <input type="text" name="firstName" class="input-area" id="Name" placeholder="Type your name" />
-                <div class="info-container">
-                    <label for="SName" class="register-label">Second name</label>
-                    <div class="error-info"></div>
-                </div>
-                <input type="text" name="secondName" class="input-area" id="SName" placeholder="Type your second name" />
-                <div class="info-container">
-                    <label for="EMail" class="register-label">E-Mail*</label>
-                    <div class="error-info"></div>
-                </div>
-                <input type="email" name="email" class="input-area" id="EMail" placeholder="Type your e-Mail" required />
-                <div class="info-container">
-                    <label for="Pass" class="register-label">Password*</label>
-                    <div class="error-info"></div>
-                </div>
-                <input type="password" name="password" class="input-area" id="Pass" placeholder="Type your password" required />
-                <div class="info-container">
-                    <label for="RPass" class="register-label">Repeat password*</label>
-                    <div class="error-info"></div>
-                </div>
-                <input type="password" name="rPassword" class="input-area" id="RPass" placeholder="Repeat your password" required />
-
-                <div class="register-button-wrapper">
-                    <div class="register-button">
-                        <input type="submit" class="button load-button" id="register-apply" value="Sign up" />
-                        <div id="loadRegButton"></div>
-                    </div>
-                    <input type="button" class="button register-button" id="register-cancel" value="Cancel" />
-                </div>
-            </form>
+    <form class="modal-window" id="registerForm">
+        <p>Registration</p>
+        <div class="info-container">
+            <label for="Nickname" class="form-label">Nickname*</label>
+            <div class="error-info"></div>
         </div>
-    </div>
+        <input type="text" name="nickname" class="input-area" id="Nickname" placeholder="Type your nickname" required />
+        <div class="info-container">
+            <label for="Name" class="form-label">First name</label>
+            <div class="error-info"></div>
+        </div>
+        <input type="text" name="firstName" class="input-area" id="Name" placeholder="Type your first name" />
+        <div class="info-container">
+            <label for="LName" class="form-label">Last name</label>
+            <div class="error-info"></div>
+        </div>
+        <input type="text" name="lastName" class="input-area" id="LName" placeholder="Type your last name" />
+        <div class="info-container">
+            <label for="EMail" class="form-label">E-Mail*</label>
+            <div class="error-info"></div>
+        </div>
+        <input type="email" name="email" class="input-area" id="EMail" placeholder="Type your e-Mail" required />
+        <div class="info-container">
+            <label for="Pass" class="form-label">Password*</label>
+            <div class="error-info"></div>
+        </div>
+        <input type="password" name="password" class="input-area" id="Pass" placeholder="Type your password" required />
+        <div class="info-container">
+            <label for="RPass" class="form-label">Repeat password*</label>
+            <div class="error-info"></div>
+        </div>
+        <input type="password" name="rPassword" class="input-area" id="RPass" placeholder="Repeat your password" required />
+
+        <div class="register-button-wrapper">
+            <div class="register-button">
+                <input type="submit" class="button load-button" id="register-apply" value="Sign up" />
+                <div id="loadRegButton"></div>
+            </div>
+            <input type="button" class="button register-button" id="register-cancel" value="Cancel" />
+        </div>
+    </form>
 </div>
 <div class="blackout hidden" id="blackout-message">
     <button class="blackout-close" id="blackout-close-message"></button>
-    <div class="wrapper">
-        <div class="wrapper-two">
-            <div class="message-window">
-                <p id="messageHead"></p>
-                <p id="message"></p>
-            </div>
-        </div>
+    <div class="modal-window">
+        <p id="messageHead"></p>
+        <p id="message"></p>
     </div>
 </div>
 <footer>© 2018 Pineapple, Inc.</footer>
 <script>
         $(function () {
 
+            $('#LogIn').click(function (event) {
+                $("#blackout-login").removeClass("hidden");
+                $("#blackout-login").addClass("active");
+            });
+
+            $("#blackout-close-login, #login-cancel").click(function (e) {
+                $("#blackout-login").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-login").addClass("hidden");
+                    $("#loginError").html("");
+                }, 600);
+            });
+
+            $('#login-apply').click(function () {
+
+                var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
+                var data = $("#loginForm").serialize();
+
+                $("#loadLogButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
+
+                $.post("api/auth", data, function (response) {
+
+                    $("#loadLogButton").html('');
+
+                    if (response.status == true) {
+                        $("#logo").removeClass("hidden");
+                        $("#logo").removeClass("close");
+                        $.get("/Page", function (resp) {
+                            $("#pageContainer").html(resp);
+                            $("#logo").addClass("close");
+                            setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                        });
+                    } else {
+                        $("#loginError").html(response.error);
+                    }
+                });
+
+                return false;
+            });
+
             $("#SignUp").click(function (e) {
                 $("#blackout-register").removeClass("hidden");
                 $("#blackout-register").addClass("active");
             });
 
-            $("#blackout-close-register").click(function (e) {
-                $("#blackout-register").removeClass("active");
-                setTimeout(function () {
-                    $("#blackout-register").addClass("hidden");
-                    $(".input-area").removeClass("right wrong");
-                    $(".error-info").text("");
-                }, 600);
-            });
-            $("#register-cancel").click(function (e) {
+            $("#blackout-close-register, #register-cancel").click(function (e) {
                 $("#blackout-register").removeClass("active");
                 setTimeout(function () {
                     $("#blackout-register").addClass("hidden");
@@ -126,11 +150,11 @@
 
                     var error = document.getElementsByClassName("error-info");
 
-                    if (response.nick == "true") {
-                        $("#Nick").addClass("right");
+                    if (response.nickname == "true") {
+                        $("#Nickname").addClass("right");
                     } else {
-                        $("#Nick").addClass("wrong");
-                        error[0].innerHTML = response.nick;
+                        $("#Nickname").addClass("wrong");
+                        error[0].innerHTML = response.nickname;
                     }
 
                     if (response.firstName == "true") {
@@ -140,11 +164,11 @@
                         error[1].innerHTML = response.firstName;
                     }
 
-                    if (response.secondName == "true") {
-                        $("#SName").addClass("right");
+                    if (response.lastName == "true") {
+                        $("#LName").addClass("right");
                     } else {
-                        $("#SName").addClass("wrong");
-                        error[2].innerHTML = response.secondName;
+                        $("#LName").addClass("wrong");
+                        error[2].innerHTML = response.lastName;
                     }
 
                     if (response.email == "true") {
@@ -203,36 +227,6 @@
             $("#blackout-close-message").click(function (e) {
                 $("#blackout-message").removeClass("active");
                 setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
-            });
-        });
-
-        $(document).ready(function () {
-            $('#login').click(function (event) {
-                event.preventDefault();
-                $('#overlay').fadeIn(400,
-                    function () {
-                        $('#modal_form')
-                            .css('display', 'block')
-                            .animate({ opacity: 1, top: '50%' }, 200);
-                    });
-            });
-
-            $('#modal_close, #overlay').click(function () {
-                $('#modal_form')
-                    .animate({ opacity: 0, top: '45%' }, 200,
-                    function () {
-                        $(this).css('display', 'none');
-                        $('#overlay').fadeOut(400);
-                    });
-            });
-
-            $('#LoginFormBtn').click(function () {
-                var data = { name: $("#username").val(), password: $("#password").val() }
-                $.post("api/auth", data, function (model) {
-                    $.get("/Page", function (resp) { 
-                        $("#pageContainer").html(resp);
-                    });
-                });
             });
         });
 </script>

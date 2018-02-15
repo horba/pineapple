@@ -9,35 +9,29 @@ using Pineapple.Services;
 namespace Pineapple.Controllers
 {
     [Route("api/[controller]")]
-    public class AuthController :Controller
+    public class AuthController : Controller
     {
-        IUserAuth UserLogin;
-        public AuthController(IUserAuth userLogin)
-        {
-            UserLogin = userLogin;
-        }
         [HttpPost]
         public IActionResult Login(LoginModel loginModel)
         {
-            List<string> response = UserLogin.Login(loginModel).ToList();
-            if (response.Count == 3)
+            UserAuth UserLogin = new UserAuth();
+
+            LoginResponseModel response = UserLogin.Login(loginModel);
+            if (response.Status == true)
             {
-                Response.Cookies.Append("session_id", response[2]);
-                return new ObjectResult(new LoginResponseModel("accept", "null"));
+                Response.Cookies.Append("session_id", response.SessionId);
+                return new ObjectResult(new { status = true, error = "" });
             }
             else
             {
-                return new ObjectResult(new LoginResponseModel("ban", "Invalid Login or Password"));
+                return new ObjectResult(new { status = false, error = response.Error });
             }
         }
+
         [HttpGet]
         public IActionResult GetUser()
         {
             return new ObjectResult(UserAuth.GetUserBySession(Request.Cookies["session_id"]));
-        }
-        public IActionResult Register()
-        {
-            return new EmptyResult();
         }
     }
 }
