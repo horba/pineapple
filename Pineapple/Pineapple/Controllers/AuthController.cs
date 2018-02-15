@@ -28,6 +28,16 @@ namespace Pineapple.Controllers
             }
         }
 
+        [HttpPost("logout")]
+        public void Logout()
+        {
+            UserAuth UserLogin = new UserAuth();
+
+            //LoginResponseModel response = UserLogin.Logout();
+            Response.Cookies.Append("session_id", "");
+
+        }
+
         [HttpGet]
         public IActionResult GetUser()
         {
