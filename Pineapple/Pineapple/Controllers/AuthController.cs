@@ -32,10 +32,7 @@ namespace Pineapple.Controllers
         public void Logout()
         {
             UserAuth UserLogin = new UserAuth();
-
-            //LoginResponseModel response = UserLogin.Logout();
             Response.Cookies.Append("session_id", "");
-
         }
 
         [HttpGet]

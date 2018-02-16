@@ -3,9 +3,7 @@
         <img class="logo" src="img/Pineapple.png">
         <div class="logo-header">  Pineapple</div>
     </div>
-    <div class="logout">
         <button class="button logout" id="BTNLogout">Log out</button>
-    </div>
 </header>
 <div class="main">
     <div class="left-column">
@@ -56,7 +54,6 @@
             $("#logo").removeClass("hidden");
             $("#logo").removeClass("close");
             $.post("/api/auth/logout").done(function () {
-{ 
             $.get("/Page", function (response) {
                 $("#pageContainer").html(response);
                 $("#logo").addClass("close");
