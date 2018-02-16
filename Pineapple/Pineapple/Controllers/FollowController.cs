@@ -13,7 +13,7 @@ namespace Pineapple.Controllers
     public class FollowController : Controller
     {
         [HttpPost]
-        public string Post(int targetUser)
+        public string Follow(int targetUser)
         {
             int currentUser;
 
@@ -36,6 +36,39 @@ namespace Pineapple.Controllers
                     }
                     else {
                         return "Already follow";
+                    }
+                }
+            }
+
+            return "Not logged in";
+        }
+
+        [HttpPost, Route("unfollow")]
+        public string Unfollow(int targetUser) {
+            int currentUser;
+
+            FollowService fs = new FollowService();
+
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+
+                    if (fs.CheckFollow(currentUser, targetUser))
+                    {
+                        if (fs.DeleteFollow(currentUser, targetUser))
+                        {
+                            return "true";
+                        }
+                        else
+                        {
+                            return "Something is wrong. Try again later.";
+                        }
+                    }
+                    else
+                    {
+                        return "Already unfollow";
                     }
                 }
             }
