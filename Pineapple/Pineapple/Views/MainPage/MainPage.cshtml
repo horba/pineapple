@@ -194,10 +194,14 @@
 
                     if (response.status != null) {
 
-                        if (response.status == "true") {
+                        if (response.status == "true")
+                        {
                             $("#messageHead").html("Successful registration");
                             $("#message").html("You have been successfully registered.");
-                        } else {
+                           
+                        }
+                        else
+                        {
                             $("#messageHead").html("Someone is wrong");
                             $("#message").html(response.status);
                         }
@@ -226,7 +230,19 @@
 
             $("#blackout-close-message").click(function (e) {
                 $("#blackout-message").removeClass("active");
-                setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
+                setTimeout(function () {
+                    $("#blackout-message").addClass("hidden");
+                    var data = { nickname: $("#Nickname").val(), password: $("#Pass").val() };
+                    $.post("api/auth", data, function (response) {
+                        $("#logo").removeClass("hidden");
+                        $("#logo").removeClass("close");
+                        $.get("/Page", function (resp) {
+                            $("#pageContainer").html(resp);
+                            $("#logo").addClass("close");
+                            setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                        });
+                    });
+                }, 600);
             });
         });
 </script>
