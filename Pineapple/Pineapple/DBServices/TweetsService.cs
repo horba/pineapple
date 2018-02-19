@@ -83,6 +83,7 @@ namespace Pineapple.DBServices
 
         public List<TweetModel> GetTweetsFromFeed(int idOfCurrentUser)
         {
+            const int limitOfFeedByDays = 2;
             List<TweetModel> result = new List<TweetModel>();
             FollowService followService = new FollowService();
             List<FollowModel> SendersOfTweets = followService.GetFollowersByCurrentUser(idOfCurrentUser);
@@ -101,7 +102,7 @@ namespace Pineapple.DBServices
             {
                 SqlDataReader myReader = null;
                 DateTime timeLimit = DateTime.UtcNow;
-                timeLimit.AddDays(-2);
+                timeLimit.AddDays(-limitOfFeedByDays);
                 SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.Tweets WHERE idOfAuthor IN(" + SendersID + ") AND date > @ParamDate ORDER BY date DESC", DBconnection.myConnection);
                 SqlParameter ParamDate = myCommand.Parameters.AddWithValue("@ParamDate", timeLimit);
                 myReader = myCommand.ExecuteReader();
