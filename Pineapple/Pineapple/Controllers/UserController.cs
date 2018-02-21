@@ -34,6 +34,10 @@ namespace Pineapple.Controllers
             {
                 response.Status = user.RegisterUser(data);
             }
+            else
+            {
+                response.Status = "wrong parameter(s)";
+            }
 
             return response;
         }

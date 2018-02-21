@@ -192,17 +192,18 @@
                         error[5].innerHTML = response.rPassword;
                     }
 
-                    if (response.status != null) {
+                    if (response.status != "wrong parameter(s)") {
 
                         if (response.status == "true")
                         {
                             $("#messageHead").html("Successful registration");
                             $("#message").html("You have been successfully registered.");
+                            $("#registerForm").data("registrtionWasSuccesful", "true");
                            
                         }
                         else
                         {
-                            $("#messageHead").html("Someone is wrong");
+                            $("#messageHead").html("Oops. It looks like problem with DB!");
                             $("#message").html(response.status);
                         }
 
@@ -232,16 +233,19 @@
                 $("#blackout-message").removeClass("active");
                 setTimeout(function () {
                     $("#blackout-message").addClass("hidden");
-                    var data = { nickname: $("#Nickname").val(), password: $("#Pass").val() };
-                    $.post("api/auth", data, function (response) {
-                        $("#logo").removeClass("hidden");
-                        $("#logo").removeClass("close");
-                        $.get("/Page", function (resp) {
-                            $("#pageContainer").html(resp);
-                            $("#logo").addClass("close");
-                            setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                    if ($("#registerForm").data("registrtionWasSuccesful") == "true")
+                    {
+                        var data = { nickname: $("#Nickname").val(), password: $("#Pass").val() };
+                        $.post("api/auth", data, function (response) {
+                            $("#logo").removeClass("hidden");
+                            $("#logo").removeClass("close");
+                            $.get("/Page", function (resp) {
+                                $("#pageContainer").html(resp);
+                                $("#logo").addClass("close");
+                                setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                            });
                         });
-                    });
+                    }
                 }, 600);
             });
         });
