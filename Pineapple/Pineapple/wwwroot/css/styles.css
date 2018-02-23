@@ -570,25 +570,6 @@ header {
     margin: 5px 0 5px 1%;
 }
 
-textarea {
-    display: block;
-    float: left;
-    width: 80%;
-    height: 35px;
-    margin: 5px 0;
-    padding: 6px;
-    font-family: Codropsicons, Arial;
-    font-size: 15px;
-    border: 2px solid rgba(8, 146, 245, 1);
-    box-sizing: border-box;
-    outline: none;
-    resize: none;
-}
-
-textarea:focus {
-    box-shadow: 0 0 10px rgba(8,146,254,0.5);
-}
-
 .output-wrapper {
     width: 100%;
 }
