@@ -1,6 +1,27 @@
-﻿<div>This is a profile page</div>
+﻿<div class="profile-wrapper">
+    <div class="data-column">
+        <div class="internal-menu">
+            <div class="internal-menu-item">Tweets</div>
+            <div class="internal-menu-item">Followers</div>
+            <div class="internal-menu-item">Following</div>
+            <div class="active-elem"></div>
+        </div>
+    </div>
+    <div class="user-info-column"></div>
+</div>
 <script>
     $(function () {
+        $(".internal-menu > .internal-menu-item").click(function (e) { 
+            if (!$(this).hasClass("active")) {
+                $(".internal-menu > .internal-menu-item").removeClass("active");
+                $(this).addClass("active");
+                $(".active-elem").css("width", $(this).outerWidth());
+                $(".active-elem").css("left", $(this).position().left);
+            }
+        });
 
+        $(".internal-menu > .internal-menu-item:first-child").addClass("active");
+        $(".active-elem").css("width", $(".internal-menu > .internal-menu-item:first-child").outerWidth());
+        $(".active-elem").css("left", $(".internal-menu > .internal-menu-item:first-child").position().left);
     });
 </script>
