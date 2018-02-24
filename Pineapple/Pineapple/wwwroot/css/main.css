@@ -1,0 +1,207 @@
+﻿html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(245,245,245,1);
+    font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
+}
+
+/***Buttons***/
+.pa-button {
+    font-size: 16px;
+    border: 2px solid rgba(2,141,240,1);
+    width: 100px;
+    height: 35px;
+    background-color: rgba(2,141,240,1);
+    color: rgba(255,255,255,1);
+    border-radius: 2px;
+    outline: none;
+    transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    -moz-transition: ease-in-out 0.2s all;
+    -webkit-transition: ease-in-out 0.2s all;
+}
+.pa-button:hover{
+    background-color: rgba(255,255,255,1);
+    color: rgba(2,141,240,1);
+}
+.pa-button:active{
+    transform: translateY(2px);
+    -o-transform: translateY(2px);
+    -moz-transform: translateY(2px);
+    -webkit-transform: translateY(2px);
+}
+
+.pa-large-button {
+    width: 120px;
+}
+.pa-middle-button {
+    width: 100px;
+}
+.pa-small-button {
+    width: 80px;
+}
+
+.pa-adaptive-button-100 {
+    width: 100%;
+}
+.pa-adaptive-button-50 {
+    width: 50%;
+}
+
+.pa-negative-button {
+    background-color: rgba(150,150,150,1);
+    border: 2px solid rgba(150,150,150,1);
+}
+.pa-negative-button:hover {
+    background-color: rgba(255,255,255,1);
+    color: rgba(150,150,150,1);
+}
+
+.pa-button-margin-right {
+    margin-right: 5px;
+}
+.pa-button-margin-left {
+    margin-left: 5px;
+}
+.pa-button-margin-top {
+    margin-top: 10px;
+}
+.pa-button-margin-bottom {
+    margin-left: 10px;
+}
+/*************/
+
+/*Inputs*/
+input[type=text].pa-input, input[type=password].pa-input {
+    width: 100%;
+    height: 36px;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    background-color: rgba(235, 235, 235, 1);
+    font-size: 16px;
+    outline: none;
+    border-radius: 2px;
+}
+input[type=text].pa-input:focus, input[type=password].pa-input:focus {
+    border: 2px solid rgba(2,141,240,1);
+}
+input[type=text].pa-input.right, input[type=password].pa-input.right {
+    border: 2px solid rgba(0, 200, 0, 1);
+}
+input[type=text].pa-input.wrong, input[type=password].pa-input.wrong {
+    border: 2px solid rgba(200, 0, 0, 1);
+}
+
+.pa-input-with-button-wrapper {
+    display: flex;
+    width: 100%;
+    height: 36px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+.pa-input-with-button-wrapper > .pa-input-with-button {
+    height: 100%;
+    flex: 1;
+    outline: none;
+    font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
+    font-size: 16px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border-radius: 5px 0 0 5px;
+    resize: none;
+    border: 1px solid transparent;
+    border-right: none;
+}
+.pa-input-with-button-wrapper > .pa-input-with-button:focus {
+    border: 1px solid rgba(2,141,240,1);
+    border-right: none;
+}
+.pa-input-with-button-wrapper > .pa-button {
+    height: 100%;
+    flex-shrink: 0;
+    border-width: 1px;
+    border-radius: 0 5px 5px 0;
+}
+
+.pa-search-input-with-button-wrapper {
+    display: flex;
+    width: 100%;
+    height: 36px;
+    margin-bottom: 10px;
+    border-radius: 18px;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+.pa-search-input-with-button-wrapper > .pa-search-input-with-button {
+        height: 100%;
+        flex: 1;
+        outline: none;
+        font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
+        font-size: 16px;
+        padding: 8px 10px;
+        box-sizing: border-box;
+        border-radius: 18px 0 0 18px;
+        resize: none;
+        border: 1px solid transparent;
+        border-right: none;
+    }
+.pa-search-input-with-button-wrapper > .pa-search-input-with-button:focus {
+            border: 1px solid rgba(2,141,240,1);
+            border-right: none;
+        }
+.pa-search-input-with-button-wrapper > .pa-button {
+    height: 100%;
+    flex-shrink: 0;
+    border-width: 1px;
+    border-radius: 0 18px 18px 0;
+}
+/*******/
+
+/*Labels*/
+label.pa-label {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 16px;
+    padding: 5px 0;
+    color: rgba(75,75,75,1);
+}
+/********/
+
+.color-0 {
+    color: rgba(93,180,242,1)
+}
+.color-1 {
+    color: rgba(243,250,254,1)
+}
+.color-2 {
+    color: rgba(154,208,245,1)
+}
+.color-3 {
+    color: rgba(37,157,242,1)
+}
+.color-4 {
+    color: rgba(2,141,240,1)
+}
+
+.background-color-0 {
+    color: rgba(93,180,242,1)
+}
+.background-color-1 {
+    color: rgba(243,250,254,1)
+}
+.background-color-2 {
+    color: rgba(154,208,245,1)
+}
+.background-color-3 {
+    color: rgba(37,157,242,1)
+}
+.background-color-4 {
+    color: rgba(2,141,240,1)
+}
