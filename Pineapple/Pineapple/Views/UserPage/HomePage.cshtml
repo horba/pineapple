@@ -1,6 +1,20 @@
-﻿<div>This is a home page</div>
+﻿<div class="home-wrapper">
+    <div class="pa-input-with-button-wrapper">
+        <textarea class="pa-input-with-button" placeholder="What you are thinking about?"></textarea>
+        <input type="button" class="pa-button" value="Tell" />
+    </div>
+    <div class="output" id="feed"></div>
+</div>
+
 <script>
     $(function () {
-
+        $.get("/api/tweets").done(function (data) {
+            let values = data;
+            let $feed = $("#feed");
+            $feed.html("");
+            values.forEach(function (v) {
+                $feed.append("<div class=\"feed\">" + v + "</div>");
+            });
+        });
     });
 </script>
