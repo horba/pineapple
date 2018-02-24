@@ -1,25 +1,25 @@
 ﻿<div class="profile-wrapper">
     <div class="data-column">
-        <div class="internal-menu">
-            <div class="internal-menu-item">Tweets</div>
-            <div class="internal-menu-item">Followers</div>
-            <div class="internal-menu-item">Following</div>
+        <div class="internal-menu block-with-shadow">
+            <div class="internal-menu-item tweets-button active">Tweets</div>
+            <div class="internal-menu-item followers-button">Followers</div>
+            <div class="internal-menu-item following-button">Following</div>
             <div class="active-elem"></div>
         </div>
         <div class="data-wrapper">
-            <div class="data-container">
+            <div class="data-container tweets-wrapper">
                 <div class="pa-input-with-button-wrapper">
                     <textarea class="pa-input-with-button" placeholder="What you are thinking about?"></textarea>
                     <input type="button" class="pa-button" value="Tell" />
                 </div>
             </div>
-            <div class="data-container close hidden">
+            <div class="data-container followers-wrapper close hidden">
                 <div class="pa-search-input-with-button-wrapper">
                     <input type="text" class="pa-search-input-with-button" placeholder="Write your search line here" />
                     <input type="button" class="pa-button" value="Search" />
                 </div>
             </div>
-            <div class="data-container close hidden">
+            <div class="data-container following-wrapper close hidden">
                 <div class="pa-search-input-with-button-wrapper">
                     <input type="text" class="pa-search-input-with-button" placeholder="Write your search line here" />
                     <input type="button" class="pa-button" value="Search" />
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class="user-info-column"></div>
+    <div class="user-info-column">Some information</div>
 </div>
 <script>
     $(function () {
@@ -37,11 +37,35 @@
                 $(this).addClass("active");
                 $(".active-elem").css("width", $(this).outerWidth());
                 $(".active-elem").css("left", $(this).position().left);
+
+                $(".data-container").addClass("close");
+                setTimeout(function (elem) {
+                    $(".data-container").addClass("hidden");
+
+                    if (elem.hasClass("tweets-button")) {
+                        $(".tweets-wrapper").removeClass("close hidden");
+                    }
+
+                    if (elem.hasClass("followers-button")) {
+                        $(".followers-wrapper").removeClass("close hidden");
+                    }
+
+                    if (elem.hasClass("following-button")) {
+                        $(".following-wrapper").removeClass("close hidden");
+                    }
+
+                }, 300, $(this));
             }
         });
 
-        $(".internal-menu > .internal-menu-item:first-child").addClass("active");
-        $(".active-elem").css("width", $(".internal-menu > .internal-menu-item:first-child").outerWidth());
-        $(".active-elem").css("left", $(".internal-menu > .internal-menu-item:first-child").position().left);
+        $(window).resize(function (e) {
+            $(".internal-menu > .internal-menu-item.active").addClass("active");
+            $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());
+            $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
+        });
+
+        $(".internal-menu > .internal-menu-item.active").addClass("active");
+        $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());
+        $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
     });
 </script>
