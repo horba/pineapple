@@ -206,3 +206,12 @@ label.pa-label {
 .background-color-4 {
     color: rgba(2,141,240,1)
 }
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0 auto;
+    padding-top: 10px;
+    max-width: 780px;
+}

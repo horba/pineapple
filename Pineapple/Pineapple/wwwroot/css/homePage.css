@@ -1,8 +1,23 @@
 ﻿.home-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin: 0 auto;
-    padding-top: 10px;
-    max-width: 780px;
+    position: relative;
+    left: 30px;
+    
+}
+
+@media only screen and (max-width: 860px) {
+    .image-wrapper {
+        position: relative;
+        left: 0px;
+    }
+
+    .home-wrapper {
+        position: relative;
+        left: 0px;
+        padding: 10px 10px 0px 10px;
+        box-sizing: border-box;
+    }
+
+    .not-avatar-part-of-tweet {
+        padding-left: 10px;
+    }
 }

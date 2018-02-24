@@ -588,14 +588,16 @@ header {
 
 .feed {
     width: 100%;
-    margin: 7px 0;
+    margin-bottom: 10px;
     padding: 10px;
     background-color: #ffffff;
     border: 1.5px solid rgba(200,200,200,1);
     border-radius: 5px;
-    min-height: 100px;
+    min-height: 70px;
     box-sizing: border-box;
     position: relative;
+    display: flex;
+    flex-direction: row;
 }
 
 .image-wrapper {
@@ -617,24 +619,32 @@ header {
 }
 
 .not-avatar-part-of-tweet {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    left: 10px;
-    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-.text-in-tweet {    
-    top: 20px;
-    left: 0px;
+.tweet-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.nickname-in-tweet {
+    color: rgba(40,40,40,1);
+    font-weight: bold;
+}
+
+.tweet-date {
+    color: rgba(120,120,120,1);
+    font-size: 13px;
+}
+
+.text-in-tweet {
     display: block;
-    
-    height: 35px;
-    font-family: Codropsicons, Arial;
     font-size: 15px;
-    border: none;
-    box-sizing: border-box;
     text-align: justify;
+    color: rgba(50,50,50,1);
 }
 
 footer {
