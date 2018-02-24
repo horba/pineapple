@@ -27,7 +27,17 @@
             </div>
         </div>
     </div>
-    <div class="user-info-column">Some information</div>
+    <div class="user-info-column">
+        <div class="profile-user-info-container">
+            <div class="main-image-wrapper">
+                <img src="img/avatar.png" class="main-image" />
+            </div>
+            <div class="profile-user-info">
+                <div class="profile-nickname">User 0</div>
+                <div class="profile-fullname">Petro Nickolaevich</div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $(function () {
@@ -59,9 +69,11 @@
         });
 
         $(window).resize(function (e) {
-            $(".internal-menu > .internal-menu-item.active").addClass("active");
-            $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());
-            $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
+            if ($(this).width > 600) {
+                $(".internal-menu > .internal-menu-item.active").addClass("active");
+                $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());
+                $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
+            }
         });
 
         $(".internal-menu > .internal-menu-item.active").addClass("active");
