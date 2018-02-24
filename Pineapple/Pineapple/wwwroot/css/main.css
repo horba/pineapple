@@ -101,6 +101,7 @@ input[type=text].pa-input.wrong, input[type=password].pa-input.wrong {
 
 .pa-input-with-button-wrapper {
     display: flex;
+    flex-shrink: 0;
     width: 100%;
     height: 36px;
     margin-bottom: 10px;
@@ -241,4 +242,13 @@ label.pa-label {
 }
 .background-color-4 {
     color: rgba(2,141,240,1)
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0 auto;
+    padding-top: 10px;
+    max-width: 780px;
 }

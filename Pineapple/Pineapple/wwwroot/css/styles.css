@@ -588,13 +588,63 @@ header {
 
 .feed {
     width: 100%;
-    margin: 7px 0;
+    margin-bottom: 10px;
     padding: 10px;
-    background-color: #f0f0ff;
+    background-color: #ffffff;
+    border: 1.5px solid rgba(200,200,200,1);
     border-radius: 5px;
-    min-height: 100px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    min-height: 70px;
     box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.image-wrapper {
+    position: absolute;
+    top: 0px;
+    left: -60px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.avatar-in-tweet {
+    height: 100%;
+    
+}
+
+.not-avatar-part-of-tweet {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.tweet-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.nickname-in-tweet {
+    color: rgba(40,40,40,1);
+    font-weight: bold;
+}
+
+.tweet-date {
+    color: rgba(120,120,120,1);
+    font-size: 13px;
+}
+
+.text-in-tweet {
+    display: block;
+    font-size: 15px;
+    text-align: justify;
+    color: rgba(50,50,50,1);
 }
 
 footer {
