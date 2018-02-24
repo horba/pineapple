@@ -598,11 +598,22 @@ header {
     position: relative;
 }
 
-.avatar-in-tweet {
+.image-wrapper {
     position: absolute;
-    top: 10px;
-    left: -80px;
-    width: 60px;
+    top: 0px;
+    left: -60px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.avatar-in-tweet {
+    height: 100%;
+    
 }
 
 .not-avatar-part-of-tweet {

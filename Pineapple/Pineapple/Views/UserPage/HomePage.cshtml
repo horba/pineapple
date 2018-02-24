@@ -13,7 +13,15 @@
             let $feed = $("#feed");
             $feed.html("");
             values.forEach(function (v) {
-                $feed.append("<div class=\"feed\">" + v + "</div>");
+                $feed.append("<div class=\"feed\">" +
+                                "<div class=\"image-wrapper\">" + 
+                                    "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
+                                "</div>" +
+                                 "<div class=\"not-avatar-part-of-tweet\">" +
+                                     "<div class=\"text-in-tweet\">" +
+                                     v +
+                                 "</div >" +
+                             "</div >");
             });
         });
     });
