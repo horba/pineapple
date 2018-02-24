@@ -162,6 +162,33 @@ input[type=text].pa-input.wrong, input[type=password].pa-input.wrong {
     border-width: 1px;
     border-radius: 0 18px 18px 0;
 }
+
+@media only screen and (max-width: 600px) {
+    .pa-input-with-button-wrapper {
+        height: 30px;
+    }
+    .pa-input-with-button-wrapper > .pa-input-with-button {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .pa-input-with-button-wrapper > .pa-button {
+        width: 70px;
+        font-size: 13px;
+    }
+
+    .pa-search-input-with-button-wrapper {
+        height: 30px;
+    }
+    .pa-search-input-with-button-wrapper > .pa-search-input-with-button {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .pa-search-input-with-button-wrapper > .pa-button {
+            width: 70px;
+            font-size: 13px;
+        }
+}
+
 /*******/
 
 /*Labels*/
