@@ -7,10 +7,10 @@ namespace Pineapple.Model
 {
     public class TweetModel
     {
-        private int Id { get; set; }
-        private DateTime Date { get; set; }
-        private string Text { get; set; }
-        private int IdOfAuthor { get; set; }
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Text { get; set; }
+        public int IdOfAuthor { get; set; }
 
         public TweetModel(int id, DateTime date, string text, int idOfAuthor)
         {

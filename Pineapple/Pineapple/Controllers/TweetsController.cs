@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.DBServices;
 using Pineapple.Model;
-
+using Pineapple.Services;
 
 namespace Pineapple.Controllers
 {
@@ -20,7 +20,7 @@ namespace Pineapple.Controllers
             TweetsService modelReader = new TweetsService();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfCurrentUser = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                int idOfCurrentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
                 List<TweetModel> tweetsFromFeed = modelReader.GetTweetsFromFeed(idOfCurrentUser);
                 if (tweetsFromFeed != null)
                 {
@@ -68,6 +68,44 @@ namespace Pineapple.Controllers
         {
             TweetsService modelReader = new TweetsService();
             modelReader.DeleteTweet(id);
+        }
+
+        [HttpGet, Route("myTweets")]
+        public object myTweets() {
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    TweetsService modelReader = new TweetsService();
+                    UserService us = new UserService();
+
+                    List<TweetModel> tweets = modelReader.GetTweetsByUserId(id);
+
+                    List<object> response = new List<object>();
+                    foreach (var tweet in tweets) {
+                        UserModel user = us.GetUserById(tweet.IdOfAuthor);
+                        string nickname = user == null ? "Error" : user.Nickname;
+                        response.Add(new { text = tweet.Text, date = tweet.Date.ToString(), nickname });
+                    }
+
+                    if (response.Count > 0)
+                    {
+                        return new { status = "true", tweets = response };
+                    }
+                    else {
+                        return new { status = "empty" };
+                    }
+                }
+                else
+                {
+                    return new { status = "error" };
+                }
+            }
+            else
+            {
+                return Json(new { status = "error" });
+            }
         }
     }
 }

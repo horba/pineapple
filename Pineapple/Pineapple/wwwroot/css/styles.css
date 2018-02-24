@@ -55,7 +55,7 @@ header {
 
 .logo-header {
     display: inline-block;
-    color: #008FD6;
+    color: rgba(2,141,240,1);
     font-size: 1.8em;
     text-align: center;
     margin-left: 10px;
@@ -95,7 +95,7 @@ header {
 
 .main-menu > div.active {
     color: rgba(255,255,255,1);
-    background-color: rgba(0, 136, 204, 1);
+    background-color: rgba(2,141,240,1);
     cursor: default;
 }
 
@@ -123,7 +123,7 @@ header {
         width: 40px;
         height: 40px;
         margin: 5px;
-        color: rgba(0, 136, 204, 1);
+        color: rgba(2,141,240,1);
     }
 
     #blackout-menu {
@@ -591,7 +591,6 @@ header {
     margin-bottom: 10px;
     padding: 10px;
     background-color: #ffffff;
-    border: 1.5px solid rgba(200,200,200,1);
     border-radius: 5px;
     min-height: 70px;
     box-sizing: border-box;
@@ -611,6 +610,7 @@ header {
     align-items: center;
     border-radius: 25px;
     overflow: hidden;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
 }
 
 .avatar-in-tweet {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Pineapple.Model;
 using Pineapple.DBServices;
 using System.Data.SqlClient;
+using Pineapple.Services;
 
 namespace Pineapple.Services
 {
@@ -107,6 +108,7 @@ namespace Pineapple.Services
                 }
                 else
                 {
+                    reader.Close();
                     DBconnection.ConnectionClose();
                     FindedUser.Status = "Not found";
                     return FindedUser;
@@ -128,10 +130,12 @@ namespace Pineapple.Services
                     FindedUser.Email = (string)reader.GetValue(4);
                     FindedUser.Password = (string)reader.GetValue(5);
                 }
+
+                reader.Close();
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                LogUsing4net.WriteError(e.Message);
                 FindedUser.Status = "Error";
             }
             DBconnection.ConnectionClose();
