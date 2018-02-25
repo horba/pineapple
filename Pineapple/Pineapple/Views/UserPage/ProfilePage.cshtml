@@ -49,25 +49,26 @@
             if (values.status == "true") {
                 values.tweets.forEach(function (v) {
                     $tweets.append("<div class=\"feed block-with-shadow\" >" +
-                        "<div class=\"image-wrapper\">" +
-                        "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
-                        "</div>" +
-                        "<div class=\"not-avatar-part-of-tweet\">" +
-                        "<div class=\"tweet-info\">" +
-                        "<div class=\"nickname-in-tweet\">" +
-                        v.nickname +
-                        "</div >" +
-                        "<div class=\"tweet-date\">" +
-                        v.date +
-                        "</div >" +
-                        "</div >" +
-                        "<div class=\"text-in-tweet\">" +
-                        v.text +
-                        "</div >" +
-                        "</div >");
+                                        "<div class=\"image-wrapper\">" +
+                                            "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
+                                        "</div>" +
+                                        "<div class=\"not-avatar-part-of-tweet\">" +
+                                            "<div class=\"tweet-info\">" +
+                                                "<div class=\"nickname-in-tweet\">" +
+                                                    v.nickname +
+                                                "</div >" +
+                                                "<div class=\"tweet-date\">" +
+                                                    v.date +
+                                                "</div >" +
+                                            "</div >" +
+                                            "<div class=\"text-in-tweet\">" +
+                                                v.text +
+                                            "</div >" +
+                                        "</div>" +
+                                    "</div>");
                 });
             } else if (values.status == "empty") {
-
+                $tweets.append("<div class='no-data'>Here you will see your tweets</div>");
             }
         });
     }
