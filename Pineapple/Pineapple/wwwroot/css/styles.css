@@ -647,6 +647,18 @@ header {
     color: rgba(50,50,50,1);
 }
 
+.no-data {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed rgba(170,170,170,1);
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: rgba(170,170,170,1);
+}
+
 footer {
     display: flex;
     align-items: center;

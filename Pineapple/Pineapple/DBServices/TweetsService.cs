@@ -15,28 +15,7 @@ namespace Pineapple.DBServices
     public class TweetsService : ITweetsService
     {
 
-        public void AddTweet(string tweet)
-        {
-            DBconnection.ConnectionOpen();
-            try
-            {
-                SqlCommand myCommand = new SqlCommand(
-                    "INSERT INTO dbo.Tweets (text, date) VALUES (@ParamText, @ParamDate)",
-                                                         DBconnection.myConnection);
-                SqlParameter ParamText = myCommand.Parameters.Add("@ParamText", SqlDbType.VarChar, 50);
-                ParamText.Value = tweet;
-                SqlParameter ParamDate = myCommand.Parameters.Add("@ParamDate", SqlDbType.DateTime);
-                ParamDate.Value = DateTime.UtcNow;
-                myCommand.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            DBconnection.ConnectionClose();
-        }
-
-        public void AddTweet(string tweet, int idOfAuthor)
+        public void AddTweet(TweetModel tweet)
         {
             DBconnection.ConnectionOpen();
             try
@@ -44,9 +23,9 @@ namespace Pineapple.DBServices
                 SqlCommand myCommand = new SqlCommand(
                     "INSERT INTO dbo.Tweets (text, date, idOfAuthor) VALUES (@ParamText, @ParamDate, @ParamIdOfAuthor)",
                                                          DBconnection.myConnection);
-                myCommand.Parameters.AddWithValue("@ParamText", tweet);
-                myCommand.Parameters.AddWithValue("@ParamDate", DateTime.Now);
-                myCommand.Parameters.AddWithValue("@ParamIdOfAuthor", idOfAuthor);
+                myCommand.Parameters.AddWithValue("@ParamText", tweet.Text);
+                myCommand.Parameters.AddWithValue("@ParamDate", tweet.Date);
+                myCommand.Parameters.AddWithValue("@ParamIdOfAuthor", tweet.IdOfAuthor);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -83,26 +62,26 @@ namespace Pineapple.DBServices
 
         public List<TweetModel> GetTweetsFromFeed(int idOfCurrentUser)
         {
-            const int limitOfFeedByDays = 2;
+            const int limitOfFeedByDays = 3;
             List<TweetModel> result = new List<TweetModel>();
             FollowService followService = new FollowService();
             List<FollowModel> SendersOfTweets = followService.GetFollowersByCurrentUser(idOfCurrentUser);
-            if (SendersOfTweets.Count == 0)
-            {
-                return null;
-            }
+            //if (SendersOfTweets.Count == 0)
+            //{
+            //    return result;
+            //}
             string SendersID = "";
-            for (int i = 0; i < SendersOfTweets.Count - 1; i++)
+            for (int i = 0; i < SendersOfTweets.Count; i++)
             {
                 SendersID += SendersOfTweets[i].TargetUser + ", ";
             }
-            SendersID += SendersOfTweets[SendersOfTweets.Count - 1].TargetUser;
+            SendersID += idOfCurrentUser;
             DBconnection.ConnectionOpen();
             try
             {
                 SqlDataReader myReader = null;
                 DateTime timeLimit = DateTime.UtcNow;
-                timeLimit.AddDays(-limitOfFeedByDays);
+                timeLimit = timeLimit.AddDays(-limitOfFeedByDays);
                 SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.Tweets WHERE idOfAuthor IN(" + SendersID + ") AND date > @ParamDate ORDER BY date DESC", DBconnection.myConnection);
                 SqlParameter ParamDate = myCommand.Parameters.AddWithValue("@ParamDate", timeLimit);
                 myReader = myCommand.ExecuteReader();
@@ -118,6 +97,7 @@ namespace Pineapple.DBServices
                 Console.WriteLine(ex.ToString());
             }
             DBconnection.ConnectionClose();
+            
             return result;
 
         }

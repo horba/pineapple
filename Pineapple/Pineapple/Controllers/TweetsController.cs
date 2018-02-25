@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.DBServices;
 using Pineapple.Model;
+using System.Data;
 
 
 namespace Pineapple.Controllers
@@ -14,23 +15,43 @@ namespace Pineapple.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Object Get()
         {
-            List<string> stringTweets = new List<string>();
-            TweetsService modelReader = new TweetsService();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfCurrentUser = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                List<TweetModel> tweetsFromFeed = modelReader.GetTweetsFromFeed(idOfCurrentUser);
-                if (tweetsFromFeed != null)
+                if (Services.UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    foreach (TweetModel tweet in tweetsFromFeed)
+                    int idOfCurrentUser = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    TweetsService modelReader = new TweetsService();
+                    UserService us = new UserService();
+                    List<TweetModel> tweets = modelReader.GetTweetsFromFeed(idOfCurrentUser);
+
+                    List<object> response = new List<object>();
+                    foreach (var tweet in tweets)
                     {
-                        stringTweets.Add(tweet.ToString());
+                        UserModel user = us.GetUserById(tweet.IdOfAuthor);
+                        string nickname = user == null ? "Error" : user.Nickname;
+                        response.Add(new { text = tweet.Text, date = tweet.Date.ToString(), nickname });
+                    }
+
+                    if (response.Count > 0)
+                    {
+                        return new { status = "true", tweets = response };
+                    }
+                    else
+                    {
+                        return new { status = "empty" };
                     }
                 }
+                else
+                {
+                    return new { status = "error" };
+                }
             }
-            return stringTweets;
+            else
+            {
+                return new { status = "error" };
+            }
         }
 
         // GET api/values/5
@@ -50,7 +71,7 @@ namespace Pineapple.Controllers
             if (Request.Cookies.ContainsKey("session_id"))
             {
                 int idOfAuthor = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                modelReader.AddTweet(value, idOfAuthor);
+                modelReader.AddTweet(new TweetModel(DateTime.UtcNow, value, idOfAuthor));
             }
         }
 
