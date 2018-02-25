@@ -54,11 +54,11 @@
             $("#logo").removeClass("hidden");
             $("#logo").removeClass("close");
             $.post("/api/auth/logout").done(function () {
-            $.get("/Page", function (response) {
-                $("#pageContainer").html(response);
-                $("#logo").addClass("close");
-                setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
-                
+                $.get("/Page", function (response) {
+                    $("#pageContainer").html(response);
+                    $("#logo").addClass("close");
+                    setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                });
             });
         });
 

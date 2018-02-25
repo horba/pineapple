@@ -13,7 +13,7 @@ namespace Pineapple.Controllers
     {
         [HttpPost]
         public IActionResult Login(LoginModel loginModel)
-        {
+        {   
             UserAuth UserLogin = new UserAuth();
 
             LoginResponseModel response = UserLogin.Login(loginModel);
