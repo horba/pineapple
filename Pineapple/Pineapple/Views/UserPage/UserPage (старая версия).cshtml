@@ -1,0 +1,124 @@
+﻿<header>
+    <div class="open-menu-button"><div class="fa fa-bars fa-1-5x"></div></div>
+    <div class="logo-wrapper">
+        <img class="logo" src="img/Pineapple.png">
+        <div class="logo-header">  Pineapple</div>
+    </div>
+    <div class="main-menu">
+        <div class="user-info">Here can be your advertising</div>
+        <div>Home</div>
+        <div>Profile</div>
+        <div>Search</div>
+        <div>Settings</div>
+    </div>
+    <div class="blackout hidden" id="blackout-menu"></div>
+</header>
+<div class="main">
+    <div class="left-column">
+        <button class="button logout" id="BTNLogout">Log out</button>
+        <div class="users-container" id="users">
+            <p class="users-head">Last registered users</p>
+            @{
+            foreach (var user in Model)
+            {
+                string status = user.Status == "True" ? "follow" : "";
+                <div class='user-container'>
+                    <p class='user-nick'>@user.Nickname</p>
+                    <div class='follow-button @status' data-id="@user.Id">
+                        <div class="fa fa-user user-icon"></div>
+                    </div>
+                </div>
+            }
+            }
+        </div>
+    </div>
+    <div class="center-column">
+        <div class="input-wrapper">
+            <textarea rows="1" cols="1" class="textInput" placeholder="Write your tweet" id="TXTAREAAddTweet"></textarea>
+            <button class="button add-tweet" id="BTNAddTweet">Add tweet</button>
+            <button class="button get-tweet" id="BTNGetTweets">Get tweets</button>
+        </div>
+        <div class="output-wrapper">
+            <div class="output" id="feed"></div>
+        </div>
+    </div>
+    <div class="right-column">
+        <img class="avatar" src="img/avatar.png">
+        <div class="medium-header" id="UserName">
+            User Name
+        </div>
+    </div>
+</div>
+<footer>© 2018 Pineapple, Inc.</footer>
+<script>
+    $(function () {
+        $("#BTNAddTweet").click(function (e) {            
+            $.post("/api/tweets", { value: $("#TXTAREAAddTweet").val()});
+        });
+
+        $("#BTNLogout").click(function (e) {
+            $("#logo").removeClass("hidden");
+            $("#logo").removeClass("close");
+            $.post("/api/auth/logout").done(function () {
+                $.get("/Page", function (response) {
+                    $("#pageContainer").html(response);
+                    $("#logo").addClass("close");
+                    setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                
+                });
+            });
+        });
+
+        $("#BTNGetTweets").click(function (e) {
+            e.preventDefault();
+            $.get("/api/tweets").done(function (data) {
+                let values = data;
+                let $feed = $("#feed");
+                $feed.html("");
+                values.forEach(function (v) {
+                    $feed.append("<div class=\"feed\">" + v + "</div>");
+                });
+            });
+        });
+
+        $(".follow-button").click(function (e) {
+
+            var button = $(this);
+
+            if (!button.hasClass("load") && !button.hasClass("follow") && !button.hasClass("fail")) {
+                button.addClass("load");
+                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response == "true") {
+                        button.addClass("follow");
+                    } else { 
+                        button.addClass("fail");
+                        console.log(response);
+                    }
+                });
+            }
+        });
+
+        $(".main-menu > div").click(function (e) {
+            $(".main-menu > div").removeClass("active");
+            $(this).addClass("active");
+        });
+
+        $(".open-menu-button").click(function (e) { 
+            $(".main-menu").addClass("open");
+            $("#blackout-menu").removeClass("hidden");
+            $("#blackout-menu").addClass("active");
+        });
+
+        $("#blackout-menu").click(function (e) {
+            $(this).removeClass("active");
+            setTimeout(function () { $("#blackout-menu").addClass("hidden") }, 600);
+            $(".main-menu").removeClass("open");
+        });
+
+        $.get("/api/auth", function (data) {
+            $("#UserName").text(data.nickname);
+        });
+    });
+
+</script>
