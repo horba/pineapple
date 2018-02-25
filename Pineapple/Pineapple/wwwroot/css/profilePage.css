@@ -162,18 +162,6 @@
     margin-bottom: 20px;    
 }
 
-.no-search-result {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    height: 50px;
-    background-color: rgba(37,157,242,1);
-    color: rgba(255,255,255,1);
-    cursor: pointer;
-}
-
 .user-info-column {
     display: block;
     width: 30%;
