@@ -61,6 +61,69 @@ namespace Pineapple.Services
             myDataReader = sqlCommand.ExecuteReader();
             FindedUsers.AddRange(FindUsersByReader(myDataReader));
             myDataReader.Close();
-        }      
+        }
+
+        public List<SimpleUserModel> FindPeoplesInFollowers(string searchLine, int userId) {
+
+            List<SimpleUserModel> users = new List<SimpleUserModel>();
+
+            DBconnection.ConnectionOpen();
+
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE (Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick) AND " +
+                                                        "Id IN (SELECT CurrentID FROM dbo.Followers WHERE TargetID = @ParamId)", DBconnection.myConnection);
+                sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + searchLine + "%");
+                sqlCommand.Parameters.AddWithValue("@ParamId", userId);
+                SqlDataReader myDataReader = sqlCommand.ExecuteReader();
+
+                while (myDataReader.Read()) {
+                    users.Add(new SimpleUserModel(Convert.ToInt32(myDataReader["Id"]), Convert.ToString(myDataReader["Nick"]), Convert.ToString(myDataReader["FirstName"]),
+                        Convert.ToString(myDataReader["SecondName"])));
+                }
+
+                myDataReader.Close();
+            }
+            catch(Exception ex) {
+                LogUsing4net.WriteError(ex.Message);
+            }
+
+            DBconnection.ConnectionClose();
+
+            return users;
+        }
+
+        public List<SimpleUserModel> FindPeoplesInFollowing(string searchLine, int userId)
+        {
+
+            List<SimpleUserModel> users = new List<SimpleUserModel>();
+
+            DBconnection.ConnectionOpen();
+
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE (Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick) AND " +
+                                                        "Id IN (SELECT TargetID FROM dbo.Followers WHERE CurrentID = @ParamId)", DBconnection.myConnection);
+                sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + searchLine + "%");
+                sqlCommand.Parameters.AddWithValue("@ParamId", userId);
+                SqlDataReader myDataReader = sqlCommand.ExecuteReader();
+
+                while (myDataReader.Read())
+                {
+                    users.Add(new SimpleUserModel(Convert.ToInt32(myDataReader["Id"]), Convert.ToString(myDataReader["Nick"]), Convert.ToString(myDataReader["FirstName"]),
+                        Convert.ToString(myDataReader["SecondName"])));
+                }
+
+                myDataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                LogUsing4net.WriteError(ex.Message);
+            }
+
+            DBconnection.ConnectionClose();
+
+            return users;
+        }
     }
 }

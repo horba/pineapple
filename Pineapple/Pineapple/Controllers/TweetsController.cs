@@ -104,7 +104,7 @@ namespace Pineapple.Controllers
             }
             else
             {
-                return Json(new { status = "error" });
+                return new { status = "error" };
             }
         }
     }
