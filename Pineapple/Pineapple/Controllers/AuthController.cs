@@ -11,11 +11,14 @@ namespace Pineapple.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
+        IUserAuth UserLogin;
+        public AuthController(IUserAuth userLogin){
+            UserLogin = userLogin;
+        }
+
         [HttpPost]
         public IActionResult Login(LoginModel loginModel)
         {
-            UserAuth UserLogin = new UserAuth();
-
             LoginResponseModel response = UserLogin.Login(loginModel);
             if (response.Status == true)
             {

@@ -19,19 +19,7 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    FollowService fs = new FollowService();
-                    int currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                    List<UserModel> lastRegisteredUsers = new UsersController().Get(10);
-                    var users = lastRegisteredUsers.Where(i => i.Id == currentUser).ToList();
-                    foreach (var user in users)
-                    {
-                        lastRegisteredUsers.Remove(user);
-                    }
-                    for (int i = 0; i < lastRegisteredUsers.Count; i++)
-                    {                     
-                        lastRegisteredUsers[i].Status = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id).ToString();
-                    }
-                    return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);                 
+                    return View("~/Views/UserPage/UserPage.cshtml");       
                 }
                 else
                 {
@@ -41,6 +29,37 @@ namespace Pineapple.Controllers
             else
             {
                 return View("~/Views/MainPage/MainPage.cshtml");
+            }
+        }
+
+        [HttpGet("{page}")]
+        public ActionResult Page(string page)
+        {
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    switch (page) {
+                        case "home":
+                            return View("~/Views/UserPage/HomePage.cshtml");
+                        case "profile":
+                            return View("~/Views/UserPage/ProfilePage.cshtml");
+                        case "search":
+                            return View("~/Views/UserPage/SearchPage.cshtml");
+                        case "settings":
+                            return View("~/Views/UserPage/SettingsPage.cshtml");
+                    }
+
+                    return View("~/Views/UserPage/ErrorPage.cshtml");
+                }
+                else
+                {
+                    return View("~/Views/UserPage/ErrorPage.cshtml");
+                }
+            }
+            else
+            {
+                return View("~/Views/UserPage/ErrorPage.cshtml");
             }
         }
     }
