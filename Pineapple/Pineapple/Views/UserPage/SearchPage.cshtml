@@ -1,6 +1,26 @@
-﻿<div>This is a search page</div>
+﻿<div class="content-wrapper">
+    <div class="pa-search-input-with-button-wrapper">
+        <input class="pa-search-input-with-button" type="text" placeholder="Write your search text here">
+        <input class="pa-button" type="button" value="search" id="search">
+    </div>
+    <div class="pa-search-result block-with-shadow">
+        <div class="main-image-wrapper">
+            <img src="img/avatar.png" class="main-image" />
+        </div>
+        <div>
+            <p>COMBACK_IN_USSR</p>
+            <p class="pa-text-small-400">FirstName LastName</p>
+        </div>
+        <input type="button" class="pa-button" value="Follow" />
+    </div>
+</div>
 <script>
     $(function () {
-
+        $("#search").click(function (e) { 
+            var data = $(".pa-search-input-with-button").text;
+            $.post("api/search", { SearchText: data }, function (resp) {
+                window.alert("DAROVA");
+            });
+        });
     });
 </script>
