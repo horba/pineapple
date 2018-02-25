@@ -20,6 +20,7 @@ body {
     color: rgba(255,255,255,1);
     border-radius: 2px;
     outline: none;
+    cursor: pointer;
     transition: ease-in-out 0.2s all;
     -o-transition: ease-in-out 0.2s all;
     -moz-transition: ease-in-out 0.2s all;
@@ -46,6 +47,10 @@ body {
     width: 80px;
 }
 
+.pa-button-relative {
+    position: relative;
+}
+
 .pa-adaptive-button-100 {
     width: 100%;
 }
@@ -63,10 +68,10 @@ body {
 }
 
 .pa-button-margin-right {
-    margin-right: 5px;
+    margin-right: 10px;
 }
 .pa-button-margin-left {
-    margin-left: 5px;
+    margin-left: 10px;
 }
 .pa-button-margin-top {
     margin-top: 10px;
@@ -77,7 +82,7 @@ body {
 /*************/
 
 /*Inputs*/
-input[type=text].pa-input, input[type=password].pa-input {
+.pa-input {
     width: 100%;
     height: 36px;
     margin-bottom: 10px;
@@ -89,13 +94,13 @@ input[type=text].pa-input, input[type=password].pa-input {
     outline: none;
     border-radius: 2px;
 }
-input[type=text].pa-input:focus, input[type=password].pa-input:focus {
+.pa-input:focus {
     border: 2px solid rgba(2,141,240,1);
 }
-input[type=text].pa-input.right, input[type=password].pa-input.right {
+.pa-input.right {
     border: 2px solid rgba(0, 200, 0, 1);
 }
-input[type=text].pa-input.wrong, input[type=password].pa-input.wrong {
+.pa-input.wrong {
     border: 2px solid rgba(200, 0, 0, 1);
 }
 
@@ -162,6 +167,33 @@ input[type=text].pa-input.wrong, input[type=password].pa-input.wrong {
     border-width: 1px;
     border-radius: 0 18px 18px 0;
 }
+
+@media only screen and (max-width: 600px) {
+    .pa-input-with-button-wrapper {
+        height: 30px;
+    }
+    .pa-input-with-button-wrapper > .pa-input-with-button {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .pa-input-with-button-wrapper > .pa-button {
+        width: 70px;
+        font-size: 13px;
+    }
+
+    .pa-search-input-with-button-wrapper {
+        height: 30px;
+    }
+    .pa-search-input-with-button-wrapper > .pa-search-input-with-button {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .pa-search-input-with-button-wrapper > .pa-button {
+            width: 70px;
+            font-size: 13px;
+        }
+}
+
 /*******/
 
 /*Labels*/
