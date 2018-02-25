@@ -5,21 +5,6 @@
     min-height: 100%;
 }
 
-.info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    font-family: Codropsicons, Arial;
-    font-size: 1.5em;
-    font-weight: lighter;
-    text-align: center;
-    color: rgba(150,150,150,1);
-    width: 100%;
-    padding: 0 10%;
-    box-sizing: border-box;
-}
-
 header {
     display: flex;
     justify-content: space-between;
@@ -192,18 +177,6 @@ header {
     }
 }
 
-.avatar {
-    width: 80%;
-    margin-left: 10%;
-}
-
-.small-header {
-    color: #008FD6;
-    font-size: 20px;
-    text-align: right;
-    margin-right: 20px;
-}
-
 .main-wrapper {
     display: flex;
     width: 100%;
@@ -215,58 +188,6 @@ header {
     display: flex;
     width: 100%;
     flex: 1;
-}
-
-.left-column {
-    width: 15%;
-    height: 100%;
-}
-
-.medium-header {
-    color: #008FD6;
-    font-size: 30px;
-    text-align: center;
-}
-
-.users-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 40px 0;
-    cursor: default;
-}
-
-.users-head {
-    font-family: Codropsicons, Arial;
-    font-size: 1.2em;
-    text-align: center;
-    width: 100%;
-    margin: 0 0 10px 0;
-}
-
-.user-container {
-    display: flex;
-    align-items: center;
-    width: 90%;
-    height: 50px;
-    border-bottom: 1px solid rgba(200,200,200,1);
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.user-container:last-of-type {
-    border-bottom: none;
-}
-
-.user-nick {
-    flex-shrink: 1;
-    width: 100%;
-    font-family: Codropsicons, Arial;
-    margin: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .follow-button {
@@ -547,43 +468,12 @@ header {
     opacity: 0;
 }
 
-.center-column {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 70%;
-}
-
-.input-wrapper {
-    width: 100%;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-.button.get-tweet {
-    width: 200px;
-    margin: 5px auto;
-    display: block;
-}
-
-.button.add-tweet {
-    width: 19%;
-    margin: 5px 0 5px 1%;
-}
-
-.output-wrapper {
-    width: 100%;
-}
-
 .output {
     flex-basis: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-}
-
-.right-column {
-    flex-basis: 15%;
 }
 
 .feed {
@@ -603,106 +493,10 @@ footer {
     justify-content: center;
     flex-shrink: 0;
     width: 100%;
-    height: 60px;
+    height: 50px;
     background-color: #ffffff;
     bottom: 0px;
     border-top: 1px solid rgba(200,200,200,1);
     font-family: Arial;
     font-size: 1em;
-}
-
-.message-window {
-    display: inline-block;
-    background-color: rgba(255,255,255,1);
-    width: 290px;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-@media only screen and (min-width: 600px) {
-    .message-window {
-        width: 50%;
-    }
-}
-
-.message-window > p:first-child {
-    text-align: center;
-    font-family: Codropsicons, Arial;
-    font-size: 28px;
-    margin: 0;
-    margin-bottom: 40px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid rgba(8, 146, 245, 1);
-}
-
-.message-window > p:last-child {
-    text-align: center;
-    font-family: Codropsicons, Arial;
-    font-size: 18px;
-    margin: 0;
-    margin-bottom: 20px;
-}
-
-#modal_form {
-    width: 300px;
-    height: 300px;
-    border-radius: 5px;
-    border: 3px #000 solid;
-    background: #fff;
-    position: fixed;
-    top: 45%;
-    left: 50%;
-    margin-top: -150px;
-    margin-left: -150px;
-    display: none;
-    opacity: 0;
-    z-index: 5;
-    padding: 20px 10px;
-}
-
-#modal_form #modal_close {
-    width: 21px;
-    height: 21px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    display: block;
-}
-
-#overlay {
-    z-index: 3;
-    position: fixed;
-    background-color: #000;
-    opacity: 0.8;
-    filter: alpha(opacity=80);
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    display: none;
-}
-
-.log-in {
-    font-family: inherit;
-    font-size: inherit;
-    font-style: inherit;
-    width: 15%;
-    height: 50px;
-    margin: 5px auto;
-    background-color: #ffffff;
-    border: 4px solid #008FD6;
-    border-radius: 5px;
-    outline: none;
-    vertical-align: middle;
-}
-
-.log-in:hover {
-    background-color: rgba(240, 240, 240, 1);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.log-in:active {
-    transform: translateY(2px);
 }

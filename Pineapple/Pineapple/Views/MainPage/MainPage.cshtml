@@ -1,29 +1,33 @@
 ﻿<header>
     <div class="logo-wrapper">
         <img class="logo" src="img/Pineapple.png">
-        <div class="logo-header">  Pineapple</div>
+        <div class="logo-header">Pineapple</div>
     </div>
-    <div>
-        <button class="button" id="LogIn">Log in</button>
-        <button class="button" id="SignUp">Sign up</button>
+    <div class="buttons-container">
+        <button class="pa-button pa-button-margin-right" id="LogIn">Log in</button>
+        <button class="pa-button pa-button-margin-right" id="SignUp">Sign up</button>
     </div>
 </header>
-<div class="info">You are on the our main page of Pineapple project — replica of twitter. Register, authorize and share the new around you!</div>
+<div class="info">Welcome to Pineapple!<br>You are on the our main page of Pineapple project — replica of twitter. Register, authorize and share the new around you!</div>
+<div class="buttons-container-mobile">
+    <button class="pa-button pa-button-margin-top pa-adaptive-button-100" id="LogInMobile">Log in</button>
+    <button class="pa-button pa-button-margin-top pa-adaptive-button-100" id="SignUpMobile">Sign up</button>
+</div>
 <div class="blackout hidden" id="blackout-login">
     <button class="blackout-close" id="blackout-close-login"></button>
     <form class="modal-window" id="loginForm">
         <p>Autorization</p>
-        <label for="loginNickname" class="form-label">Nickname*</label>
-        <input type="text" name="nickname" class="input-area" id="loginNickname" placeholder="Type your nickname" required />
-        <label for="loginPass" class="form-label">Password*</label>
-        <input type="password" name="password" class="input-area" id="loginPass" placeholder="Type your password" required />
+        <label for="loginNickname" class="pa-label">Nickname*</label>
+        <input type="text" name="nickname" class="pa-input" id="loginNickname" placeholder="Type your nickname" required />
+        <label for="loginPass" class="pa-label">Password*</label>
+        <input type="password" name="password" class="pa-input" id="loginPass" placeholder="Type your password" required />
         <div class="login-error" id="loginError"></div>
         <div class="login-button-wrapper">
-            <div class="login-button">
-                <input type="submit" class="button load-button" id="login-apply" value="Log in" />
+            <div class="pa-adaptive-button-50 pa-button-relative">
+                <input type="submit" class="pa-button pa-adaptive-button-100" id="login-apply" value="Log in" />
                 <div id="loadLogButton"></div>
             </div>
-            <input type="button" class="button login-button" id="login-cancel" value="Cancel" />
+            <input type="button" class="pa-button pa-negative-button pa-button-margin-left pa-adaptive-button-50" id="login-cancel" value="Cancel" />
         </div>
     </form>
 </div>
@@ -32,57 +36,57 @@
     <form class="modal-window" id="registerForm">
         <p>Registration</p>
         <div class="info-container">
-            <label for="Nickname" class="form-label">Nickname*</label>
+            <label for="Nickname" class="pa-label">Nickname*</label>
             <div class="error-info"></div>
         </div>
-        <input type="text" name="nickname" class="input-area" id="Nickname" placeholder="Type your nickname" required />
+        <input type="text" name="nickname" class="pa-input" id="Nickname" placeholder="Type your nickname" required />
         <div class="info-container">
-            <label for="Name" class="form-label">First name</label>
+            <label for="Name" class="pa-label">First name</label>
             <div class="error-info"></div>
         </div>
-        <input type="text" name="firstName" class="input-area" id="Name" placeholder="Type your first name" />
+        <input type="text" name="firstName" class="pa-input" id="Name" placeholder="Type your first name" />
         <div class="info-container">
-            <label for="LName" class="form-label">Last name</label>
+            <label for="LName" class="pa-label">Last name</label>
             <div class="error-info"></div>
         </div>
-        <input type="text" name="lastName" class="input-area" id="LName" placeholder="Type your last name" />
+        <input type="text" name="lastName" class="pa-input" id="LName" placeholder="Type your last name" />
         <div class="info-container">
-            <label for="EMail" class="form-label">E-Mail*</label>
+            <label for="EMail" class="pa-label">E-Mail*</label>
             <div class="error-info"></div>
         </div>
-        <input type="email" name="email" class="input-area" id="EMail" placeholder="Type your e-Mail" required />
+        <input type="email" name="email" class="pa-input" id="EMail" placeholder="Type your e-Mail" required />
         <div class="info-container">
-            <label for="Pass" class="form-label">Password*</label>
+            <label for="Pass" class="pa-label">Password*</label>
             <div class="error-info"></div>
         </div>
-        <input type="password" name="password" class="input-area" id="Pass" placeholder="Type your password" required />
+        <input type="password" name="password" class="pa-input" id="Pass" placeholder="Type your password" required />
         <div class="info-container">
-            <label for="RPass" class="form-label">Repeat password*</label>
+            <label for="RPass" class="pa-label">Repeat password*</label>
             <div class="error-info"></div>
         </div>
-        <input type="password" name="rPassword" class="input-area" id="RPass" placeholder="Repeat your password" required />
+        <input type="password" name="rPassword" class="pa-input" id="RPass" placeholder="Repeat your password" required />
 
         <div class="register-button-wrapper">
-            <div class="register-button">
-                <input type="submit" class="button load-button" id="register-apply" value="Sign up" />
+            <div class="pa-adaptive-button-50 pa-button-relative">
+                <input type="submit" class="pa-button pa-adaptive-button-100" id="register-apply" value="Sign up" />
                 <div id="loadRegButton"></div>
             </div>
-            <input type="button" class="button register-button" id="register-cancel" value="Cancel" />
+            <input type="button" class="pa-button pa-negative-button pa-button-margin-left pa-adaptive-button-50" id="register-cancel" value="Cancel" />
         </div>
     </form>
 </div>
 <div class="blackout hidden" id="blackout-message">
-    <button class="blackout-close" id="blackout-close-message"></button>
     <div class="modal-window">
         <p id="messageHead"></p>
         <p id="message"></p>
+        <button class="pa-button pa-adaptive-button-100 pa-negative-button" id="blackout-close-message">Cancel</button>
     </div>
 </div>
 <footer>© 2018 Pineapple, Inc.</footer>
 <script>
         $(function () {
 
-            $('#LogIn').click(function (event) {
+            $('#LogIn, #LogInMobile').click(function (event) {
                 $("#blackout-login").removeClass("hidden");
                 $("#blackout-login").addClass("active");
             });
@@ -122,7 +126,7 @@
                 return false;
             });
 
-            $("#SignUp").click(function (e) {
+            $("#SignUp, #SignUpMobile").click(function (e) {
                 $("#blackout-register").removeClass("hidden");
                 $("#blackout-register").addClass("active");
             });
