@@ -47,6 +47,7 @@ namespace Pineapple
             // Add framework services.
             services.AddMvc();
             services.AddTransient<IUserAuth, UserAuth>();
+            services.AddTransient<ISearchService, SearchService>();
 
         }
 
