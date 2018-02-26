@@ -649,6 +649,7 @@ header {
 
 .no-data {
     display: flex;
+    flex-direction: column;
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -657,7 +658,12 @@ header {
     margin-bottom: 10px;
     border-radius: 5px;
     color: rgba(170,170,170,1);
+    cursor: default;
 }
+
+    .no-data > .fa {
+        margin-bottom: 20px;
+    }
 
 footer {
     display: flex;

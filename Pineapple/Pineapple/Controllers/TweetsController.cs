@@ -15,8 +15,9 @@ namespace Pineapple.Controllers
     {
         // GET api/values
         [HttpGet]
-        public Object Get()
-        {
+        public IEnumerable<TweetViewModel> Get()
+        {   
+            List<TweetViewModel> response = new List<TweetViewModel>();
             if (Request.Cookies.ContainsKey("session_id"))
             {
                 if (Services.UserAuth.CheckUserSession(Request.Cookies["session_id"]))
@@ -25,33 +26,15 @@ namespace Pineapple.Controllers
                     TweetsService modelReader = new TweetsService();
                     UserService us = new UserService();
                     List<TweetModel> tweets = modelReader.GetTweetsFromFeed(idOfCurrentUser);
-
-                    List<object> response = new List<object>();
                     foreach (var tweet in tweets)
                     {
                         UserModel user = us.GetUserById(tweet.IdOfAuthor);
                         string nickname = user == null ? "Error" : user.Nickname;
-                        response.Add(new { text = tweet.Text, date = tweet.Date.ToString(), nickname });
-                    }
-
-                    if (response.Count > 0)
-                    {
-                        return new { status = "true", tweets = response };
-                    }
-                    else
-                    {
-                        return new { status = "empty" };
-                    }
-                }
-                else
-                {
-                    return new { status = "error" };
+                        response.Add(new TweetViewModel (tweet, nickname));
+                    }                    
                 }
             }
-            else
-            {
-                return new { status = "error" };
-            }
+            return response;
         }
 
         // GET api/values/5
