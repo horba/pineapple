@@ -21,7 +21,7 @@ namespace Pineapple.Services
             string[] searchText = searchModel.SearchText.Split(' ');
             foreach (var item in searchText)
             {
-                HelpMethod(item);
+                SqlQuery(item);
             }
             FindedUsers = FindedUsers.Distinct().ToList();
             return FindedUsers;
@@ -34,15 +34,15 @@ namespace Pineapple.Services
             while (dataReader.Read())
             {
                 FindedUser = new UserModel();
-                FindedUser.Nickname = (string)dataReader.GetValue(1);
-                FindedUser.FirstName = (string)dataReader.GetValue(2);
-                FindedUser.LastName = (string)dataReader.GetValue(3);
+                FindedUser.Nickname = (string)dataReader["Nick"];
+                FindedUser.FirstName = (string)dataReader["FirstName"];
+                FindedUser.LastName = (string)dataReader["SecondName"];
                 AllFindedUsers.Add(FindedUser);
             }
             return AllFindedUsers;
         }
 
-        private void HelpMethod(string SearachText)
+        private void SqlQuery(string SearachText)
         {
             SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick", DBconnection.myConnection);
             sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + SearachText + "%");
