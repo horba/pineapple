@@ -1,5 +1,6 @@
 ﻿<div class="content-wrapper home-wrapper">
     <div class="pa-input-with-button-wrapper">
+
         <textarea class="pa-input-with-button add-tweet-input" placeholder="What you are thinking about?"></textarea>
         <input type="button" class="pa-button add-tweet-button" id="BTNAddTweet" value="Tell" />
     </div>
@@ -8,7 +9,6 @@
 
 <script>
     $(function () {
-
         $(".add-tweet-button").click(function (e) {
             $.post("/api/tweets", { value: $(".add-tweet-input").val() }).done(function () {
                 updateTweets();

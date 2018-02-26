@@ -696,6 +696,23 @@ header {
     color: rgba(50,50,50,1);
 }
 
+.nickname-in-tweet {
+    color: rgba(40,40,40,1);
+    font-weight: bold;
+}
+
+.tweet-date {
+    color: rgba(120,120,120,1);
+    font-size: 13px;
+}
+
+.text-in-tweet {
+    display: block;
+    font-size: 15px;
+    text-align: justify;
+    color: rgba(50,50,50,1);
+}
+
 .no-data {
     display: flex;
     flex-direction: column;
