@@ -75,5 +75,110 @@ namespace Pineapple.Controllers
 
             return "Not logged in";
         }
+
+        [HttpGet, Route("followers")]
+        public IActionResult Followers() {
+
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
+
+                    FollowService fs = new FollowService();
+                    UserService us = new UserService();
+
+                    List<FollowModel> followers = fs.GetFollowersByTargetUser(id);
+
+                    List<SimpleUserModel> followersLikeUser = new List<SimpleUserModel>();
+
+                    foreach (var i in followers) {
+                        UserModel followLikeUser = us.GetUserById(i.CurrentUser);
+                        if (user != null)
+                        {
+                            followersLikeUser.Add(new SimpleUserModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName));
+                        }
+                    }
+
+                    if (followers.Count > 0)
+                    {
+                        return Json(new { status = true, message = "", followers = followersLikeUser });
+                    }
+                    else
+                    {
+                        return Json(new { status = true, message = "No followers", followers = new List<SimpleUserModel>() });
+                    }
+                }
+                else
+                {
+                    return Json(new { status = false, message = "Error: Wrong user" });
+                }
+            }
+            else
+            {
+                return Json(new { status = false, message = "Error: Cookie not found" });
+            }
+        }
+
+        [HttpGet, Route("following")]
+        public IActionResult Following()
+        {
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
+                    FollowService fs = new FollowService();
+                    UserService us = new UserService();
+
+                    List<FollowModel> following = fs.GetFollowersByCurrentUser(id);
+
+                    List<SimpleUserModel> followingLikeUser = new List<SimpleUserModel>();
+
+                    foreach (var i in following)
+                    {
+                        UserModel followLikeUser = us.GetUserById(i.TargetUser);
+                        if (user != null) {
+                            followingLikeUser.Add(new SimpleUserModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName));
+                        }
+                    }
+
+                    if (following.Count > 0)
+                    {
+                        return Json(new { status = true, message = "", following = followingLikeUser });
+                    }
+                    else
+                    {
+                        return Json(new { status = true, message = "No following", following = new List<SimpleUserModel>() });
+                    }
+                }
+                else
+                {
+                    return Json(new { status = false, message = "Error: Wrong user" });
+                }
+            }
+            else
+            {
+                return Json(new { status = false, message = "Error: Cookie not found" });
+            }
+        }
     }
 }

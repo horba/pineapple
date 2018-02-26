@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Pineapple.Model;
 using System.Security.Cryptography;
+using Pineapple.Services;
 
 namespace Pineapple.DBServices
 {
@@ -42,15 +43,19 @@ namespace Pineapple.DBServices
             try
             {
                 SqlDataReader myReader = null;
-                SqlCommand myCommand = new SqlCommand(String.Format("select * from dbo.Users where id = {0}", id), DBconnection.myConnection);
+                SqlCommand myCommand = new SqlCommand(String.Format("SELECT * FROM dbo.Users WHERE Id = {0}", id), DBconnection.myConnection);
                 myReader = myCommand.ExecuteReader();
                 string[] fields = { "Id", "Nick", "FirstName", "SecondName", "Email", "Password" };
-                myReader.Read();
-                result = new UserModel(Convert.ToInt32(myReader[fields[0]]), myReader[fields[1]].ToString(), myReader[fields[2]].ToString(), myReader[fields[3]].ToString(), myReader[fields[4]].ToString(), myReader[fields[5]].ToString());
+                if (myReader.Read())
+                {
+                    result = new UserModel(Convert.ToInt32(myReader[fields[0]]), myReader[fields[1]].ToString(), myReader[fields[2]].ToString(), myReader[fields[3]].ToString(), myReader[fields[4]].ToString(), myReader[fields[5]].ToString());
+                }
+
+                myReader.Close();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogUsing4net.WriteError(ex.ToString());
             }
             DBconnection.ConnectionClose();
             return result;
