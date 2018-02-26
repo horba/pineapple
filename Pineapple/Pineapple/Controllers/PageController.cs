@@ -29,7 +29,7 @@ namespace Pineapple.Controllers
                     }
                     for (int i = 0; i < lastRegisteredUsers.Count; i++)
                     {                     
-                        lastRegisteredUsers[i].Status = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id).ToString();
+                        lastRegisteredUsers[i].Message = fs.CheckFollow(Convert.ToInt32(UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id), lastRegisteredUsers[i].Id).ToString();
                     }
                     return View("~/Views/UserPage/UserPage.cshtml", lastRegisteredUsers);                 
                 }

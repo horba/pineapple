@@ -108,7 +108,7 @@ namespace Pineapple.Services
                 else
                 {
                     DBconnection.ConnectionClose();
-                    FindedUser.Status = "Not found";
+                    FindedUser.Message = "Not found";
                     return FindedUser;
                 }
 
@@ -132,7 +132,7 @@ namespace Pineapple.Services
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                FindedUser.Status = "Error";
+                FindedUser.Message = "Error";
             }
             DBconnection.ConnectionClose();
 
