@@ -75,13 +75,14 @@
         });
     }
 
-    function getFollowers() { 
+    function getFollowers() {
         $.get("/api/follow/followers").done(function (data) {
             let values = data;
             let $followers = $(".followers-tweets");
             $followers.html("");
             if (values.status == "true") {
                 values.followers.forEach(function (v) {
+                    var follow = v.follow ? "unfollow" : "";
                     $followers.append('<div class="search-result block-with-shadow">' +
                         '<div class="search-image-wrapper">' +
                         '<img src="img/avatar.png" class="search-image" />' +
@@ -90,7 +91,9 @@
                         '<div class="search-username">' + v.nickname + '</div>' +
                         '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                         '</div >' +
-                        '<input type= "button" class="pa-button" value= "Follow" />' +
+                        '<div class="follow-button '+ follow +'" data-id="' + v.id + '" onclick="follow(this);">' +
+                        '<div class="fa fa-user user-icon"></div>' +
+                        '</div>' +
                         '</div>');
                 });
             } else if (values.status == "empty") {
@@ -106,15 +109,17 @@
             if (values.status == "true") {
                 values.following.forEach(function (v) {
                     $following.append('<div class="search-result block-with-shadow">' +
-                                            '<div class="search-image-wrapper">' +
-                                                '<img src="img/avatar.png" class="search-image" />' +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<div class="search-username">'+ v.nickname +'</div>' +
-                                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName +'</div>' +
-                                            '</div >' +
-                                            '<input type= "button" class="pa-button" value= "Follow" />' +
-                                        '</div>');
+                        '<div class="search-image-wrapper">' +
+                        '<img src="img/avatar.png" class="search-image" />' +
+                        '</div>' +
+                        '<div>' +
+                        '<div class="search-username">' + v.nickname + '</div>' +
+                        '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                        '</div >' +
+                        '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
+                        '<div class="fa fa-user user-icon"></div>' +
+                        '</div>' +
+                        '</div>');
                 });
             } else if (values.status == "empty") {
                 $following.append("<div class='no-data'><div class='fa fa-user-plus fa-3x'></div><div>Here you will see your following</div></div>");
@@ -122,7 +127,7 @@
         });
     }
 
-    function followersSearch() { 
+    function followersSearch() {
         if ($(".search-followers-input").val().length > 0) {
 
             if (window.searchAjax) {
@@ -135,6 +140,7 @@
                 $followers.html("");
                 if (values.status == "true") {
                     values.foundPeople.forEach(function (v) {
+                        var follow = v.follow ? "unfollow" : "";
                         $followers.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
                             '<img src="img/avatar.png" class="search-image" />' +
@@ -143,7 +149,9 @@
                             '<div class="search-username">' + v.nickname + '</div>' +
                             '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                             '</div >' +
-                            '<input type= "button" class="pa-button" value= "Follow" />' +
+                            '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
+                            '<div class="fa fa-user user-icon"></div>' +
+                            '</div>' +
                             '</div>');
                     });
                 } else if (values.status == "empty") {
@@ -154,7 +162,7 @@
             getFollowers();
         }
     }
-    function followingSearch() { 
+    function followingSearch() {
         if ($(".search-following-input").val().length > 0) {
 
             if (window.searchAjax) {
@@ -168,15 +176,17 @@
                 if (values.status == "true") {
                     values.foundPeople.forEach(function (v) {
                         $following.append('<div class="search-result block-with-shadow">' +
-                            '<div class="search-image-wrapper">' +
-                            '<img src="img/avatar.png" class="search-image" />' +
-                            '</div>' +
-                            '<div>' +
-                            '<div class="search-username">' + v.nickname + '</div>' +
-                            '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                            '</div >' +
-                            '<input type= "button" class="pa-button" value= "Follow" />' +
-                            '</div>');
+                                            '<div class="search-image-wrapper">' +
+                                                '<img src="img/avatar.png" class="search-image" />' +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<div class="search-username">' + v.nickname + '</div>' +
+                                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                            '</div >' +
+                                            '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
+                                                '<div class="fa fa-user user-icon"></div>' +
+                                            '</div>' +
+                                        '</div>');
                     });
                 } else if (values.status == "empty") {
                     $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
@@ -187,10 +197,45 @@
         }
     }
 
+    function follow(button) { 
+
+        button = $(button);
+
+        if (!button.hasClass("load") && !button.hasClass("success") && !button.hasClass("fail")) {
+            button.addClass("load");
+
+            if (button.hasClass("unfollow")) {
+                $.post("/api/Follow/unfollow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load unfollow");
+                    if (response == "true") {
+                        button.addClass("success");
+                    } else {
+                        button.addClass("fail");
+                        console.log(response);
+                    }
+
+                    setTimeout(function (e) { button.removeClass("fail success"); }, 1000);
+                });
+            } else {
+                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response == "true") {
+                        button.addClass("success");
+                    } else {
+                        button.addClass("fail");
+                        console.log(response);
+                    }
+
+                    setTimeout(function (e) { button.removeClass("fail success"); button.addClass("unfollow");}, 1000);
+                });
+            }
+        }
+    }
+
     $(function () {
         var searchAjax;
 
-        $(".internal-menu > .internal-menu-item").click(function (e) { 
+        $(".internal-menu > .internal-menu-item").click(function (e) {
             if (!$(this).hasClass("active")) {
                 $(".internal-menu > .internal-menu-item").removeClass("active");
                 $(this).addClass("active");

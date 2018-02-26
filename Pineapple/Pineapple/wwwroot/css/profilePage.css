@@ -157,6 +157,7 @@
     margin-bottom: 10px;
     border-radius: 5px;
     color: rgba(170,170,170,1);
+    cursor: default;
 }
 .no-data > .fa {
     margin-bottom: 20px;    

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.Model;
 using Pineapple.Services;
+using Pineapple.DBServices;
 namespace Pineapple.Controllers
 {
     [Route("api/[controller]")]
@@ -28,8 +29,14 @@ namespace Pineapple.Controllers
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
                     int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    FollowService fs = new FollowService();
 
                     List<SimpleUserModel> response = SearchEngine.FindPeoplesInFollowers(searchLine, id);
+                    List<FollowViewModel> users = new List<FollowViewModel>();
+
+                    foreach (var i in response) {
+                        users.Add(new FollowViewModel(i.Id, i.Nickname, i.FirstName, i.LastName, fs.CheckFollow(id, i.Id)));
+                    }
 
                     if (response.Count > 0)
                     {

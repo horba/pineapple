@@ -89,13 +89,13 @@ namespace Pineapple.Controllers
 
                     List<FollowModel> followers = fs.GetFollowersByTargetUser(id);
 
-                    List<SimpleUserModel> followersLikeUser = new List<SimpleUserModel>();
+                    List<FollowViewModel> followersLikeUser = new List<FollowViewModel>();
 
                     foreach (var i in followers) {
                         UserModel user = us.GetUserById(i.CurrentUser);
                         if (user != null)
                         {
-                            followersLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                            followersLikeUser.Add(new FollowViewModel(user.Id, user.Nickname, user.FirstName, user.LastName, fs.CheckFollow(id, user.Id)));
                         }
                     }
 
