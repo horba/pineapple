@@ -233,7 +233,7 @@ label.pa-label {
     box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
 }
 
-.main-image-wrapper {
+.search-image-wrapper {
     justify-content: center;
     align-items: center;
     padding-left:10px;
@@ -242,7 +242,7 @@ label.pa-label {
     height: 70px;
 }
 
-.main-image {
+.search-image {
     width: 100%;
     box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
 }

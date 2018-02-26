@@ -16,9 +16,14 @@ namespace Pineapple.Controllers
             SearchEngine = mySearchService;
         }
 
-        public JsonResult Searach(SearchModel searchModel)
+        public IActionResult Searach(SearchModel searchModel)
         {
-            return Json(SearchEngine.FindPeoples(searchModel));
+            List<UserModel> findedusers = SearchEngine.FindPeoples(searchModel);
+            if (findedusers.Count == 0)
+            {
+                return Json(new { status = "empty"});
+            }
+            return Json(new {FindedPeoples = findedusers, status = "true"} );
         }
     }
 }
