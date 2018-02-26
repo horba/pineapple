@@ -8,7 +8,7 @@ using Pineapple.Model;
 namespace Pineapple.DBServices
 {
     interface ITweetsService{
-        void AddTweet(string tweet);
+        void AddTweet(TweetModel tweet);
         List<TweetModel> GetLimitTweets(int limit);
         List<TweetModel> GetAllTweets();
         List<TweetModel> GetTweetsFromFeed(int idOfCurrentUser);

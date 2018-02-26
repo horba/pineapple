@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.DBServices;
 using Pineapple.Model;
+using System.Data;
 using Pineapple.Services;
 
 namespace Pineapple.Controllers
@@ -14,23 +15,27 @@ namespace Pineapple.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            List<string> stringTweets = new List<string>();
-            TweetsService modelReader = new TweetsService();
+        public IEnumerable<TweetViewModel> Get()
+        {   
+            List<TweetViewModel> response = new List<TweetViewModel>();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfCurrentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                List<TweetModel> tweetsFromFeed = modelReader.GetTweetsFromFeed(idOfCurrentUser);
-                if (tweetsFromFeed != null)
+                if (Services.UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    foreach (TweetModel tweet in tweetsFromFeed)
+                    int CurrentUserId = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    TweetsService modelReader = new TweetsService();
+                    UserService us = new UserService();
+                    List<TweetModel> tweets = modelReader.GetTweetsFromFeed(CurrentUserId);
+                    foreach (var tweet in tweets)
                     {
-                        stringTweets.Add(tweet.ToString());
-                    }
+                        UserModel user = us.GetUserById(tweet.AuthorId);
+                        string nickname = user == null ? "Error" : user.Nickname;
+                        tweet.Date = tweet.Date.ToLocalTime();
+                        response.Add(new TweetViewModel (tweet, nickname));
+                    }                    
                 }
             }
-            return stringTweets;
+            return response;
         }
 
         // GET api/values/5
@@ -49,8 +54,8 @@ namespace Pineapple.Controllers
             TweetsService modelReader = new TweetsService();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfAuthor = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                modelReader.AddTweet(value, idOfAuthor);
+                int AuthorId = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                modelReader.AddTweet(new TweetModel(DateTime.UtcNow, value, AuthorId));
             }
         }
 

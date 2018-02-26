@@ -11,18 +11,20 @@ namespace Pineapple.Services
     public class SearchService : ISearchService
     {
         List<UserModel> FindedUsers = new List<UserModel>();
-        public SearchResponseModel FindPeoples(SearchModel searchModel)
+        public List<UserModel> FindPeoples(SearchModel searchModel)
         {
+            if (searchModel.SearchText == null)
+            {
+                return FindedUsers;
+            }
             DBconnection.ConnectionOpen();
             string[] searchText = searchModel.SearchText.Split(' ');
             foreach (var item in searchText)
             {
-                HelpMethod(item);
+                SqlQuery(item);
             }
             FindedUsers = FindedUsers.Distinct().ToList();
-            SearchResponseModel SRM = new SearchResponseModel();
-            SRM.Users = FindedUsers;
-            return SRM;
+            return FindedUsers;
         }
 
         private List<UserModel> FindUsersByReader(SqlDataReader dataReader)
@@ -32,33 +34,19 @@ namespace Pineapple.Services
             while (dataReader.Read())
             {
                 FindedUser = new UserModel();
-                FindedUser.Id = (int)dataReader.GetValue(0);
-                FindedUser.Nickname = (string)dataReader.GetValue(1);
-                FindedUser.FirstName = (string)dataReader.GetValue(2);
-                FindedUser.LastName = (string)dataReader.GetValue(3);
-                FindedUser.Email = (string)dataReader.GetValue(4);
-                FindedUser.Password = (string)dataReader.GetValue(5);
+                FindedUser.Nickname = (string)dataReader["Nick"];
+                FindedUser.FirstName = (string)dataReader["FirstName"];
+                FindedUser.LastName = (string)dataReader["SecondName"];
                 AllFindedUsers.Add(FindedUser);
             }
             return AllFindedUsers;
         }
 
-        private void HelpMethod(string SearachText)
+        private void SqlQuery(string SearachText)
         {
-            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Users WHERE Nick = @ParamNick", DBconnection.myConnection);
-            sqlCommand.Parameters.AddWithValue("@ParamNick", SearachText);
+            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick", DBconnection.myConnection);
+            sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + SearachText + "%");
             SqlDataReader myDataReader = sqlCommand.ExecuteReader();
-            FindedUsers = FindUsersByReader(myDataReader);
-            myDataReader.Close();
-
-            sqlCommand.CommandText = "SELECT * FROM Users WHERE FirstName = @ParamNick";
-            myDataReader = sqlCommand.ExecuteReader();
-            FindedUsers.AddRange(FindUsersByReader(myDataReader));
-            myDataReader.Close();
-
-
-            sqlCommand.CommandText = "SELECT * FROM Users WHERE SecondName = @ParamNick";
-            myDataReader = sqlCommand.ExecuteReader();
             FindedUsers.AddRange(FindUsersByReader(myDataReader));
             myDataReader.Close();
         }
