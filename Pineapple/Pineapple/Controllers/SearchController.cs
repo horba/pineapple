@@ -22,7 +22,7 @@ namespace Pineapple.Controllers
         }
 
         [HttpGet("searchFollowers/{searchLine}")]
-        public object SearchInFollowers(string searchLine) {
+        public IActionResult SearchInFollowers(string searchLine) {
             if (Request.Cookies.ContainsKey("session_id"))
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
@@ -33,26 +33,26 @@ namespace Pineapple.Controllers
 
                     if (response.Count > 0)
                     {
-                        return new { status = "true", foundPeople = response };
+                        return Json(new { status = "true", foundPeople = response });
                     }
                     else
                     {
-                        return new { status = "empty" };
+                        return Json(new { status = "empty" });
                     }
                 }
                 else
                 {
-                    return new { status = "error" };
+                    return Json(new { status = "error" });
                 }
             }
             else
             {
-                return new { status = "error" };
+                return Json(new { status = "error" });
             }
         }
 
         [HttpGet("searchFollowing/{searchLine}")]
-        public object SearchInFollowing(string searchLine)
+        public IActionResult SearchInFollowing(string searchLine)
         {
             if (Request.Cookies.ContainsKey("session_id"))
             {
@@ -64,21 +64,21 @@ namespace Pineapple.Controllers
 
                     if (response.Count > 0)
                     {
-                        return new { status = "true", foundPeople = response };
+                        return Json(new { status = "true", foundPeople = response });
                     }
                     else
                     {
-                        return new { status = "empty" };
+                        return Json(new { status = "empty" });
                     }
                 }
                 else
                 {
-                    return new { status = "error" };
+                    return Json(new { status = "error" });
                 }
             }
             else
             {
-                return new { status = "error" };
+                return Json(new { status = "error" });
             }
         }
     }

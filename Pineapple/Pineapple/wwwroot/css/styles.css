@@ -88,7 +88,7 @@ header {
     display: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 640px) {
 
     header{
         justify-content: center;
@@ -175,6 +175,19 @@ header {
     .main-menu > .user-info:hover {
         background-color: transparent;  
     }
+}
+
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    position: relative;
+}
+
+.main {
+    display: flex;
+    width: 100%;
+    flex: 1;
 }
 
 .follow-button {
@@ -462,7 +475,6 @@ header {
     justify-content: flex-start;
     align-items: stretch;
 }
-
 .feed {
     width: 100%;
     margin-bottom: 10px;
@@ -476,7 +488,6 @@ header {
     flex-direction: row;
     flex-shrink: 0;
 }
-
 .image-wrapper {
     position: absolute;
     top: 0px;
@@ -490,39 +501,42 @@ header {
     overflow: hidden;
     box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
 }
-
 .avatar-in-tweet {
     height: 100%;
     
 }
-
 .not-avatar-part-of-tweet {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
-
 .tweet-info {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
 }
-
 .nickname-in-tweet {
     color: rgba(40,40,40,1);
     font-weight: bold;
 }
-
 .tweet-date {
     color: rgba(120,120,120,1);
     font-size: 13px;
 }
-
 .text-in-tweet {
     display: block;
     font-size: 15px;
     text-align: justify;
     color: rgba(50,50,50,1);
+}
+@media only screen and (max-width: 860px) {
+    .image-wrapper {
+        position: relative;
+        left: 0px;
+    }
+    .not-avatar-part-of-tweet {
+        padding-left: 10px;
+    }
 }
 
 footer {

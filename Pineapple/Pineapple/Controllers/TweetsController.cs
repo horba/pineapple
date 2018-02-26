@@ -71,7 +71,7 @@ namespace Pineapple.Controllers
         }
 
         [HttpGet, Route("myTweets")]
-        public object myTweets() {
+        public IActionResult myTweets() {
             if (Request.Cookies.ContainsKey("session_id"))
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
@@ -91,20 +91,20 @@ namespace Pineapple.Controllers
 
                     if (response.Count > 0)
                     {
-                        return new { status = "true", tweets = response };
+                        return Json(new { status = "true", tweets = response });
                     }
                     else {
-                        return new { status = "empty" };
+                        return Json(new { status = "empty" });
                     }
                 }
                 else
                 {
-                    return new { status = "error" };
+                    return Json(new { status = "error" });
                 }
             }
             else
             {
-                return new { status = "error" };
+                return Json(new { status = "error" });
             }
         }
     }

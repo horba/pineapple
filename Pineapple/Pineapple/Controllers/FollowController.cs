@@ -77,7 +77,7 @@ namespace Pineapple.Controllers
         }
 
         [HttpGet, Route("followers")]
-        public object Followers() {
+        public IActionResult Followers() {
 
             if (Request.Cookies.ContainsKey("session_id"))
             {
@@ -98,16 +98,16 @@ namespace Pineapple.Controllers
 
                     if (followers.Count > 0)
                     {
-                        return new { status = "true", followers = followersLikeUser };
+                        return Json(new { status = "true", followers = followersLikeUser });
                     }
                     else
                     {
-                        return new { status = "empty" };
+                        return Json(new { status = "empty" });
                     }
                 }
                 else
                 {
-                    return new { status = "error" };
+                    return Json(new { status = "error" });
                 }
             }
             else
@@ -117,7 +117,7 @@ namespace Pineapple.Controllers
         }
 
         [HttpGet, Route("following")]
-        public object Following()
+        public IActionResult Following()
         {
             if (Request.Cookies.ContainsKey("session_id"))
             {
@@ -139,16 +139,16 @@ namespace Pineapple.Controllers
 
                     if (following.Count > 0)
                     {
-                        return new { status = "true", following = followingLikeUser };
+                        return Json(new { status = "true", following = followingLikeUser });
                     }
                     else
                     {
-                        return new { status = "empty" };
+                        return Json(new { status = "empty" });
                     }
                 }
                 else
                 {
-                    return new { status = "error" };
+                    return Json(new { status = "error" });
                 }
             }
             else

@@ -178,7 +178,7 @@ body {
     border-radius: 0 18px 18px 0;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 640px) {
     .pa-input-with-button-wrapper {
         height: 30px;
     }
@@ -243,17 +243,17 @@ label.pa-label {
 }
 
 .background-color-0 {
-    color: rgba(93,180,242,1)
+    background-color: rgba(93,180,242,1)
 }
 .background-color-1 {
-    color: rgba(243,250,254,1)
+    background-color: rgba(243,250,254,1)
 }
 .background-color-2 {
-    color: rgba(154,208,245,1)
+    background-color: rgba(154,208,245,1)
 }
 .background-color-3 {
-    color: rgba(37,157,242,1)
+    background-color: rgba(37,157,242,1)
 }
 .background-color-4 {
-    color: rgba(2,141,240,1)
+    background-color: rgba(2,141,240,1)
 }
