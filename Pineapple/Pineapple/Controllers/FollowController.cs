@@ -93,7 +93,10 @@ namespace Pineapple.Controllers
 
                     foreach (var i in followers) {
                         UserModel user = us.GetUserById(i.CurrentUser);
-                        followersLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                        if (user != null)
+                        {
+                            followersLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                        }
                     }
 
                     if (followers.Count > 0)
@@ -134,7 +137,9 @@ namespace Pineapple.Controllers
                     foreach (var i in following)
                     {
                         UserModel user = us.GetUserById(i.TargetUser);
-                        followingLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                        if (user != null) {
+                            followingLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                        }
                     }
 
                     if (following.Count > 0)

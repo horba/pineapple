@@ -82,14 +82,22 @@
             $followers.html("");
             if (values.status == "true") {
                 values.followers.forEach(function (v) {
-                    $followers.append("<div>" + v.nickname + "</div>");
+                    $followers.append('<div class="search-result block-with-shadow">' +
+                        '<div class="search-image-wrapper">' +
+                        '<img src="img/avatar.png" class="search-image" />' +
+                        '</div>' +
+                        '<div>' +
+                        '<div class="search-username">' + v.nickname + '</div>' +
+                        '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                        '</div >' +
+                        '<input type= "button" class="pa-button" value= "Follow" />' +
+                        '</div>');
                 });
             } else if (values.status == "empty") {
                 $followers.append("<div class='no-data'><div class='fa fa-address-card-o fa-3x'></div><div>Here you will see your followers</div></div>");
             }
         });
     }
-
     function getFollowing() {
         $.get("/api/follow/following").done(function (data) {
             let values = data;
@@ -97,12 +105,86 @@
             $following.html("");
             if (values.status == "true") {
                 values.following.forEach(function (v) {
-                    $following.append("<div>" + v.nickname + "</div>");
+                    $following.append('<div class="search-result block-with-shadow">' +
+                                            '<div class="search-image-wrapper">' +
+                                                '<img src="img/avatar.png" class="search-image" />' +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<div class="search-username">'+ v.nickname +'</div>' +
+                                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName +'</div>' +
+                                            '</div >' +
+                                            '<input type= "button" class="pa-button" value= "Follow" />' +
+                                        '</div>');
                 });
             } else if (values.status == "empty") {
                 $following.append("<div class='no-data'><div class='fa fa-user-plus fa-3x'></div><div>Here you will see your following</div></div>");
             }
         });
+    }
+
+    function followersSearch() { 
+        if ($(".search-followers-input").val().length > 0) {
+
+            if (window.searchAjax) {
+                searchAjax.abort();
+            }
+
+            searchAjax = $.get("api/search/searchFollowers/" + $(".search-followers-input").val()).done(function (data) {
+                let values = data;
+                let $followers = $(".followers-tweets");
+                $followers.html("");
+                if (values.status == "true") {
+                    values.foundPeople.forEach(function (v) {
+                        $followers.append('<div class="search-result block-with-shadow">' +
+                            '<div class="search-image-wrapper">' +
+                            '<img src="img/avatar.png" class="search-image" />' +
+                            '</div>' +
+                            '<div>' +
+                            '<div class="search-username">' + v.nickname + '</div>' +
+                            '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                            '</div >' +
+                            '<input type= "button" class="pa-button" value= "Follow" />' +
+                            '</div>');
+                    });
+                } else if (values.status == "empty") {
+                    $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                }
+            });
+        } else {
+            getFollowers();
+        }
+    }
+    function followingSearch() { 
+        if ($(".search-following-input").val().length > 0) {
+
+            if (window.searchAjax) {
+                searchAjax.abort();
+            }
+
+            searchAjax = $.get("api/search/searchFollowing/" + $(".search-following-input").val()).done(function (data) {
+                let values = data;
+                let $following = $(".following-tweets");
+                $following.html("");
+                if (values.status == "true") {
+                    values.foundPeople.forEach(function (v) {
+                        $following.append('<div class="search-result block-with-shadow">' +
+                            '<div class="search-image-wrapper">' +
+                            '<img src="img/avatar.png" class="search-image" />' +
+                            '</div>' +
+                            '<div>' +
+                            '<div class="search-username">' + v.nickname + '</div>' +
+                            '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                            '</div >' +
+                            '<input type= "button" class="pa-button" value= "Follow" />' +
+                            '</div>');
+                    });
+                } else if (values.status == "empty") {
+                    $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                }
+            });
+        } else {
+            getFollowing();
+        }
     }
 
     $(function () {
@@ -168,97 +250,17 @@
         });
 
         $(".search-followers-button").click(function (e) {
-            if ($(".search-followers-input").val().length > 0) {
-
-                if (window.searchAjax) {
-                    searchAjax.abort();
-                }
-
-                searchAjax = $.get("api/search/searchFollowers/" + $(".search-followers-input").val()).done(function (data) {
-                    let values = data;
-                    let $followers = $(".followers-tweets");
-                    $followers.html("");
-                    if (values.status == "true") {
-                        values.foundPeople.forEach(function (v) {
-                            $followers.append("<div>" + v.nickname + "</div>");
-                        });
-                    } else if (values.status == "empty") {
-                        $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
-                    }
-                });
-            } else {
-                getFollowers();
-            }
+            followersSearch();
         });
         $(".search-followers-input").keyup(function (e) {
-            if ($(this).val().length > 0) {
-
-                if (window.searchAjax) {
-                    searchAjax.abort();
-                }
-
-                searchAjax = $.get("api/search/searchFollowers/" + $(this).val()).done(function (data) {
-                    let values = data;
-                    let $followers = $(".followers-tweets");
-                    $followers.html("");
-                    if (values.status == "true") {
-                        values.foundPeople.forEach(function (v) {
-                            $followers.append("<div>" + v.nickname + "</div>");
-                        });
-                    } else if (values.status == "empty") {
-                        $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
-                    }
-                });
-            } else {
-                getFollowers();
-            }
+            followersSearch();
         });
 
         $(".search-following-button").click(function (e) {
-            if ($(".search-following-input").val().length > 0) {
-
-                if (window.searchAjax) {
-                    searchAjax.abort();
-                }
-
-                searchAjax = $.get("api/search/searchFollowing/" + $(".search-following-input").val()).done(function (data) {
-                    let values = data;
-                    let $following = $(".following-tweets");
-                    $following.html("");
-                    if (values.status == "true") {
-                        values.foundPeople.forEach(function (v) {
-                            $following.append("<div>" + v.nickname + "</div>");
-                        });
-                    } else if (values.status == "empty") {
-                        $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
-                    }
-                });
-            } else {
-                getFollowing();
-            }
+            followingSearch();
         });
         $(".search-following-input").keyup(function (e) {
-            if ($(this).val().length > 0) {
-
-                if (window.searchAjax) {
-                    searchAjax.abort();
-                }
-
-                searchAjax = $.get("api/search/searchFollowing/" + $(this).val()).done(function (data) {
-                    let values = data;
-                    let $following = $(".following-tweets");
-                    $following.html("");
-                    if (values.status == "true") {
-                        values.foundPeople.forEach(function (v) {
-                            $following.append("<div>" + v.nickname + "</div>");
-                        });
-                    } else if (values.status == "empty") {
-                        $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
-                    }
-                });
-            } else {
-                getFollowing();
-            }
+            followingSearch();
         });
 
         $(".internal-menu > .internal-menu-item.active").addClass("active");
