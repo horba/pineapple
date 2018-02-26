@@ -32,11 +32,19 @@ namespace Pineapple.Controllers
             if (response.Nickname == "true" && response.Email == "true" && response.FirstName == "true" && response.LastName == "true" &&
                 response.Password == "true" && response.RPassword == "true")
             {
-                response.Status = user.RegisterUser(data);
+                response.Status = user.RegisterUser(data);                
             }
             else
             {
                 response.Status = "wrong parameter(s)";
+            }
+            if (response.Status == "true")
+            {
+                response.AllRight = true;
+            }
+            else
+            {
+                response.AllRight = false;
             }
 
             return response;

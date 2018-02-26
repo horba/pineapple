@@ -194,12 +194,11 @@
 
                     if (response.status != "wrong parameter(s)") {
 
-                        if (response.status == "true")
+                        if (response.allRight)
                         {
                             $("#messageHead").html("Successful registration");
                             $("#message").html("You have been successfully registered.");
-                            $("#registerForm").data("registrtionWasSuccesful", "true");
-                           
+                            $("#registerForm").data("registrtionWasSuccesful", "true");                           
                         }
                         else
                         {
