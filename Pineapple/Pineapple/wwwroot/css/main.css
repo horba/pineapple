@@ -255,5 +255,51 @@ label.pa-label {
     background-color: rgba(37,157,242,1)
 }
 .background-color-4 {
-    background-color: rgba(2,141,240,1)
+    color: rgba(2,141,240,1)
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0 auto;
+    padding-top: 10px;
+    max-width: 780px;
+}
+
+.pa-search-result{
+    display:grid;
+    grid-template-columns: auto 4fr 1fr;
+    align-items:center;
+
+    height:100px;
+    width:100%;
+}
+
+.block-with-shadow {
+    position: relative;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+
+.main-image-wrapper {
+    justify-content: center;
+    align-items: center;
+    padding-left:10px;
+    padding-right:20px;
+    width: 70px;
+    height: 70px;
+}
+
+.main-image {
+    width: 100%;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+
+.pa-text-small-400 {
+    font-size: small;
+    font-weight: 400;
+    opacity: 0.8;
 }
