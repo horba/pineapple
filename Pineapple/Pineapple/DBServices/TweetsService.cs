@@ -25,7 +25,7 @@ namespace Pineapple.DBServices
                                                          DBconnection.myConnection);
                 myCommand.Parameters.AddWithValue("@ParamText", tweet.Text);
                 myCommand.Parameters.AddWithValue("@ParamDate", tweet.Date);
-                myCommand.Parameters.AddWithValue("@ParamIdOfAuthor", tweet.IdOfAuthor);
+                myCommand.Parameters.AddWithValue("@ParamIdOfAuthor", tweet.AuthorId);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)

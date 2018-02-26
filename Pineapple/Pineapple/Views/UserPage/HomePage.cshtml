@@ -34,7 +34,7 @@
                 let $feed = $("#feed");
                 $feed.html("");
                 if (values.length != 0) {
-                    values.forEach(function (v) {
+                    values.forEach(function (v) {                        
                         $feed.append(   "<div class=\"feed block-with-shadow\" >" +
                                             "<div class=\"image-wrapper\">" +
                                                 "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
@@ -42,10 +42,10 @@
                                             "<div class=\"not-avatar-part-of-tweet\">" +
                                                 "<div class=\"tweet-info\">" +
                                                     "<div class=\"nickname-in-tweet\">" +
-                                                        v.nickname +
+                                                        v.authorNickname +
                                                     "</div >" +
                                                     "<div class=\"tweet-date\">" +
-                                                        v.date +
+                                                        new Date(v.date).toLocaleString("ru-UA") +
                                                     "</div >" +
                                                 "</div >" +
                                                 "<div class=\"text-in-tweet\">" +

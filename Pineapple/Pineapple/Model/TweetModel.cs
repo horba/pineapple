@@ -10,28 +10,28 @@ namespace Pineapple.Model
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string Text { get; set; }
-        public int IdOfAuthor { get; set; }
+        public int AuthorId { get; set; }
 
-        public TweetModel(int id, DateTime date, string text, int idOfAuthor)
+        public TweetModel(int id, DateTime date, string text, int authorId)
         {
             Id = id;
             Date = date;
             Text = text;
-            IdOfAuthor = idOfAuthor;
+            AuthorId = authorId;
         }
 
-        public TweetModel(DateTime date, string text, int idOfAuthor)
+        public TweetModel(DateTime date, string text, int authorId)
         {
             Date = date;
             Text = text;
-            IdOfAuthor = idOfAuthor;
+            AuthorId = authorId;
         }
 
         public override string ToString()
         {
-            if (IdOfAuthor != 0)
+            if (AuthorId != 0)
             {
-                return String.Format("Tweet #{0} from {1} \"{2}\" by user #{3}", Id, Date.ToShortDateString(), Text, IdOfAuthor);
+                return String.Format("Tweet #{0} from {1} \"{2}\" by user #{3}", Id, Date.ToShortDateString(), Text, AuthorId);
             }
             else
             {

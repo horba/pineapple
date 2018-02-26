@@ -22,14 +22,15 @@ namespace Pineapple.Controllers
             {
                 if (Services.UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    int idOfCurrentUser = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    int CurrentUserId = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
                     TweetsService modelReader = new TweetsService();
                     UserService us = new UserService();
-                    List<TweetModel> tweets = modelReader.GetTweetsFromFeed(idOfCurrentUser);
+                    List<TweetModel> tweets = modelReader.GetTweetsFromFeed(CurrentUserId);
                     foreach (var tweet in tweets)
                     {
-                        UserModel user = us.GetUserById(tweet.IdOfAuthor);
+                        UserModel user = us.GetUserById(tweet.AuthorId);
                         string nickname = user == null ? "Error" : user.Nickname;
+                        tweet.Date = tweet.Date.ToLocalTime();
                         response.Add(new TweetViewModel (tweet, nickname));
                     }                    
                 }
@@ -53,8 +54,8 @@ namespace Pineapple.Controllers
             TweetsService modelReader = new TweetsService();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfAuthor = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                modelReader.AddTweet(new TweetModel(DateTime.UtcNow, value, idOfAuthor));
+                int AuthorId = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                modelReader.AddTweet(new TweetModel(DateTime.UtcNow, value, AuthorId));
             }
         }
 

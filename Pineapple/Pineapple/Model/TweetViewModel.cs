@@ -7,18 +7,18 @@ namespace Pineapple.Model
 {
     public class TweetViewModel : TweetModel
     {
-        public string NicknameOfAuthor { get; set; }
+        public string AuthorNickname { get; set; }
 
         public TweetViewModel(int id, DateTime date, string text, int idOfAuthor, string nicknameOfAuthor) 
             : base(id, date, text, idOfAuthor)
         {
-            NicknameOfAuthor = nicknameOfAuthor;
+            AuthorNickname = nicknameOfAuthor;
         }
 
         public TweetViewModel(TweetModel tweetModel, string nicknameOfAuthor)
-            : base(tweetModel.Id, tweetModel.Date, tweetModel.Text, tweetModel.IdOfAuthor)
+            : base(tweetModel.Id, tweetModel.Date, tweetModel.Text, tweetModel.AuthorId)
         {
-            NicknameOfAuthor = nicknameOfAuthor;
+            AuthorNickname = nicknameOfAuthor;
         }
     }
 }
