@@ -15,10 +15,10 @@ namespace Pineapple.Controllers
         {
             SearchEngine = mySearchService;
         }
-        [HttpPost]
-        public void Searach(SearchModel searchModel)
+
+        public JsonResult Searach(SearchModel searchModel)
         {
-            SearchEngine.FindPeoples(searchModel);
+            return Json(SearchEngine.FindPeoples(searchModel));
         }
     }
 }
