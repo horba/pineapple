@@ -8,7 +8,7 @@ namespace Pineapple.Services
 {
     public interface ISearchService
     {
-        SearchResponseModel FindPeoples(SearchModel searchModel);
+        List<UserModel> FindPeoples(SearchModel searchModel);
         List<SimpleUserModel> FindPeoplesInFollowers(string searchLine, int userId);
         List<SimpleUserModel> FindPeoplesInFollowing(string searchLine, int userId);
     }

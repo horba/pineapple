@@ -34,6 +34,7 @@ namespace Pineapple.Services
             while (dataReader.Read())
             {
                 FindedUser = new UserModel();
+                FindedUser.Id = Convert.ToInt32(dataReader["Id"]);
                 FindedUser.Nickname = (string)dataReader.GetValue(1);
                 FindedUser.FirstName = (string)dataReader.GetValue(2);
                 FindedUser.LastName = (string)dataReader.GetValue(3);
@@ -42,13 +43,19 @@ namespace Pineapple.Services
             return AllFindedUsers;
         }
 
-        private void HelpMethod(string SearachText)
+        private void HelpMethod(string SearchText)
         {
-            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick", DBconnection.myConnection);
-            sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + SearachText + "%");
-            SqlDataReader myDataReader = sqlCommand.ExecuteReader();
-            FindedUsers.AddRange(FindUsersByReader(myDataReader));
-            myDataReader.Close();
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick", DBconnection.myConnection);
+                sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + SearchText + "%");
+                SqlDataReader myDataReader = sqlCommand.ExecuteReader();
+                FindedUsers.AddRange(FindUsersByReader(myDataReader));
+                myDataReader.Close();
+            }
+            catch(Exception ex) {
+                LogUsing4net.WriteError(ex.Message);
+            }
         }
 
         public List<SimpleUserModel> FindPeoplesInFollowers(string searchLine, int userId) {

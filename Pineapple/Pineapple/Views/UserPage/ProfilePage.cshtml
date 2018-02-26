@@ -130,11 +130,11 @@
     function followersSearch() {
         if ($(".search-followers-input").val().length > 0) {
 
-            if (window.searchAjax) {
-                searchAjax.abort();
+            if (window.searchProfileAjax) {
+                searchProfileAjax.abort();
             }
 
-            searchAjax = $.get("api/search/searchFollowers/" + $(".search-followers-input").val()).done(function (data) {
+            searchProfileAjax = $.get("api/search/searchFollowers/" + $(".search-followers-input").val()).done(function (data) {
                 let values = data;
                 let $followers = $(".followers-tweets");
                 $followers.html("");
@@ -166,10 +166,10 @@
         if ($(".search-following-input").val().length > 0) {
 
             if (window.searchAjax) {
-                searchAjax.abort();
+                searchProfileAjax.abort();
             }
 
-            searchAjax = $.get("api/search/searchFollowing/" + $(".search-following-input").val()).done(function (data) {
+            searchProfileAjax = $.get("api/search/searchFollowing/" + $(".search-following-input").val()).done(function (data) {
                 let values = data;
                 let $following = $(".following-tweets");
                 $following.html("");
@@ -233,7 +233,7 @@
     }
 
     $(function () {
-        var searchAjax;
+        var searchProfileAjax;
 
         $(".internal-menu > .internal-menu-item").click(function (e) {
             if (!$(this).hasClass("active")) {
