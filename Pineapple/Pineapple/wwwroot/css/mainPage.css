@@ -1,8 +1,31 @@
-﻿.blackout {
+.buttons-container {
+    display: flex;
+}
+
+.buttons-container-mobile {
+    display: none;
+}
+
+.info {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    flex-direction: column;
+    flex: 1;
+    font-size: 1.5em;
+    font-weight: lighter;
+    text-align: center;
+    color: rgba(150,150,150,1);
+    width: 100%;
+    padding: 0 15%;
+    box-sizing: border-box;
+}
+
+.blackout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;
@@ -120,41 +143,18 @@
 
 .modal-window > p:first-of-type {
     text-align: center;
-    font-family: Codropsicons, Arial;
     font-size: 28px;
     margin: 0;
     margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid rgba(8, 146, 245, 1);
+    color: rgba(100,100,100,1);
 }
 
 .modal-window > p {
     text-align: center;
-    font-family: Codropsicons, Arial;
     font-size: 18px;
+    color: rgba(150,150,150,1);
     margin: 0;
     margin-bottom: 20px;
-}
-
-.input-area {
-    width: 100%;
-    height: 30px;
-    margin-bottom: 10px;
-    padding: 0 5px;
-    box-sizing: border-box;
-    border: 2px solid transparent;
-    background-color: rgba(235, 235, 235, 1);
-    font-family: Codropsicons, Arial;
-    font-size: 16px;
-    outline: none;
-}
-
-.input-area.right {
-    border: 2px solid rgba(0, 200, 0, 1);
-}
-
-.input-area.wrong {
-    border: 2px solid rgba(200, 0, 0, 1);
 }
 
 .info-container {
@@ -163,22 +163,12 @@
     align-items: flex-end;
 }
 
-.form-label {
-    display: flex;
-    flex-shrink: 0;
-    align-items: flex-end;
-    font-family: Codropsicons, Arial;
-    margin: 5px 0;
-    padding-left: 5px;
-}
-
 .error-info {
     display: flex;
     flex-shrink: 1;
     flex-direction: column;
     justify-content: flex-end;
     text-align: right;
-    font-family: Codropsicons, Arial;
     font-size: 12px;
     color: rgba(200,0,0,1);
     padding-bottom: 5px;
@@ -190,34 +180,47 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Codropsicons, Arial;
+    text-align: center;
     font-size: 14px;
     color: rgba(200,0,0,1);
     width: 100%;
-    height: 30px;
-}
-
-.label-text {
-    position: relative;
-    bottom: 5px;
-    margin-left: 5px;
+    min-height: 30px;
 }
 
 .register-button-wrapper, .login-button-wrapper {
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
 }
 
-.register-button, .login-button {
-    position: relative;
-    width: 49%;
-    height: 30px;
-    margin: 10px 0 0 0;
-    font-size: 16px;
-}
+@media only screen and (max-width: 600px) {
+    .register-button-wrapper, .login-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    
+    .register-button-wrapper > .pa-adaptive-button-50, .login-button-wrapper > .pa-adaptive-button-50 {
+        width: 100%;    
+    }
 
-.load-button {
-    width: 100%;
-    height: 100%;
-    margin: 0;
+    .register-button-wrapper > .pa-button, .login-button-wrapper > .pa-button{
+        margin: 10px 0 0 0;
+    }
+
+    .buttons-container {
+        display: none;
+    }
+
+    .buttons-container-mobile {
+        display: inline-flex;
+        flex-shrink: 0;
+        margin: 20px auto;
+        flex-direction: column;
+        width: 75%;
+    }
+
+    .buttons-container-mobile > .pa-button {
+        height: 50px;    
+    }
 }

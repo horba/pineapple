@@ -1,0 +1,39 @@
+﻿<div class="content-wrapper">
+    <div class="pa-search-input-with-button-wrapper">
+        <input class="pa-search-input-with-button" type="text" placeholder="Write your search text here">
+        <input class="pa-button" type="button" value="search" id="search">
+    </div>
+    <div id="finded-people"></div>
+</div>
+<script>
+    var users = [];
+    $(function () {
+        $("#search").click(function (e) {
+            var data = $(".pa-search-input-with-button").val();
+            $.get("api/search", { SearchText: data }).done(function (response) {
+                console.log(response);
+                let values = response;
+                let $dude = $("#finded-people");
+                $dude.html("");
+                if (values.status = "true") {
+                    values.findedPeoples.forEach(function (v) {
+                        $dude.append(
+                            "<div class='pa-search-result block-with-shadow'>" +
+                            "<div class='search-image-wrapper'>" +
+                            "<img src='img/avatar.png' class='search-image' />" +
+                            "</div>" +
+                            "<div>" +
+                            "<p>" + v.nickname + "</p>" +
+                            "<p class='pa-text-small-400'>" + v.firstName + " " + v.lastName + "</p>" +
+                            "</div>" +
+                            "<input type='button' class='pa-button' value='Follow' />" +
+                            "</div>"
+                        );
+                    });
+                } else {
+                    $dude.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                }
+            });
+        });
+    });
+</script>

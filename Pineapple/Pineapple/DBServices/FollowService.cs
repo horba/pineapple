@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Collections;
 using Pineapple.Model;
-using System.Data;
+using Pineapple.Services;
 
 namespace Pineapple.DBServices
 {
     public class FollowService : IFollowService
     {
-
         public bool AddFollow(int currentUser, int targetUser)
         {
             bool status = true;
@@ -26,9 +25,9 @@ namespace Pineapple.DBServices
                 myCommand.Parameters.AddWithValue("@ParamTarget", targetUser);
                 myCommand.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                LogUsing4net.WriteError(ex.ToString());
 
                 status = false;
             }
@@ -56,7 +55,7 @@ namespace Pineapple.DBServices
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogUsing4net.WriteError(ex.ToString());
             }
             DBconnection.ConnectionClose();
             return result;
@@ -81,7 +80,7 @@ namespace Pineapple.DBServices
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogUsing4net.WriteError(ex.ToString());
             }
             DBconnection.ConnectionClose();
             return result;
@@ -106,27 +105,32 @@ namespace Pineapple.DBServices
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogUsing4net.WriteError(ex.ToString());
             }
             DBconnection.ConnectionClose();
             return result;
 
         }
 
-        public void DeleteFollow(int currentUser, int targetUser)
+        public bool DeleteFollow(int currentUser, int targetUser)
         {
+            bool status = true;
+
             DBconnection.ConnectionOpen();
             try
             {
-                SqlCommand myCommand = new SqlCommand(String.Format("DELETE FROM dbo.Followers  WHERE CurrentID = {0} AND TargetID = {1}", currentUser, targetUser)
-                    , DBconnection.myConnection);
+                SqlCommand myCommand = new SqlCommand(String.Format("DELETE FROM dbo.Followers  WHERE CurrentID = {0} AND TargetID = {1}", currentUser, targetUser), DBconnection.myConnection);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogUsing4net.WriteError(ex.ToString());
+
+                status = false;
             }
             DBconnection.ConnectionClose();
+
+            return status;
         }
 
         public bool CheckFollow(int currentUser, int targetUser)
@@ -145,7 +149,7 @@ namespace Pineapple.DBServices
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogUsing4net.WriteError(ex.ToString());
             }
             DBconnection.ConnectionClose();
             return result;
