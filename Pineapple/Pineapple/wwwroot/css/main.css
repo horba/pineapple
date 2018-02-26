@@ -226,34 +226,34 @@ label.pa-label {
 }
 /*******************/
 
-.color-0 {
-    color: rgba(93,180,242,1)
-}
-.color-1 {
-    color: rgba(243,250,254,1)
-}
-.color-2 {
-    color: rgba(154,208,245,1)
-}
-.color-3 {
-    color: rgba(37,157,242,1)
-}
-.color-4 {
+.primary-color {
     color: rgba(2,141,240,1)
 }
-
-.background-color-0 {
-    background-color: rgba(93,180,242,1)
+.secondary-color {
+    color: rgba(243,250,254,1)
 }
-.background-color-1 {
+.help-color-1 {
+    color: rgba(93,180,242,1)
+}
+.help-color-2 {
+    color: rgba(154,208,245,1)
+}
+.help-color-3 {
+    color: rgba(37,157,242,1)
+}
+
+.background-primary-color {
+    background-color: rgba(2,141,240,1)
+}
+.background-secondary-color {
     background-color: rgba(243,250,254,1)
 }
-.background-color-2 {
+.background-help-color-1 {
+    background-color: rgba(93,180,242,1)
+}
+.background-help-color-2 {
     background-color: rgba(154,208,245,1)
 }
-.background-color-3 {
+.background-help-color-3 {
     background-color: rgba(37,157,242,1)
-}
-.background-color-4 {
-    background-color: rgba(2,141,240,1)
 }

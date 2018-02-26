@@ -110,8 +110,7 @@ namespace Pineapple.Services
                 {
                     reader.Close();
                     DBconnection.ConnectionClose();
-                    FindedUser.Status = "Not found";
-                    return FindedUser;
+                    return null;
                 }
 
                 sqlCommand = new SqlCommand
@@ -135,8 +134,9 @@ namespace Pineapple.Services
             }
             catch(Exception e)
             {
-                LogUsing4net.WriteError(e.Message);
-                FindedUser.Status = "Error";
+                LogUsing4net.WriteErrorExp(e.Message, e);
+                DBconnection.ConnectionClose();
+                return null;
             }
             DBconnection.ConnectionClose();
 

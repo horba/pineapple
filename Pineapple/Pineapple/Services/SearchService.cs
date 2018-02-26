@@ -34,6 +34,7 @@ namespace Pineapple.Services
             while (dataReader.Read())
             {
                 FindedUser = new UserModel();
+                FindedUser.Id = Convert.ToInt32(dataReader["Id"]);
                 FindedUser.Nickname = (string)dataReader["Nick"];
                 FindedUser.FirstName = (string)dataReader["FirstName"];
                 FindedUser.LastName = (string)dataReader["SecondName"];

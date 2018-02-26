@@ -83,7 +83,17 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
+
                     FollowService fs = new FollowService();
                     UserService us = new UserService();
 
@@ -92,30 +102,30 @@ namespace Pineapple.Controllers
                     List<SimpleUserModel> followersLikeUser = new List<SimpleUserModel>();
 
                     foreach (var i in followers) {
-                        UserModel user = us.GetUserById(i.CurrentUser);
+                        UserModel followLikeUser = us.GetUserById(i.CurrentUser);
                         if (user != null)
                         {
-                            followersLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                            followersLikeUser.Add(new SimpleUserModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName));
                         }
                     }
 
                     if (followers.Count > 0)
                     {
-                        return Json(new { status = "true", followers = followersLikeUser });
+                        return Json(new { status = true, message = "", followers = followersLikeUser });
                     }
                     else
                     {
-                        return Json(new { status = "empty" });
+                        return Json(new { status = true, message = "No followers", followers = new List<SimpleUserModel>() });
                     }
                 }
                 else
                 {
-                    return Json(new { status = "error" });
+                    return Json(new { status = false, message = "Error: Wrong user" });
                 }
             }
             else
             {
-                return Json(new { status = "error" });
+                return Json(new { status = false, message = "Error: Cookie not found" });
             }
         }
 
@@ -126,7 +136,16 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
                     FollowService fs = new FollowService();
                     UserService us = new UserService();
 
@@ -136,29 +155,29 @@ namespace Pineapple.Controllers
 
                     foreach (var i in following)
                     {
-                        UserModel user = us.GetUserById(i.TargetUser);
+                        UserModel followLikeUser = us.GetUserById(i.TargetUser);
                         if (user != null) {
-                            followingLikeUser.Add(new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName));
+                            followingLikeUser.Add(new SimpleUserModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName));
                         }
                     }
 
                     if (following.Count > 0)
                     {
-                        return Json(new { status = "true", following = followingLikeUser });
+                        return Json(new { status = true, message = "", following = followingLikeUser });
                     }
                     else
                     {
-                        return Json(new { status = "empty" });
+                        return Json(new { status = true, message = "No following", following = new List<SimpleUserModel>() });
                     }
                 }
                 else
                 {
-                    return Json(new { status = "error" });
+                    return Json(new { status = false, message = "Error: Wrong user" });
                 }
             }
             else
             {
-                return Json(new { status = "error" });
+                return Json(new { status = false, message = "Error: Cookie not found" });
             }
         }
     }

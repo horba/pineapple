@@ -16,14 +16,14 @@ namespace Pineapple.Controllers
             SearchEngine = mySearchService;
         }
 
-        public IActionResult Searach(SearchModel searchModel)
+        public IActionResult Search(SearchModel searchModel)
         {
             List<UserModel> findedusers = SearchEngine.FindPeoples(searchModel);
             if (findedusers.Count == 0)
             {
-                return Json(new { status = "empty"});
+                return Json(new { status = true, messages = "No data"});
             }
-            return Json(new {FindedPeoples = findedusers, status = "true"} );
+            return Json(new { status = true, message = "", FindedPeoples = findedusers } );
         }
 
         [HttpGet("searchFollowers/{searchLine}")]
@@ -32,27 +32,36 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
 
                     List<SimpleUserModel> response = SearchEngine.FindPeoplesInFollowers(searchLine, id);
 
                     if (response.Count > 0)
                     {
-                        return Json(new { status = "true", foundPeople = response });
+                        return Json(new { status = true, message = "", foundPeople = response });
                     }
                     else
                     {
-                        return Json(new { status = "empty" });
+                        return Json(new { status = true, message = "No data", foundPeople = new List<SimpleUserModel>() });
                     }
                 }
                 else
                 {
-                    return Json(new { status = "error" });
+                    return Json(new { status = false, message = "Error: Wrong user"});
                 }
             }
             else
             {
-                return Json(new { status = "error" });
+                return Json(new { status = false, message = "Error: Cookie not found" });
             }
         }
 
@@ -63,27 +72,36 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
 
                     List<SimpleUserModel> response = SearchEngine.FindPeoplesInFollowing(searchLine, id);
 
                     if (response.Count > 0)
                     {
-                        return Json(new { status = "true", foundPeople = response });
+                        return Json(new { status = true, message = "", foundPeople = response });
                     }
                     else
                     {
-                        return Json(new { status = "empty" });
+                        return Json(new { status = true, message = "No data", foundPeople = response });
                     }
                 }
                 else
                 {
-                    return Json(new { status = "error" });
+                    return Json(new { status = false, message = "Error: Wrong user" });
                 }
             }
             else
             {
-                return Json(new { status = "error" });
+                return Json(new { status = false, message = "Error: Cookie not found" });
             }
         }
     }
