@@ -34,7 +34,11 @@
                 let $feed = $("#feed");
                 $feed.html("");
                 if (values.length != 0) {
-                    values.forEach(function (v) {                        
+                    var timezone = new Date().getTimezoneOffset();
+                    values.forEach(function (v) {
+                        console.log(timezone);
+                        var time = new Date(v.date).getTime() - timezone * 60 * 1000;
+                        var date = new Date(time);
                         $feed.append(   "<div class=\"feed block-with-shadow\" >" +
                                             "<div class=\"image-wrapper\">" +
                                                 "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
@@ -45,7 +49,7 @@
                                                         v.authorNickname +
                                                     "</div >" +
                                                     "<div class=\"tweet-date\">" +
-                                                        new Date(v.date).toLocaleString("ru-UA") +
+                                                        date.toLocaleString("ru-UA") +
                                                     "</div >" +
                                                 "</div >" +
                                                 "<div class=\"text-in-tweet\">" +
