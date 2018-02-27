@@ -24,6 +24,10 @@ namespace Pineapple.Controllers
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"])) {
                     currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
 
+                    if (currentUser == targetUser) {
+                        return "You can't follow yourself";
+                    }
+
                     if (!fs.CheckFollow(currentUser, targetUser))
                     {
                         if (fs.AddFollow(currentUser, targetUser))
@@ -99,13 +103,13 @@ namespace Pineapple.Controllers
 
                     List<FollowModel> followers = fs.GetFollowersByTargetUser(id);
 
-                    List<SimpleUserModel> followersLikeUser = new List<SimpleUserModel>();
+                    List<FollowViewModel> followersLikeUser = new List<FollowViewModel>();
 
                     foreach (var i in followers) {
                         UserModel followLikeUser = us.GetUserById(i.CurrentUser);
                         if (user != null)
                         {
-                            followersLikeUser.Add(new SimpleUserModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName));
+                            followersLikeUser.Add(new FollowViewModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName, fs.CheckFollow(id, user.Id)));
                         }
                     }
 

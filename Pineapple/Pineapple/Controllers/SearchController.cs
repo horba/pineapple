@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.Model;
 using Pineapple.Services;
+using Pineapple.DBServices;
 namespace Pineapple.Controllers
 {
     [Route("api/[controller]")]
@@ -19,11 +20,41 @@ namespace Pineapple.Controllers
         public IActionResult Search(SearchModel searchModel)
         {
             List<UserModel> findedusers = SearchEngine.FindPeoples(searchModel);
+
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    FollowService fs = new FollowService();
+                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+
+                    List<FollowViewModel> usersWithFollow = new List<FollowViewModel>();
+
+                    foreach (var i in findedusers)
+                    {
+                        usersWithFollow.Add(new FollowViewModel(i.Id, i.Nickname, i.FirstName, i.LastName, fs.CheckFollow(id, i.Id), !(id == i.Id)));
+                    }
+
+                    if (findedusers.Count == 0)
+                    {
+                        return Json(new { status = "empty" });
+                    }
+                    return Json(new { FindedPeoples = usersWithFollow, status = "true", withFollow = true });
+                }
+            }
+
+            List<SimpleUserModel> users = new List<SimpleUserModel>();
+
+            foreach (var i in findedusers)
+            {
+                users.Add(new SimpleUserModel(i.Id, i.Nickname, i.FirstName, i.LastName));
+            }
+
             if (findedusers.Count == 0)
             {
-                return Json(new { status = true, messages = "No data"});
+                return Json(new { status = "empty" });
             }
-            return Json(new { status = true, message = "", FindedPeoples = findedusers } );
+            return Json(new { status = true, message = "", FindedPeoples = findedusers, followButton = false } );
         }
 
         [HttpGet("searchFollowers/{searchLine}")]
@@ -32,6 +63,7 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
+                    FollowService fs = new FollowService();
                     UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
                     int id = 0;
                     if (user != null)
@@ -44,6 +76,11 @@ namespace Pineapple.Controllers
                     }
 
                     List<SimpleUserModel> response = SearchEngine.FindPeoplesInFollowers(searchLine, id);
+                    List<FollowViewModel> users = new List<FollowViewModel>();
+
+                    foreach (var i in response) {
+                        users.Add(new FollowViewModel(i.Id, i.Nickname, i.FirstName, i.LastName, fs.CheckFollow(id, i.Id)));
+                    }
 
                     if (response.Count > 0)
                     {

@@ -43,13 +43,19 @@ namespace Pineapple.Services
             return AllFindedUsers;
         }
 
-        private void SqlQuery(string SearachText)
+        private void SqlQuery(string SearchText)
         {
-            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick", DBconnection.myConnection);
-            sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + SearachText + "%");
-            SqlDataReader myDataReader = sqlCommand.ExecuteReader();
-            FindedUsers.AddRange(FindUsersByReader(myDataReader));
-            myDataReader.Close();
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM dbo.Users WHERE Nick LIKE @ParamNick OR FirstName LIKE @ParamNick OR SecondName LIKE @ParamNick", DBconnection.myConnection);
+                sqlCommand.Parameters.AddWithValue("@ParamNick", "%" + SearchText + "%");
+                SqlDataReader myDataReader = sqlCommand.ExecuteReader();
+                FindedUsers.AddRange(FindUsersByReader(myDataReader));
+                myDataReader.Close();
+            }
+            catch(Exception ex) {
+                LogUsing4net.WriteError(ex.Message);
+            }
         }
 
         public List<SimpleUserModel> FindPeoplesInFollowers(string searchLine, int userId) {
