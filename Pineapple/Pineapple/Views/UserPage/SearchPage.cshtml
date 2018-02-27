@@ -64,19 +64,21 @@
                                         '<div class="fa fa-user user-icon"></div>' +
                                         '</div>';
                                 }
+                                $.get("/api/user/photo/" + v.id, function (data, status) {
+                                    $dude.append(
+                                        '<div class="search-result block-with-shadow">' +
+                                        '<div class="search-image-wrapper">' +
+                                        '<img src ="' + data + '"  class="search-image" />' +
+                                        '</div>' +
+                                        '<div>' +
+                                        '<div class="search-username">' + v.nickname + '</div>' +
+                                        '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                        '</div >' +
+                                        button +
+                                        '</div>'
+                                    );
+                                });
 
-                                $dude.append(
-                                    '<div class="search-result block-with-shadow">' +
-                                    '<div class="search-image-wrapper">' +
-                                    '<img src="img/avatar.png" class="search-image" />' +
-                                    '</div>' +
-                                    '<div>' +
-                                    '<div class="search-username">' + v.nickname + '</div>' +
-                                    '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                                    '</div >' +
-                                    button +
-                                    '</div>'
-                                );
                             });
                         } else {
                             values.findedPeoples.forEach(function (v) {

@@ -33,7 +33,7 @@
     <div class="user-info-column">
         <div class="profile-user-info-container">
             <div class="main-image-wrapper">
-                <img src="img/avatar.png" class="main-image" />
+                <img src="img/avatar.png" class="main-image" id="main-image"/>
             </div>
             <div class="profile-user-info">
                 <div class="profile-nickname"></div>
@@ -56,24 +56,28 @@
                     values.tweets.forEach(function (v) {
                         var time = new Date(v.date).getTime() - timezone * 60 * 1000;
                         var date = new Date(time);
-                        $tweets.append("<div class=\"feed block-with-shadow\" >" +
-                            "<div class=\"image-wrapper\">" +
-                            "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
-                            "</div>" +
-                            "<div class=\"not-avatar-part-of-tweet\">" +
-                            "<div class=\"tweet-info\">" +
-                            "<div class=\"nickname-in-tweet\">" +
-                            v.authorNickname +
-                            "</div >" +
-                            "<div class=\"tweet-date\">" +
-                            date.toLocaleString("ru-UA") +
-                            "</div >" +
-                            "</div >" +
-                            "<div class=\"text-in-tweet\">" +
-                            v.text +
-                            "</div >" +
-                            "</div>" +
-                            "</div>");
+
+                        $.get("/api/user/photo/" + v.authorId, function (data, status) {
+                            $tweets.append("<div class=\"feed block-with-shadow\" >" +
+                                "<div class=\"image-wrapper\">" +
+                                "<img class=\"avatar-in-tweet\"  src ='" + data + "'>" +
+                                "</div>" +
+                                "<div class=\"not-avatar-part-of-tweet\">" +
+                                "<div class=\"tweet-info\">" +
+                                "<div class=\"nickname-in-tweet\">" +
+                                v.authorNickname +
+                                "</div >" +
+                                "<div class=\"tweet-date\">" +
+                                date.toLocaleString("ru-UA") +
+                                "</div >" +
+                                "</div >" +
+                                "<div class=\"text-in-tweet\">" +
+                                v.text +
+                                "</div >" +
+                                "</div>" +
+                                "</div>");
+
+                        });
                     });
                 } else {
                     $tweets.append("<div class='no-data'><div class='fa fa-clock-o fa-3x'></div><div>Here you will see your tweets</div></div>");
@@ -93,18 +97,23 @@
                 if (values.followers.length > 0) {
                     values.followers.forEach(function (v) {
                         var follow = v.follow ? "unfollow" : "";
-                        $followers.append('<div class="search-result block-with-shadow">' +
-                            '<div class="search-image-wrapper">' +
-                            '<img src="img/avatar.png" class="search-image" />' +
-                            '</div>' +
-                            '<div>' +
-                            '<div class="search-username">' + v.nickname + '</div>' +
-                            '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                            '</div >' +
-                            '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
-                            '<div class="fa fa-user user-icon"></div>' +
-                            '</div>' +
-                            '</div>');
+
+                        $.get("/api/user/photo/" + v.id, function (data, status) {
+                            $followers.append('<div class="search-result block-with-shadow">' +
+                                '<div class="search-image-wrapper">' +
+                                '<img src ="' + data + '" class="search-image" />' +
+                                '</div>' +
+                                '<div>' +
+                                '<div class="search-username">' + v.nickname + '</div>' +
+                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                '</div >' +
+                                '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
+                                '<div class="fa fa-user user-icon"></div>' +
+                                '</div>' +
+                                '</div>');
+
+                        });
+
                     });
                 } else { 
                     $followers.append("<div class='no-data'><div class='fa fa-address-card-o fa-3x'></div><div>Here you will see your followers</div></div>");
@@ -122,9 +131,10 @@
             if (values.status == true) {
                 if (values.following.length > 0) {
                     values.following.forEach(function (v) {
+                        $.get("/api/user/photo/" + v.id, function (data, status) {
                         $following.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
-                            '<img src="img/avatar.png" class="search-image" />' +
+                            '<img src ="' + data + '"  class="search-image" />' +
                             '</div>' +
                             '<div>' +
                             '<div class="search-username">' + v.nickname + '</div>' +
@@ -133,7 +143,9 @@
                             '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
                             '<div class="fa fa-user user-icon"></div>' +
                             '</div>' +
-                            '</div>');
+                                '</div>');
+
+                        });
                     });
                 } else {
                     $following.append("<div class='no-data'><div class='fa fa-user-plus fa-3x'></div><div>Here you will see your following</div></div>");
@@ -159,9 +171,10 @@
                     if (values.foundPeople.length > 0) {
                         values.foundPeople.forEach(function (v) {
                             var follow = v.follow ? "unfollow" : "";
+                            $.get("/api/user/photo/" + v.id, function (data, status) {
                             $followers.append('<div class="search-result block-with-shadow">' +
                                 '<div class="search-image-wrapper">' +
-                                '<img src="img/avatar.png" class="search-image" />' +
+                                '<img src ="' + data + '"  class="search-image" />' +
                                 '</div>' +
                                 '<div>' +
                                 '<div class="search-username">' + v.nickname + '</div>' +
@@ -170,7 +183,8 @@
                                 '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
                                 '<div class="fa fa-user user-icon"></div>' +
                                 '</div>' +
-                                '</div>');
+                                    '</div>');
+                            });
                         });
                     } else { 
                         $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
@@ -197,18 +211,20 @@
                 if (values.status == true) {
                     if (values.foundPeople.length > 0) {
                         values.foundPeople.forEach(function (v) {
-                            $following.append('<div class="search-result block-with-shadow">' +
-                                '<div class="search-image-wrapper">' +
-                                '<img src="img/avatar.png" class="search-image" />' +
-                                '</div>' +
-                                '<div>' +
-                                '<div class="search-username">' + v.nickname + '</div>' +
-                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                                '</div >' +
-                                '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
-                                '<div class="fa fa-user user-icon"></div>' +
-                                '</div>' +
-                                '</div>');
+                            $.get("/api/user/photo/" + v.id, function (data, status) {
+                                $following.append('<div class="search-result block-with-shadow">' +
+                                    '<div class="search-image-wrapper">' +
+                                    '<img src ="' + data + '" class="search-image" />' +
+                                    '</div>' +
+                                    '<div>' +
+                                    '<div class="search-username">' + v.nickname + '</div>' +
+                                    '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                    '</div >' +
+                                    '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
+                                    '<div class="fa fa-user user-icon"></div>' +
+                                    '</div>' +
+                                    '</div>');
+                            });
                         });
                     } else { 
                         $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
@@ -337,11 +353,16 @@
         $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());
         $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
 
-        $.get("/api/auth").done(function (data) {
-            $(".profile-nickname").text(data.nickname);
-            $(".profile-fullname").text(data.firstName + " " + data.lastName);
+        $.get("/api/user/photo", function (data, status) {
+            $('#main-image').attr('src', data + "?" + new Date().getTime());
 
-            updateTweets();
+            $.get("/api/auth").done(function (data) {
+                $(".profile-nickname").text(data.nickname);
+                $(".profile-fullname").text(data.firstName + " " + data.lastName);
+
+                updateTweets();
+            });
         });
+
     });
 </script>

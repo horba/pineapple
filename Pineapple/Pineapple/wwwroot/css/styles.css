@@ -555,6 +555,7 @@ header {
     background-color: rgba(243,250,254,1);
 }
 .search-image-wrapper {
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
