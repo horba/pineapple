@@ -57,12 +57,12 @@
                         var time = new Date(v.date).getTime() - timezone * 60 * 1000;
                         var date = new Date(time);
                         $tweets.append("<div class=\"feed block-with-shadow\" >" +
-                            "<div class=\"image-wrapper\">" +
+                            "<div class=\"image-wrapper\" onclick='goToAnotherUser(" + v.authorId + ");'>" +
                             "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
                             "</div>" +
                             "<div class=\"not-avatar-part-of-tweet\">" +
                             "<div class=\"tweet-info\">" +
-                            "<div class=\"nickname-in-tweet\">" +
+                            "<div class=\"nickname-in-tweet\" onclick='goToAnotherUser(" + v.authorId + ");'>" +
                             v.authorNickname +
                             "</div >" +
                             "<div class=\"tweet-date\">" +
@@ -78,7 +78,7 @@
                 } else {
                     $tweets.append("<div class='no-data'><div class='fa fa-clock-o fa-3x'></div><div>Here you will see your tweets</div></div>");
                 }
-            } else { 
+            } else {
                 console.log(values.message);
             }
         });
@@ -95,10 +95,10 @@
                         var follow = v.follow ? "unfollow" : "";
                         $followers.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
-                            '<img src="img/avatar.png" class="search-image" />' +
+                            '<img src="img/avatar.png" class="search-image" onclick="goToAnotherUser(' + v.id + ');" />' +
                             '</div>' +
                             '<div>' +
-                            '<div class="search-username">' + v.nickname + '</div>' +
+                            '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
                             '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                             '</div >' +
                             '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
@@ -106,7 +106,7 @@
                             '</div>' +
                             '</div>');
                     });
-                } else { 
+                } else {
                     $followers.append("<div class='no-data'><div class='fa fa-address-card-o fa-3x'></div><div>Here you will see your followers</div></div>");
                 }
             } else {
@@ -123,11 +123,11 @@
                 if (values.following.length > 0) {
                     values.following.forEach(function (v) {
                         $following.append('<div class="search-result block-with-shadow">' +
-                            '<div class="search-image-wrapper">' +
+                            '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
                             '<img src="img/avatar.png" class="search-image" />' +
                             '</div>' +
                             '<div>' +
-                            '<div class="search-username">' + v.nickname + '</div>' +
+                            '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
                             '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                             '</div >' +
                             '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
@@ -160,11 +160,11 @@
                         values.foundPeople.forEach(function (v) {
                             var follow = v.follow ? "unfollow" : "";
                             $followers.append('<div class="search-result block-with-shadow">' +
-                                '<div class="search-image-wrapper">' +
+                                '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
                                 '<img src="img/avatar.png" class="search-image" />' +
                                 '</div>' +
                                 '<div>' +
-                                '<div class="search-username">' + v.nickname + '</div>' +
+                                '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
                                 '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                                 '</div >' +
                                 '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
@@ -172,7 +172,7 @@
                                 '</div>' +
                                 '</div>');
                         });
-                    } else { 
+                    } else {
                         $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
                     }
                 } else {
@@ -198,11 +198,11 @@
                     if (values.foundPeople.length > 0) {
                         values.foundPeople.forEach(function (v) {
                             $following.append('<div class="search-result block-with-shadow">' +
-                                '<div class="search-image-wrapper">' +
+                                '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
                                 '<img src="img/avatar.png" class="search-image" />' +
                                 '</div>' +
                                 '<div>' +
-                                '<div class="search-username">' + v.nickname + '</div>' +
+                                '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
                                 '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                                 '</div >' +
                                 '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
@@ -210,7 +210,7 @@
                                 '</div>' +
                                 '</div>');
                         });
-                    } else { 
+                    } else {
                         $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
                     }
                 } else {
@@ -220,6 +220,17 @@
         } else {
             getFollowing();
         }
+    }
+
+    function goToAnotherUser(elem) {
+        $(".main-menu > div").removeClass("active");
+        $("#logo-inner").removeClass("hidden");
+        $("#logo-inner").removeClass("close");
+        $.post("/Page/userpage", { id: elem }, function (view) {
+            $(".main").html(view);
+            $("#logo-inner").addClass("close");
+            setTimeout(function () { $("#logo-inner").addClass("hidden"); }, 600);
+        });
     }
 
     function follow(button) {
@@ -260,6 +271,8 @@
 
     $(function () {
 
+        $("#profileButton").addClass("active");
+
         $(".internal-menu > .internal-menu-item").click(function (e) {
             if (!$(this).hasClass("active")) {
                 $(".internal-menu > .internal-menu-item").removeClass("active");
@@ -294,7 +307,7 @@
         });
 
         $(window).resize(function (e) {
-            if ($(this).width() > 585) {
+            if ($(this).width() > 585 && $("#profileButton").hasClass("active")) {
                 if ($(".content-wrapper").hasClass("profile-wrapper")) {
                     $(".internal-menu > .internal-menu-item.active").addClass("active");
                     $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());

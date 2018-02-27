@@ -1,0 +1,113 @@
+﻿<div class="content-wrapper profile-wrapper" id="userProfile" data-id="@ViewBag.id">
+    <div class="data-column">
+        <div class="data-wrapper">
+            <div class="data-container tweets-wrapper">
+                <div class="profile-tweets"></div>
+            </div>
+        </div>
+    </div>
+    <div class="user-info-column">
+        <div class="profile-user-info-container">
+            <div class="main-image-wrapper">
+                <img src="img/avatar.png" class="main-image" />
+            </div>
+            <div class="profile-user-info">
+                <div class="profile-nickname"></div>
+                <div class="profile-fullname"></div>
+            </div>    
+            <div class="follow-button-container">
+                @{ 
+                    string followStr = ViewBag.follow ? "unfollow" : "";
+                }
+                <div class="follow-button @followStr" data-id="@ViewBag.id" onclick="follow(this);">
+                    <div class="fa fa-user user-icon"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateTweets() {
+        $.get("/api/tweets/TweeetsById/" + $("#userProfile").data("id")).done(function (data) {
+            let values = data;
+            let $tweets = $(".profile-tweets");
+            $tweets.html("");
+            if (values.length > 0) {
+                var timezone = new Date().getTimezoneOffset();
+                values.forEach(function (v) {
+                    var time = new Date(v.date).getTime() - timezone * 60 * 1000;
+                    var date = new Date(time);
+                    $tweets.append("<div class=\"feed block-with-shadow\" >" +
+                                        "<div class=\"image-wrapper\">" +
+                                            "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
+                                        "</div>" +
+                                        "<div class=\"not-avatar-part-of-tweet\">" +
+                                            "<div class=\"tweet-info\">" +
+                                                "<div class=\"nickname-in-tweet\">" +
+                                                    v.authorNickname +
+                                                "</div >" +
+                                                "<div class=\"tweet-date\">" +
+                                                    date.toLocaleString("ru-UA") +
+                                                "</div >" +
+                                            "</div >" +
+                                            "<div class=\"text-in-tweet\">" +
+                                                v.text +
+                                            "</div >" +
+                                        "</div>" +
+                                    "</div>");
+                });
+            } else {
+                $tweets.append("<div class='no-data'><div class='fa fa-clock-o fa-3x'></div><div>User does not have any tweets</div></div>");
+            }
+        });
+    }
+
+    function follow(button) {
+
+        button = $(button);
+
+        if (!button.hasClass("load") && !button.hasClass("success") && !button.hasClass("fail")) {
+            button.addClass("load");
+
+            if (button.hasClass("unfollow")) {
+                $.post("/api/Follow/unfollow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response.status === true) {
+                        button.removeClass("unfollow");
+                        button.addClass("success");
+                    } else {
+                        button.addClass("fail");
+                        console.log(response.message);
+                    }
+
+                    setTimeout(function (e) { button.removeClass("fail success"); }, 1000);
+                });
+            } else {
+                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response.status === true) {
+                        button.addClass("success");
+                        setTimeout(function (e) { button.removeClass("success"); button.addClass("unfollow"); }, 1000);
+                    } else {
+                        button.addClass("fail");
+                        setTimeout(function (e) { button.removeClass("fail"); }, 1000);
+                        console.log(response.message);
+                    }
+                });
+            }
+        }
+    }
+
+    $(function () {
+        $.get("/api/user/" + $("#userProfile").data("id")).done(function (data) {
+            if (data.status === true) {
+                $(".profile-nickname").text(data.user.nickname);
+                $(".profile-fullname").text(data.user.firstName + " " + data.user.lastName);
+            }
+
+            updateTweets();
+        });
+
+    });
+</script>
