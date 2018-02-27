@@ -48,93 +48,49 @@
             let values = data;
             let $tweets = $(".profile-tweets");
             $tweets.html("");
-            if (values.status == "true") {
-                values.tweets.forEach(function (v) {
-                    $tweets.append("<div class=\"feed block-with-shadow\" >" +
-                                        "<div class=\"image-wrapper\">" +
-                                            "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
-                                        "</div>" +
-                                        "<div class=\"not-avatar-part-of-tweet\">" +
-                                            "<div class=\"tweet-info\">" +
-                                                "<div class=\"nickname-in-tweet\">" +
-                                                    v.nickname +
-                                                "</div >" +
-                                                "<div class=\"tweet-date\">" +
-                                                    v.date +
-                                                "</div >" +
-                                            "</div >" +
-                                            "<div class=\"text-in-tweet\">" +
-                                                v.text +
-                                            "</div >" +
-                                        "</div>" +
-                                    "</div>");
-                });
-            } else if (values.status == "empty") {
-                $tweets.append("<div class='no-data'><div class='fa fa-clock-o fa-3x'></div><div>Here you will see your tweets</div></div>");
+            if (values.status == true) {
+                var timezone = new Date().getTimezoneOffset();
+                if (values.tweets.length > 0) {
+                    values.tweets.forEach(function (v) {
+                        var time = new Date(v.date).getTime() - timezone * 60 * 1000;
+                        var date = new Date(time);
+                        $tweets.append("<div class=\"feed block-with-shadow\" >" +
+                            "<div class=\"image-wrapper\">" +
+                            "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
+                            "</div>" +
+                            "<div class=\"not-avatar-part-of-tweet\">" +
+                            "<div class=\"tweet-info\">" +
+                            "<div class=\"nickname-in-tweet\">" +
+                            v.authorNickname +
+                            "</div >" +
+                            "<div class=\"tweet-date\">" +
+                            date.toLocaleString("ru-UA") +
+                            "</div >" +
+                            "</div >" +
+                            "<div class=\"text-in-tweet\">" +
+                            v.text +
+                            "</div >" +
+                            "</div>" +
+                            "</div>");
+                    });
+                } else {
+                    $tweets.append("<div class='no-data'><div class='fa fa-clock-o fa-3x'></div><div>Here you will see your tweets</div></div>");
+                }
+            } else { 
+                console.log(values.message);
             }
         });
     }
 
-    function getFollowers() { 
+    function getFollowers() {
         $.get("/api/follow/followers").done(function (data) {
             let values = data;
             let $followers = $(".followers-tweets");
             $followers.html("");
-            if (values.status == "true") {
-                values.followers.forEach(function (v) {
-                    $followers.append('<div class="search-result block-with-shadow">' +
-                        '<div class="search-image-wrapper">' +
-                        '<img src="img/avatar.png" class="search-image" />' +
-                        '</div>' +
-                        '<div>' +
-                        '<div class="search-username">' + v.nickname + '</div>' +
-                        '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                        '</div >' +
-                        '<input type= "button" class="pa-button" value= "Follow" />' +
-                        '</div>');
-                });
-            } else if (values.status == "empty") {
-                $followers.append("<div class='no-data'><div class='fa fa-address-card-o fa-3x'></div><div>Here you will see your followers</div></div>");
-            }
-        });
-    }
-    function getFollowing() {
-        $.get("/api/follow/following").done(function (data) {
-            let values = data;
-            let $following = $(".following-tweets");
-            $following.html("");
-            if (values.status == "true") {
-                values.following.forEach(function (v) {
-                    $following.append('<div class="search-result block-with-shadow">' +
-                                            '<div class="search-image-wrapper">' +
-                                                '<img src="img/avatar.png" class="search-image" />' +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<div class="search-username">'+ v.nickname +'</div>' +
-                                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName +'</div>' +
-                                            '</div >' +
-                                            '<input type= "button" class="pa-button" value= "Follow" />' +
-                                        '</div>');
-                });
-            } else if (values.status == "empty") {
-                $following.append("<div class='no-data'><div class='fa fa-user-plus fa-3x'></div><div>Here you will see your following</div></div>");
-            }
-        });
-    }
-
-    function followersSearch() { 
-        if ($(".search-followers-input").val().length > 0) {
-
-            if (window.searchAjax) {
-                searchAjax.abort();
-            }
-
-            searchAjax = $.get("api/search/searchFollowers/" + $(".search-followers-input").val()).done(function (data) {
-                let values = data;
-                let $followers = $(".followers-tweets");
-                $followers.html("");
-                if (values.status == "true") {
-                    values.foundPeople.forEach(function (v) {
+            if (values.status == true) {
+                if (values.followers.length > 0) {
+                    values.followers.forEach(function (v) {
+                        var follow = v.follow ? "unfollow" : "";
                         $followers.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
                             '<img src="img/avatar.png" class="search-image" />' +
@@ -143,30 +99,27 @@
                             '<div class="search-username">' + v.nickname + '</div>' +
                             '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                             '</div >' +
-                            '<input type= "button" class="pa-button" value= "Follow" />' +
+                            '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
+                            '<div class="fa fa-user user-icon"></div>' +
+                            '</div>' +
                             '</div>');
                     });
-                } else if (values.status == "empty") {
-                    $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                } else { 
+                    $followers.append("<div class='no-data'><div class='fa fa-address-card-o fa-3x'></div><div>Here you will see your followers</div></div>");
                 }
-            });
-        } else {
-            getFollowers();
-        }
-    }
-    function followingSearch() { 
-        if ($(".search-following-input").val().length > 0) {
-
-            if (window.searchAjax) {
-                searchAjax.abort();
+            } else {
+                console.log(values.message);
             }
-
-            searchAjax = $.get("api/search/searchFollowing/" + $(".search-following-input").val()).done(function (data) {
-                let values = data;
-                let $following = $(".following-tweets");
-                $following.html("");
-                if (values.status == "true") {
-                    values.foundPeople.forEach(function (v) {
+        });
+    }
+    function getFollowing() {
+        $.get("/api/follow/following").done(function (data) {
+            let values = data;
+            let $following = $(".following-tweets");
+            $following.html("");
+            if (values.status == true) {
+                if (values.following > 0) {
+                    values.following.forEach(function (v) {
                         $following.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
                             '<img src="img/avatar.png" class="search-image" />' +
@@ -175,11 +128,91 @@
                             '<div class="search-username">' + v.nickname + '</div>' +
                             '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                             '</div >' +
-                            '<input type= "button" class="pa-button" value= "Follow" />' +
+                            '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
+                            '<div class="fa fa-user user-icon"></div>' +
+                            '</div>' +
                             '</div>');
                     });
-                } else if (values.status == "empty") {
-                    $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                } else {
+                    $following.append("<div class='no-data'><div class='fa fa-user-plus fa-3x'></div><div>Here you will see your following</div></div>");
+                }
+            } else {
+                console.log(values.message);
+            }
+        });
+    }
+
+    function followersSearch() {
+        if ($(".search-followers-input").val().length > 0) {
+
+            if (window.searchProfileAjax) {
+                searchProfileAjax.abort();
+            }
+
+            searchProfileAjax = $.get("api/search/searchFollowers/" + $(".search-followers-input").val()).done(function (data) {
+                let values = data;
+                let $followers = $(".followers-tweets");
+                $followers.html("");
+                if (values.status == true) {
+                    if (values.foundPeople.length > 0) {
+                        values.foundPeople.forEach(function (v) {
+                            var follow = v.follow ? "unfollow" : "";
+                            $followers.append('<div class="search-result block-with-shadow">' +
+                                '<div class="search-image-wrapper">' +
+                                '<img src="img/avatar.png" class="search-image" />' +
+                                '</div>' +
+                                '<div>' +
+                                '<div class="search-username">' + v.nickname + '</div>' +
+                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                '</div >' +
+                                '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
+                                '<div class="fa fa-user user-icon"></div>' +
+                                '</div>' +
+                                '</div>');
+                        });
+                    } else { 
+                        $followers.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                    }
+                } else {
+                    console.log(values.message);
+                }
+            });
+        } else {
+            getFollowers();
+        }
+    }
+    function followingSearch() {
+        if ($(".search-following-input").val().length > 0) {
+
+            if (window.searchAjax) {
+                searchProfileAjax.abort();
+            }
+
+            searchProfileAjax = $.get("api/search/searchFollowing/" + $(".search-following-input").val()).done(function (data) {
+                let values = data;
+                let $following = $(".following-tweets");
+                $following.html("");
+                if (values.status == true) {
+                    if (values.foundPeople.length > 0) {
+                        values.foundPeople.forEach(function (v) {
+                            $following.append('<div class="search-result block-with-shadow">' +
+                                '<div class="search-image-wrapper">' +
+                                '<img src="img/avatar.png" class="search-image" />' +
+                                '</div>' +
+                                '<div>' +
+                                '<div class="search-username">' + v.nickname + '</div>' +
+                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                '</div >' +
+                                '<div class="follow-button unfollow" data-id="' + v.id + '" onclick="follow(this);">' +
+                                '<div class="fa fa-user user-icon"></div>' +
+                                '</div>' +
+                                '</div>');
+                        });
+                    } else { 
+                        $following.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                    }
+                } else {
+                    console.log(values.messages);
                 }
             });
         } else {
@@ -187,10 +220,46 @@
         }
     }
 
-    $(function () {
-        var searchAjax;
+    function follow(button) {
 
-        $(".internal-menu > .internal-menu-item").click(function (e) { 
+        button = $(button);
+
+        if (!button.hasClass("load") && !button.hasClass("success") && !button.hasClass("fail")) {
+            button.addClass("load");
+
+            if (button.hasClass("unfollow")) {
+                $.post("/api/Follow/unfollow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response.status === true) {
+                        button.removeClass("unfollow");
+                        button.addClass("success");
+                    } else {
+                        button.addClass("fail");
+                        console.log(response.message);
+                    }
+
+                    setTimeout(function (e) { button.removeClass("fail success"); }, 1000);
+                });
+            } else {
+                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
+                    button.removeClass("load");
+                    if (response.status === true) {
+                        button.addClass("success");
+                        setTimeout(function (e) { button.removeClass("success"); button.addClass("unfollow"); }, 1000);
+                    } else {
+                        button.addClass("fail");
+                        setTimeout(function (e) { button.removeClass("fail"); }, 1000);
+                        console.log(response.message);
+                    }
+                });
+            }
+        }
+    }
+
+    $(function () {
+        var searchProfileAjax;
+
+        $(".internal-menu > .internal-menu-item").click(function (e) {
             if (!$(this).hasClass("active")) {
                 $(".internal-menu > .internal-menu-item").removeClass("active");
                 $(this).addClass("active");

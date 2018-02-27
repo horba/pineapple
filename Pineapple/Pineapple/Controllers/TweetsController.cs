@@ -102,13 +102,7 @@ namespace Pineapple.Controllers
                         response.Add(new TweetViewModel(tweet, nickname));
                     }
 
-                    if (response.Count > 0)
-                    {
-                        return Json(new { status = true, message = "", tweets = response });
-                    }
-                    else {
-                        return Json(new { status = true, message = "No tweets", tweets = new List<TweetViewModel>() });
-                    }
+                    return Json(new { status = true, message = "", tweets = response });
                 }
                 else
                 {
