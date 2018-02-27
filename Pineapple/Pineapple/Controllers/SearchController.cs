@@ -63,6 +63,7 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
+                    FollowService fs = new FollowService();
                     UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
                     int id = 0;
                     if (user != null)

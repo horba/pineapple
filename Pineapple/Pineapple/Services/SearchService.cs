@@ -43,7 +43,7 @@ namespace Pineapple.Services
             return AllFindedUsers;
         }
 
-        private void SqlQuery(string SearachText)
+        private void SqlQuery(string SearchText)
         {
             try
             {
