@@ -43,6 +43,8 @@
     </div>
 </div>
 <script>
+    var searchProfileAjax;
+
     function updateTweets() {
         $.get("/api/tweets/myTweets").done(function (data) {
             let values = data;
@@ -118,7 +120,7 @@
             let $following = $(".following-tweets");
             $following.html("");
             if (values.status == true) {
-                if (values.following > 0) {
+                if (values.following.length > 0) {
                     values.following.forEach(function (v) {
                         $following.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
@@ -257,7 +259,6 @@
     }
 
     $(function () {
-        var searchProfileAjax;
 
         $(".internal-menu > .internal-menu-item").click(function (e) {
             if (!$(this).hasClass("active")) {
