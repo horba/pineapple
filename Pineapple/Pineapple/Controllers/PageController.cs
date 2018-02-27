@@ -62,5 +62,45 @@ namespace Pineapple.Controllers
                 return View("~/Views/UserPage/ErrorPage.cshtml");
             }
         }
+
+        [HttpPost, Route("userpage")]
+        public ActionResult Page(int id)
+        {
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    FollowService fs = new FollowService();
+
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int currentId = 0;
+                    if (user != null)
+                    {
+                        currentId = user.Id;
+                    }
+                    else {
+                        return View("~/Views/UserPage/ErrorPage.cshtml");
+                    }
+
+                    if (currentId == id) {
+                        return View("~/Views/UserPage/ProfilePage.cshtml");
+                    }
+                    else
+                    {
+                        ViewBag.id = id;
+                        ViewBag.follow = fs.CheckFollow(currentId, id);
+                        return View("~/Views/UserPage/AnotherUserPage.cshtml");
+                    }
+                }
+                else
+                {
+                    return View("~/Views/UserPage/ErrorPage.cshtml");
+                }
+            }
+            else
+            {
+                return View("~/Views/UserPage/ErrorPage.cshtml");
+            }
+        }
     }
 }

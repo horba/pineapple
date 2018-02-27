@@ -499,6 +499,7 @@ header {
     border-radius: 25px;
     overflow: hidden;
     box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+    cursor: pointer;
 }
 .avatar-in-tweet {
     height: 100%;
@@ -517,6 +518,14 @@ header {
 .nickname-in-tweet {
     color: rgba(40,40,40,1);
     font-weight: bold;
+    cursor: pointer;
+    transition: ease 0.2s color;
+    -o-transition: ease 0.2s color;
+    -moz-transition: ease 0.2s color;
+    -webkit-transition: ease 0.2s color;
+}
+.nickname-in-tweet:hover {
+    color: rgba(2,141,240,1);
 }
 .tweet-date {
     color: rgba(120,120,120,1);
@@ -545,14 +554,11 @@ header {
     width: 100%;
     padding: 10px 20px 10px 10px;
     box-sizing: border-box;
-    cursor: pointer;
+    cursor: default;
     transition: ease-in-out 0.2s background-color;
     -o-transition: ease-in-out 0.2s background-color;
     -moz-transition: ease-in-out 0.2s background-color;
     -webkit-transition: ease-in-out 0.2s background-color;
-}
-.search-result:hover {
-    background-color: rgba(243,250,254,1);
 }
 .search-image-wrapper {
     overflow: hidden;
@@ -561,6 +567,7 @@ header {
     align-items: center;
     width: 60px;
     height: 60px;
+    cursor: pointer;
 }
 .search-image {
     width: 100%;
@@ -570,6 +577,14 @@ header {
     font-size: 1.1em;
     color: rgba(75,75,75,1);
     padding: 0 10px;
+    cursor: pointer;
+    transition: ease 0.2s color;
+    -o-transition: ease 0.2s color;
+    -moz-transition: ease 0.2s color;
+    -webkit-transition: ease 0.2s color;
+}
+.search-username:hover {
+    color: rgba(2,141,240,1);
 }
 .search-fullname {
     font-size: 0.9em;

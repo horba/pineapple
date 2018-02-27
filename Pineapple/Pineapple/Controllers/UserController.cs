@@ -88,11 +88,17 @@ namespace Pineapple.Controllers
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
             UserService modelReader = new UserService();
             UserModel user = modelReader.GetUserById(id);
-            return user.ToStringWithoutPassword();
+            if (user != null)
+            {
+                return Json(new { status = true, user = new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName) });
+            }
+            else {
+                return Json(new { status = false });
+            }
         }
 
         [HttpGet("data")]
@@ -118,7 +124,7 @@ namespace Pineapple.Controllers
         public string GetPhoto()
         {
             UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
-            if (System.IO.File.Exists(Directory.GetCurrentDirectory()+"\\wwwroot\\img\\" + user.Id + ".jpg"))
+            if (System.IO.File.Exists(Directory.GetCurrentDirectory() + "\\wwwroot\\img\\" + user.Id + ".jpg"))
             {
                 return "\\img\\" + user.Id + ".jpg";
             }
@@ -137,5 +143,5 @@ namespace Pineapple.Controllers
         }
 
     }
-    
+
 }
