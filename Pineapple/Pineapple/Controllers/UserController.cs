@@ -51,10 +51,10 @@ namespace Pineapple.Controllers
             UserShortModel response = new UserShortModel();
             UserService user = new UserService();
 
-            if (data.Nickname != null) { response.Nickname = user.CheckUserNick(data.Nickname); }
+            if (data.Nickname != current.Nickname) { response.Nickname = user.CheckUserNick(data.Nickname); }
             else { response.Nickname = "true"; }
 
-            if (data.Email != null) { response.Email = user.CheckUserNick(data.Nickname); }
+            if (data.Email != current.Email) { response.Email = user.CheckUserEmail(data.Email); }
             else { response.Email = "true"; }
 
             data.Nickname = data.Nickname == null ? current.Nickname : data.Nickname;
@@ -62,7 +62,7 @@ namespace Pineapple.Controllers
             data.FirstName = data.FirstName == null ? current.FirstName : data.FirstName;
             data.LastName = data.LastName == null ? current.LastName : data.LastName;
             data.Email = data.Email.ToLower();
-            
+
             response.FirstName = user.CheckUserFirstName(data.FirstName);
             response.LastName = user.CheckUserSecondName(data.LastName);
 
@@ -86,7 +86,7 @@ namespace Pineapple.Controllers
             }
             return stringUsers;
         }
-        
+
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -118,15 +118,12 @@ namespace Pineapple.Controllers
         public string GetPhoto()
         {
             UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
-            try
+            if (System.IO.File.Exists(Directory.GetCurrentDirectory()+"\\wwwroot\\img\\" + user.Id + ".jpg"))
             {
-                var image = System.IO.File.OpenRead("wwwroot\\img\\" + user.Id + ".jpg");
                 return "\\img\\" + user.Id + ".jpg";
             }
-            catch {
-                return "\\img\\avatar.png";
-            }
+            return "\\img\\avatar.png";
         }
-
     }
+    
 }

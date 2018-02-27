@@ -37,14 +37,34 @@
 
             <input type="submit" class="pa-input">
         </form>
+
+
+        <div class="blackout hidden" id="blackout-message">
+            <div class="modal-window">
+                <p id="messageHead"></p>
+                <p id="message"></p>
+                <button class="pa-button pa-adaptive-button-100 pa-negative-button" id="blackout-close-message">Cancel</button>
+            </div>
+        </div>
+
 </div>
 
 <script>
     $(function () {
+        $.get("/api/user/data", function (response) {
+            $("#Nickname").val(response.nickname);
+            $("#Name").val(response.firstName);
+            $("#LName").val(response.lastName);
+            $("#EMail").val(response.email);
+            $.get("/api/user/photo", function (data, status) {
+                $('#preview').attr('src', data + "?"+new Date().getTime());
+            });
+        });
+
         $('#image').change(function () {
             readImage(this);
             $("#save-image").removeClass("hidden");
-            $('#photoForm').submit();
+            $('#photo-form').submit();
         });
         
         function readImage(input) {
@@ -61,7 +81,6 @@
             var data = $("#user-form").serialize();
             $(".input-area").removeClass("right wrong");
             $(".error-info").text("");
-
             $.post("/api/user/change", data, function (response) {
     
                 var error = document.getElementsByClassName("error-info");
@@ -93,17 +112,30 @@
                     $("#EMail").addClass("wrong");
                     error[3].innerHTML = response.email;
                 }
-                
+
                 if (response.status != null) {
+
                     if (response.status == "true") {
-                        alert("Saved!");
-                   } else {
-                        alert("Error!");
-                   }
-                } else {
-                    alert("Error!");
+                        $("#messageHead").html("Changes saved!");
+                        $("#message").html("Your changes have been saved.");
+                        $("#Name").removeClass("right wrong");
+                        $("#Nickname").removeClass("right wrong");
+                        $("#LName").removeClass("right wrong");
+                        $("#EMail").removeClass("right wrong");
+                    } else {
+                        $("#messageHead").html("Someone is wrong");
+                        $("#message").html(response.status);
+                    }
+
+                    setTimeout(function () {
+                        $("#blackout-message").removeClass("hidden");
+                        $("#blackout-message").addClass("active");
+
+                        $(".input-area").removeClass("right wrong");
+                        $(".error-info").text("");
+                    }, 600);
+                    
                 }
-                
             }, "json");
             return false;
         }));
@@ -119,26 +151,17 @@
                     processData: false,
                     data: data,
                     success: function (result) {
-                        alert("success");
                     },
                     error: function (xhr, status, p3) {
-                        alert("failed!");
                     }
                 });
              return false;
         }));
         
-        $.get("/api/user/photo", function (data, status) {
-            $('#preview').attr('src', data);
+        $("#blackout-close-message").click(function (e) {
+            $("#blackout-message").removeClass("active");
+            setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
         });
-
-        $.get("/api/user/data", function (response) {
-            $("#Nickname").val(response.nickname);
-            $("#Name").val(response.firstName);
-            $("#LName").val(response.lastName);
-            $("#EMail").val(response.email);
-        });
-        
     });
 
 </script>
