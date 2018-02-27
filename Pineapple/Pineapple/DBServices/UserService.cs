@@ -255,6 +255,30 @@ namespace Pineapple.DBServices
             return status;
         }
 
+        public string ChangeUser(UserShortModel data, UserModel current)
+        {
+            string status = "true";
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlCommand myCommand = new SqlCommand(String.Format("UPDATE dbo.Users SET Nick = @Nickname, FirstName = @FirstName,  SecondName = @LastName, Email = @Email where Id = {0}",current.Id), DBconnection.myConnection);
+                myCommand.Parameters.AddWithValue("@Nickname", data.Nickname);
+                myCommand.Parameters.AddWithValue("@FirstName", data.FirstName);
+                myCommand.Parameters.AddWithValue("@LastName", data.LastName);
+                myCommand.Parameters.AddWithValue("@Email", data.Email);
+                myCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                status = e.ToString();
+            }
+            DBconnection.ConnectionClose();
+
+            return status;
+        }
+
+
+
         public static string CreateMD5(string input)
         {
             // Use input string to calculate MD5 hash

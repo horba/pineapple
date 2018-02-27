@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Pineapple.DBServices;
 using Pineapple.Model;
 
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Pineapple.Services;
+
 namespace Pineapple.Controllers
 {
     [Route("api/[controller]")]
@@ -38,7 +42,38 @@ namespace Pineapple.Controllers
             return response;
         }
 
-        // GET api/values
+        [HttpPost("change")]
+        public UserShortModel PostChange(UserShortModel data)
+        {
+
+            UserModel current = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+
+            UserShortModel response = new UserShortModel();
+            UserService user = new UserService();
+
+            if (data.Nickname != null) { response.Nickname = user.CheckUserNick(data.Nickname); }
+            else { response.Nickname = "true"; }
+
+            if (data.Email != null) { response.Email = user.CheckUserNick(data.Nickname); }
+            else { response.Email = "true"; }
+
+            data.Nickname = data.Nickname == null ? current.Nickname : data.Nickname;
+            data.Email = data.Email == null ? current.Email : data.Email;
+            data.FirstName = data.FirstName == null ? current.FirstName : data.FirstName;
+            data.LastName = data.LastName == null ? current.LastName : data.LastName;
+            data.Email = data.Email.ToLower();
+            
+            response.FirstName = user.CheckUserFirstName(data.FirstName);
+            response.LastName = user.CheckUserSecondName(data.LastName);
+
+            if (response.Nickname == "true" && response.Email == "true" && response.FirstName == "true" && response.LastName == "true")
+            {
+                response.Status = user.ChangeUser(data, current);
+            }
+
+            return response;
+        }
+
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -51,8 +86,7 @@ namespace Pineapple.Controllers
             }
             return stringUsers;
         }
-
-        // GET api/values/5
+        
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -60,5 +94,39 @@ namespace Pineapple.Controllers
             UserModel user = modelReader.GetUserById(id);
             return user.ToStringWithoutPassword();
         }
+
+        [HttpGet("data")]
+        public UserModel GetUser(int id)
+        {
+            UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+            return user;
+        }
+
+
+        [HttpPost("photo")]
+        public void Post(IFormFile file)
+        {
+            try
+            {
+                UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                file.CopyTo(new FileStream("wwwroot\\img\\" + user.Id + ".jpg", FileMode.Create));
+            }
+            catch { }
+        }
+
+        [HttpGet("photo")]
+        public string GetPhoto()
+        {
+            UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+            try
+            {
+                var image = System.IO.File.OpenRead("wwwroot\\img\\" + user.Id + ".jpg");
+                return "\\img\\" + user.Id + ".jpg";
+            }
+            catch {
+                return "\\img\\avatar.png";
+            }
+        }
+
     }
 }

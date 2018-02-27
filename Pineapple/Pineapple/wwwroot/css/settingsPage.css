@@ -1,0 +1,18 @@
+﻿
+.user-photo {
+    width: 400px;
+    height: 400px;
+    margin-right: 50%;
+}
+    .form-photo {
+    text-align: center;
+    margin-right: 50%;
+    top: 50%;
+    left: 50%;
+}
+.form-user {
+    text-align: center;
+    margin-right: 50%;
+    top: 50%;
+    left: 50%;
+}

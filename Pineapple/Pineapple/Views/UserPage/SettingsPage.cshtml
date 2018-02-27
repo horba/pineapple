@@ -1,6 +1,148 @@
-﻿<div>This is a settings page</div>
+﻿
+    <div class="content-wrapper">
+
+        <form id="photo-form" class="form-photo" >
+            <div class="image-preview">
+                <img id="preview" class="user-photo" src="avatar.png" alt="">
+            </div>
+            <div class="info-container">
+                <input type="file" class="pa-input" name="image" id="image">
+            </div>
+        </form>
+
+        <form id="user-form" class="form-user">
+            <div class="info-container">
+                <label for="Nickname" class="pa-label">Nickname</label>
+                <div class="error-info"></div>
+            </div>
+            <input type="text" name="nickname" class="pa-input" id="Nickname" placeholder="Type your nickname" />
+
+            <div class="info-container">
+                <label for="Name" class="pa-label">First name</label>
+                <div class="error-info"></div>
+            </div>
+
+            <input type="text" name="firstName" class="pa-input" id="Name" placeholder="Type your first name" />
+            <div class="info-container">
+                <label for="LName" class="pa-label">Last name</label>
+                <div class="error-info"></div>
+            </div>
+
+            <input type="text" name="lastName" class="pa-input" id="LName" placeholder="Type your last name" />
+            <div class="info-container">
+                <label for="EMail" class="pa-label">E-Mail</label>
+                <div class="error-info"></div>
+            </div>
+            <input type="email" name="email" class="pa-input" id="EMail" placeholder="Type your e-Mail" />
+
+            <input type="submit" class="pa-input">
+        </form>
+</div>
+
 <script>
     $(function () {
+        $('#image').change(function () {
+            readImage(this);
+            $("#save-image").removeClass("hidden");
+            $('#photoForm').submit();
+        });
+        
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+               var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
 
+        $('#user-form').on('submit', (function (e) { 
+            var data = $("#user-form").serialize();
+            $(".input-area").removeClass("right wrong");
+            $(".error-info").text("");
+
+            $.post("/api/user/change", data, function (response) {
+    
+                var error = document.getElementsByClassName("error-info");
+
+                if (response.nickname == "true") {
+                    $("#Nickname").addClass("right");
+                } else {
+                    $("#Nickname").addClass("wrong");
+                    error[0].innerHTML = response.nickname;
+                }
+
+                if (response.firstName == "true") {
+                    $("#Name").addClass("right");
+                } else {
+                    $("#Name").addClass("wrong");
+                    error[1].innerHTML = response.firstName;
+                }
+
+                if (response.lastName == "true") {
+                    $("#LName").addClass("right");
+                } else {
+                    $("#LName").addClass("wrong");
+                    error[2].innerHTML = response.lastName;
+                }
+
+                if (response.email == "true") {
+                    $("#EMail").addClass("right");
+                } else {
+                    $("#EMail").addClass("wrong");
+                    error[3].innerHTML = response.email;
+                }
+                
+                if (response.status != null) {
+                    if (response.status == "true") {
+                        alert("Saved!");
+                   } else {
+                        alert("Error!");
+                   }
+                } else {
+                    alert("Error!");
+                }
+                
+            }, "json");
+            return false;
+        }));
+        
+
+        $('#photo-form').on('submit', (function (e) {
+            var data = new FormData();
+            data.append('file', $('#image')[0].files[0]);
+             $.ajax({
+                    type: "POST",
+                    url: '/api/user/photo',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        alert("success");
+                    },
+                    error: function (xhr, status, p3) {
+                        alert("failed!");
+                    }
+                });
+             return false;
+        }));
+        
+        $.get("/api/user/photo", function (data, status) {
+            $('#preview').attr('src', data);
+        });
+
+        $.get("/api/user/data", function (response) {
+            $("#Nickname").val(response.nickname);
+            $("#Name").val(response.firstName);
+            $("#LName").val(response.lastName);
+            $("#EMail").val(response.email);
+        });
+        
     });
+
 </script>
+
+
+
+
