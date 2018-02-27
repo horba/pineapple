@@ -12,7 +12,12 @@ namespace Pineapple.DBServices
         {
             get
             {
-                return ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+                return "user id=;" +
+                       "password=;" +
+                       "Data Source= DESKTOP-U397L7T\\SQLEXPRESS;" +
+                       "Trusted_Connection=yes;" +
+                       "database=Pineapple; " +
+                       "connection timeout=3";
             }
         }
         public static void ConnectionOpen()

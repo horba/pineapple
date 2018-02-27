@@ -37,13 +37,27 @@ namespace Pineapple.Controllers
             return response;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet ("TweeetsById/{Id}")]
+        public IEnumerable<TweetViewModel> Get(int id)
         {
-            TweetsService modelReader = new TweetsService();
-            TweetModel tweet = modelReader.GetTweetById(id);
-            return tweet.ToString();
+            List<TweetViewModel> response = new List<TweetViewModel>();
+            if (Request.Cookies.ContainsKey("session_id"))
+            {
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
+                {
+                    TweetsService modelReader = new TweetsService();
+                    UserService us = new UserService();
+                    List<TweetModel> tweets = modelReader.GetTweetsByUserId(id);
+                    foreach (var tweet in tweets)
+                    {
+                        UserModel user = us.GetUserById(tweet.AuthorId);
+                        string nickname = user == null ? "Error" : user.Nickname;
+                        tweet.Date = tweet.Date.ToLocalTime();
+                        response.Add(new TweetViewModel(tweet, nickname));
+                    }
+                }
+            }
+            return response;
         }
 
         // POST api/values
