@@ -1,86 +1,138 @@
 ﻿<header>
+    <div class="open-menu-button"><div class="fa fa-bars fa-1-5x"></div></div>
     <div class="logo-wrapper">
         <img class="logo" src="img/Pineapple.png">
         <div class="logo-header">  Pineapple</div>
     </div>
+    <div class="main-menu">
+        <div class="user-info">Here can be your advertising</div>
+        <div class="active" id="homeButton">Home</div>
+        <div id="profileButton">Profile</div>
+        <div id="searchButton">Search</div>
+        <div id="settingsButton">Settings</div>
+    </div>
+    <div class="blackout hidden" id="blackout-menu"></div>
 </header>
-<div class="main">
-    <div class="left-column">
-        <div class="medium-header">Home</div>
-        <div class="medium-header">Search</div>
-        <div class="medium-header">About</div>
-        <div class="users-container" id="users">
-            <p class="users-head">Last registered users</p>
-            @{
-                foreach (var user in Model)
-                {
-                    string status = user.Status == "True" ? "follow" : "";
-                    <div class='user-container'>
-                        <p class='user-nick'>@user.Nickname</p>
-                        <div class='follow-button @status' data-id="@user.Id">
-                            <div class="fa fa-user user-icon"></div>
-                        </div>
-                    </div>
-                }
-            }
+<div class="main-wrapper">
+    <div id="logo-inner" class="load-logo close hidden">
+        <div class="logo-container">
+            <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                 xmlns:cc="http://creativecommons.org/ns#"
+                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                 xmlns:svg="http://www.w3.org/2000/svg"
+                 xmlns="http://www.w3.org/2000/svg"
+                 id="svg8"
+                 version="1.1"
+                 viewBox="0 0 26.458332 45.475327"
+                 height="45.475327mm"
+                 width="26.458332mm">
+                <g transform="translate(-97.312144,-127.50481)"
+                   id="layer1">
+                    <path class="path"
+                          d="m 110.49107,172.80183 -5.96549,0.0214 -7.061956,-14.49528 7.162556,-14.50072 -7.162556,-9.79368 h 6.840636 l 2.33387,3.18864 3.86295,-9.56592 3.86295,9.33816 2.49482,-3.0368 h 6.76016 l -7.64542,9.8696 7.56494,14.27295 -7.00159,14.72848 -6.04587,-0.0268"
+                          fill="none"
+                          stroke="#0892fe"
+                          stroke-width="0.5"
+                          stroke-miterlimit="4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                </g>
+            </svg>
         </div>
+        <p>Loading...</p>
     </div>
-    <div class="center-column">
-        <div class="input-wrapper">
-            <textarea rows="1" cols="1" class="textInput" placeholder="Write your tweet" id="TXTAREAAddTweet"></textarea>
-            <button class="button add-tweet" id="BTNAddTweet">Add tweet</button>
-            <button class="button get-tweet" id="BTNGetTweets">Get tweets</button>
-        </div>
-        <div class="output-wrapper">
-            <div class="output" id="feed"></div>
-        </div>
-    </div>
-    <div class="right-column">
-        <img class="avatar" src="img/avatar.png">
-        <div class="medium-header" id="UserName">
-            User Name
-        </div>
+    <div class="main">
+        @Html.Partial("~/Views/UserPage/HomePage.cshtml")
     </div>
 </div>
 <footer>© 2018 Pineapple, Inc.</footer>
 <script>
     $(function () {
-        $("#BTNAddTweet").click(function (e) {            
-            $.post("/api/tweets", { value: $("#TXTAREAAddTweet").val()});
+        $(".open-menu-button").click(function (e) { 
+            $(".main-menu").addClass("open");
+            $("#blackout-menu").removeClass("hidden");
+            $("#blackout-menu").addClass("active");
         });
 
-        $("#BTNGetTweets").click(function (e) {
-            e.preventDefault();
-            $.get("/api/tweets").done(function (data) {
-                let values = data;
-                let $feed = $("#feed");
-                $feed.html("");
-                values.forEach(function (v) {
-                    $feed.append("<div class=\"feed\">" + v + "</div>");
-                });
-            });
+        $("#blackout-menu").click(function (e) {
+            $(this).removeClass("active");
+            setTimeout(function () { $("#blackout-menu").addClass("hidden") }, 600);
+            $(".main-menu").removeClass("open");
         });
 
-        $(".follow-button").click(function (e) {
-
-            var button = $(this);
-
-            if (!button.hasClass("load") && !button.hasClass("follow") && !button.hasClass("fail")) {
-                button.addClass("load");
-                $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
-                    button.removeClass("load");
-                    if (response == "true") {
-                        button.addClass("follow");
-                    } else { 
-                        button.addClass("fail");
-                        console.log(response);
-                    }
+        $("#homeButton").click(function (e) {
+            if (!$(this).hasClass("active")) {
+                $("#logo-inner").removeClass("hidden");
+                $("#logo-inner").removeClass("close");
+                $.get("/Page/home", function (resp) {
+                    $(".main").html(resp);
+                    $("#logo-inner").addClass("close");
+                    setTimeout(function () { $("#logo-inner").addClass("hidden"); }, 600);
                 });
+
+                $(".main-menu > div").removeClass("active");
+                $(this).addClass("active");
+
+                $("#blackout-menu").removeClass("active");
+                setTimeout(function () { $("#blackout-menu").addClass("hidden") }, 600);
+                $(".main-menu").removeClass("open");
             }
         });
 
-        $.get("/api/auth", function (data) {
-            $("#UserName").text(data.nickname);
+        $("#profileButton").click(function (e) {
+            if (!$(this).hasClass("active")) {
+                $("#logo-inner").removeClass("hidden");
+                $("#logo-inner").removeClass("close");
+                $.get("/Page/profile", function (resp) {
+                    $(".main").html(resp);
+                    $("#logo-inner").addClass("close");
+                    setTimeout(function () { $("#logo-inner").addClass("hidden"); }, 600);
+                });
+
+                $(".main-menu > div").removeClass("active");
+                $(this).addClass("active");
+
+                $("#blackout-menu").removeClass("active");
+                setTimeout(function () { $("#blackout-menu").addClass("hidden") }, 600);
+                $(".main-menu").removeClass("open");
+            }
+        });
+
+        $("#searchButton").click(function (e) {
+            if (!$(this).hasClass("active")) {
+                $("#logo-inner").removeClass("hidden");
+                $("#logo-inner").removeClass("close");
+                $.get("/Page/search", function (resp) {
+                    $(".main").html(resp);
+                    $("#logo-inner").addClass("close");
+                    setTimeout(function () { $("#logo-inner").addClass("hidden"); }, 600);
+                });
+                $(".main-menu > div").removeClass("active");
+                $(this).addClass("active");
+
+                $("#blackout-menu").removeClass("active");
+                setTimeout(function () { $("#blackout-menu").addClass("hidden") }, 600);
+                $(".main-menu").removeClass("open");
+            }
+        });
+
+        $("#settingsButton").click(function (e) {
+            if (!$(this).hasClass("active")) {
+                $("#logo-inner").removeClass("hidden");
+                $("#logo-inner").removeClass("close");
+                $.get("/Page/settings", function (resp) {
+                    $(".main").html(resp);
+                    $("#logo-inner").addClass("close");
+                    setTimeout(function () { $("#logo-inner").addClass("hidden"); }, 600);
+                });
+
+                $(".main-menu > div").removeClass("active");
+                $(this).addClass("active");
+
+                $("#blackout-menu").removeClass("active");
+                setTimeout(function () { $("#blackout-menu").addClass("hidden") }, 600);
+                $(".main-menu").removeClass("open");
+            }
         });
     });
 

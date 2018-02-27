@@ -1,0 +1,70 @@
+﻿<div class="content-wrapper home-wrapper">
+    <div class="pa-input-with-button-wrapper">
+
+        <textarea class="pa-input-with-button add-tweet-input" placeholder="What you are thinking about?"></textarea>
+        <input type="button" class="pa-button add-tweet-button" id="BTNAddTweet" value="Tell" />
+    </div>
+    <div class="output" id="feed"></div>
+</div>
+
+<script>
+    $(function () {
+        $(".add-tweet-button").click(function (e) {
+            $.post("/api/tweets", { value: $(".add-tweet-input").val() }).done(function () {
+                updateTweets();
+                $(".add-tweet-input").val("");
+            });
+        });
+
+        $(".add-tweet-input").keypress(function (e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                $.post("/api/tweets", { value: $(".add-tweet-input").val() }).done(function () {
+                    updateTweets();
+                    $(".add-tweet-input").val("");
+                });
+                return false;
+            }
+        });
+            
+        updateTweets();
+
+        function updateTweets() {
+            $.get("/api/tweets").done(function (data) {
+                let values = data;
+                let $feed = $("#feed");
+                $feed.html("");
+                if (values.length != 0) {
+                    values.forEach(function (v) {                        
+                        $feed.append(   "<div class=\"feed block-with-shadow\" >" +
+                                            "<div class=\"image-wrapper\">" +
+                                                "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
+                                            "</div>" +
+                                            "<div class=\"not-avatar-part-of-tweet\">" +
+                                                "<div class=\"tweet-info\">" +
+                                                    "<div class=\"nickname-in-tweet\">" +
+                                                        v.authorNickname +
+                                                    "</div >" +
+                                                    "<div class=\"tweet-date\">" +
+                                                        new Date(v.date).toLocaleString("ru-UA") +
+                                                    "</div >" +
+                                                "</div >" +
+                                                "<div class=\"text-in-tweet\">" +
+                                                    v.text +
+                                                "</div >" +
+                                            "</div >" +
+                                        "</div >");
+                    });
+                }
+                else
+                {
+                    $feed.append(   "<div class='no-data'>" +
+                                        "<div class='fa fa-clock-o fa-3x'>" + 
+                                        "</div>" +
+                                        "<div>Here you will see your tweets</div>" +
+                                    "</div>");
+                }
+
+            });
+        }
+    });
+</script>

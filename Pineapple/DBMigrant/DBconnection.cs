@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
 using System.Data.SqlClient;
-using System.Collections;
+using System.Configuration;
 
 
 namespace DBMigration
@@ -16,12 +12,7 @@ namespace DBMigration
         {
             get
             {
-                return "user id=;" +
-                       "password=;" +
-                       "Data Source = DESKTOP-9RLB0GR;" +
-                       "Trusted_Connection=yes;" +
-                       "database=Pineapple; " +
-                       "connection timeout=3";
+                return ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
             }
         }
         public static void ConnectionOpen()
