@@ -51,6 +51,10 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,6 +73,7 @@
     <Compile Include="Migrations\201801251308.cs" />
     <Compile Include="Migrations\201801312301.cs" />
     <Compile Include="Migrations\201801242320.cs" />
+    <Compile Include="Migrations\201802242220.cs" />
     <Compile Include="Migrations\201802081258.cs" />
     <Compile Include="Migrations\Example.cs" />
     <Compile Include="Migrator.cs" />

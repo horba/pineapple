@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Pineapple.Model
 {
-    public class UserModel
+    public class UserModel : IEquatable<UserModel>
     {
         public UserModel(int id, string nickname, string firstName, string lastName, string email, string password)
         {
@@ -39,6 +39,11 @@ namespace Pineapple.Model
         public string ToStringWithoutPassword()
         {
             return Id + " " + Nickname + " " + FirstName + " " + LastName + " " + Email;
+        }
+
+        public bool Equals(UserModel other)
+        {
+            return Nickname.Equals(other.Nickname);
         }
     }
 }
