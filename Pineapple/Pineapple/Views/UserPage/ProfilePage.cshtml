@@ -217,9 +217,11 @@
         }
     }
 
-    function goToAnotherUser(elem)
-    {
-        $.get("UserPage/" + elem);
+    function goToAnotherUser(elem) {
+
+        $.get("UserPage/" + elem, function (view) {
+            $(".main").html(view);
+        });
     }
 
     function follow(button) {
