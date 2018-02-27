@@ -56,11 +56,10 @@
                     values.tweets.forEach(function (v) {
                         var time = new Date(v.date).getTime() - timezone * 60 * 1000;
                         var date = new Date(time);
-
-                        $.get("/api/user/photo/" + v.authorId, function (data, status) {
+                        
                             $tweets.append("<div class=\"feed block-with-shadow\" >" +
                                 "<div class=\"image-wrapper\">" +
-                                "<img class=\"avatar-in-tweet\"  src ='" + data + "'>" +
+                                "<img class=\"avatar-in-tweet\"  src ='" + v.authorPhoto  + "'>" +
                                 "</div>" +
                                 "<div class=\"not-avatar-part-of-tweet\">" +
                                 "<div class=\"tweet-info\">" +
@@ -76,8 +75,7 @@
                                 "</div >" +
                                 "</div>" +
                                 "</div>");
-
-                        });
+                        
                     });
                 } else {
                     $tweets.append("<div class='no-data'><div class='fa fa-clock-o fa-3x'></div><div>Here you will see your tweets</div></div>");

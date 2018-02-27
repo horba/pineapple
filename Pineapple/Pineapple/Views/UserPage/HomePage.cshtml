@@ -38,11 +38,10 @@
                     values.forEach(function (v) {
                         var time = new Date(v.date).getTime() - timezone * 60 * 1000;
                         var date = new Date(time);
-
-                        $.get("/api/user/photo/" + v.authorId, function (data, status) {
+                        
                             $feed.append("<div class=\"feed block-with-shadow\" >" +
                                 "<div class=\"image-wrapper\">" +
-                                "<img class=\"avatar-in-tweet\" src ='" + data + "'>" +
+                                "<img class=\"avatar-in-tweet\" src ='" + v.authorPhoto + "'>" +
                                 "</div>" +
                                 "<div class=\"not-avatar-part-of-tweet\">" +
                                 "<div class=\"tweet-info\">" +
@@ -58,8 +57,6 @@
                                 "</div >" +
                                 "</div >" +
                                 "</div >");
-                        });
-
                     });
                 }
                 else
