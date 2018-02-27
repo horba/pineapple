@@ -39,25 +39,32 @@
                         console.log(timezone);
                         var time = new Date(v.date).getTime() - timezone * 60 * 1000;
                         var date = new Date(time);
-                        $feed.append(   "<div class=\"feed block-with-shadow\" >" +
-                                            "<div class=\"image-wrapper\">" +
-                                                "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
-                                            "</div>" +
-                                            "<div class=\"not-avatar-part-of-tweet\">" +
-                                                "<div class=\"tweet-info\">" +
-                                                    "<div class=\"nickname-in-tweet\">" +
-                                                        v.authorNickname +
-                                                    "</div >" +
-                                                    "<div class=\"tweet-date\">" +
-                                                        date.toLocaleString("ru-UA") +
-                                                    "</div >" +
-                                                "</div >" +
-                                                "<div class=\"text-in-tweet\">" +
-                                                    v.text +
-                                                "</div >" +
-                                            "</div >" +
-                                        "</div >");
+
+                        $.get("/api/user/photo/" + v.authorId, function (data, status) {
+                            $feed.append("<div class=\"feed block-with-shadow\" >" +
+                                "<div class=\"image-wrapper\">" +
+                                "<img class=\"avatar-in-tweet\" src ='" + data + "'>" +
+                                "</div>" +
+                                "<div class=\"not-avatar-part-of-tweet\">" +
+                                "<div class=\"tweet-info\">" +
+                                "<div class=\"nickname-in-tweet\">" +
+                                v.authorNickname +
+                                "</div >" +
+                                "<div class=\"tweet-date\">" +
+                                date.toLocaleString("ru-UA") +
+                                "</div >" +
+                                "</div >" +
+                                "<div class=\"text-in-tweet\">" +
+                                v.text +
+                                "</div >" +
+                                "</div >" +
+                                "</div >");
+                        });
+
                     });
+
+
+
                 }
                 else
                 {
