@@ -74,34 +74,18 @@ namespace Pineapple.Controllers
             return response;
         }
 
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            UserService modelReader = new UserService();
-            List<UserModel> allUsers = modelReader.GetAllUsers();
-            List<string> stringUsers = new List<string>();
-            foreach (UserModel user in allUsers)
-            {
-                stringUsers.Add(user.ToStringWithoutPassword());
-            }
-            return stringUsers;
-        }
-
         [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            UserService modelReader = new UserService();
-            UserModel user = modelReader.GetUserById(id);
-            return user.ToStringWithoutPassword();
-        }
-
-        [HttpGet("data")]
-        public UserModel GetUser(int id)
+        public IActionResult GetUser(int id)
         {
             UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
-            return user;
+            if (user != null)
+            {
+                return Json(new { status = true, user = new SimpleUserModel(user.Id, user.Nickname, user.FirstName, user.LastName)});
+            }
+            else {
+                return Json(new { status = false });
+            }
         }
-
 
         [HttpPost("photo")]
         public void Post(IFormFile file)

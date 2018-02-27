@@ -1,4 +1,4 @@
-﻿<div class="content-wrapper profile-wrapper" data-id="@Model.id">
+﻿<div class="content-wrapper profile-wrapper" data-id="@Model">
     <div class="data-column">
         <div class="data-wrapper">
             <div class="data-container tweets-wrapper">
@@ -25,6 +25,7 @@
 <script>
     function updateTweets() {
         $.get("/api/tweets/TweeetsById/" + $(".profile-wrapper").data("id")).done(function (data) {
+            console.log(data);
             let values = data;
             let $tweets = $(".profile-tweets");
             $tweets.html("");
@@ -57,8 +58,10 @@
 
     $(function () {
         $.get("/api/user/" + $(".profile-wrapper").data("id")).done(function (data) {
-            $(".profile-nickname").text(data.nickname);
-            $(".profile-fullname").text(data.firstName + " " + data.lastName);
+            if (data.status === true) {
+                $(".profile-nickname").text(data.user.nickname);
+                $(".profile-fullname").text(data.user.firstName + " " + data.user.lastName);
+            }
         });
 
         updateTweets();

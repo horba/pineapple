@@ -63,7 +63,7 @@ namespace Pineapple.Controllers
             }
         }
 
-        [HttpGet("UserPage/{id}")]
+        [HttpPost, Route("userpage")]
         public ActionResult Page(int id)
         {
             if (Request.Cookies.ContainsKey("session_id"))
@@ -76,16 +76,16 @@ namespace Pineapple.Controllers
                     {
                         currentId = user.Id;
                     }
-                    else {
+                    /*else {
                         return View("~/Views/UserPage/ErrorPage.cshtml");
-                    }
+                    }*/
 
                     if (currentId == id) {
                         return View("~/Views/UserPage/ProfilePage.cshtml");
                     }
                     else
                     {
-                        return View("~/Views/UserPage/AnotherUserPage.cshtml", id);
+                        return View("~/Views/UserPage/AnotherUserPage.cshtml", new { userId = id });
                     }
                 }
                 else

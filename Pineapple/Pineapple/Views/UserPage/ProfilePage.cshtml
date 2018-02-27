@@ -218,8 +218,7 @@
     }
 
     function goToAnotherUser(elem) {
-
-        $.get("/Page/UserPage/" + elem, function (view) {
+        $.post("/Page/userpage", { id: elem }, function (view) {
             $(".main").html(view);
         });
     }
