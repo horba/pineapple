@@ -10,6 +10,15 @@ body {
     font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
 }
 
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0 auto;
+    padding-top: 10px;
+    max-width: 780px;
+}
+
 /***Buttons***/
 .pa-button {
     font-size: 16px;
@@ -169,7 +178,7 @@ body {
     border-radius: 0 18px 18px 0;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 640px) {
     .pa-input-with-button-wrapper {
         height: 30px;
     }
@@ -217,80 +226,34 @@ label.pa-label {
 }
 /*******************/
 
-.color-0 {
-    color: rgba(93,180,242,1)
-}
-.color-1 {
-    color: rgba(243,250,254,1)
-}
-.color-2 {
-    color: rgba(154,208,245,1)
-}
-.color-3 {
-    color: rgba(37,157,242,1)
-}
-.color-4 {
+.primary-color {
     color: rgba(2,141,240,1)
 }
-
-.background-color-0 {
-    color: rgba(93,180,242,1)
-}
-.background-color-1 {
+.secondary-color {
     color: rgba(243,250,254,1)
 }
-.background-color-2 {
+.help-color-1 {
+    color: rgba(93,180,242,1)
+}
+.help-color-2 {
     color: rgba(154,208,245,1)
 }
-.background-color-3 {
+.help-color-3 {
     color: rgba(37,157,242,1)
 }
-.background-color-4 {
-    color: rgba(2,141,240,1)
-}
 
-.content-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin: 0 auto;
-    padding-top: 10px;
-    max-width: 780px;
+.background-primary-color {
+    background-color: rgba(2,141,240,1)
 }
-
-.pa-search-result{
-    display:grid;
-    grid-template-columns: auto 4fr 1fr;
-    align-items:center;
-    margin-top:20px;
-    height:100px;
-    width:100%;
+.background-secondary-color {
+    background-color: rgba(243,250,254,1)
 }
-
-.block-with-shadow {
-    position: relative;
-    margin-bottom: 10px;
-    background-color: rgba(255, 255, 255, 1);
-    border-radius: 5px;
-    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+.background-help-color-1 {
+    background-color: rgba(93,180,242,1)
 }
-
-.search-image-wrapper {
-    justify-content: center;
-    align-items: center;
-    padding-left:10px;
-    padding-right:20px;
-    width: 70px;
-    height: 70px;
+.background-help-color-2 {
+    background-color: rgba(154,208,245,1)
 }
-
-.search-image {
-    width: 100%;
-    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
-}
-
-.pa-text-small-400 {
-    font-size: small;
-    font-weight: 400;
-    opacity: 0.8;
+.background-help-color-3 {
+    background-color: rgba(37,157,242,1)
 }

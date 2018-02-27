@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Collections;
 using Pineapple.Model;
 using System.Data;
+using Pineapple.Services;
 
 namespace Pineapple.DBServices
 {
@@ -34,7 +35,6 @@ namespace Pineapple.DBServices
             }
             DBconnection.ConnectionClose();
         }
-
 
         public List<TweetModel> GetAllTweets()
         {
@@ -100,6 +100,30 @@ namespace Pineapple.DBServices
             
             return result;
 
+        }
+
+        public List<TweetModel> GetTweetsByUserId(int userId) {
+
+            List<TweetModel> result = new List<TweetModel>();
+            DBconnection.ConnectionOpen();
+            try
+            {
+                SqlDataReader myReader = null;
+                SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.Tweets WHERE idOfAuthor = @userId ORDER BY date DESC", DBconnection.myConnection);
+                SqlParameter ParamDate = myCommand.Parameters.AddWithValue("@userId", userId);
+                myReader = myCommand.ExecuteReader();
+                while (myReader.Read())
+                {
+                    TweetModel cortage = new TweetModel(Convert.ToInt32(myReader["id"]), Convert.ToDateTime(myReader["date"]), myReader["text"].ToString(), Convert.ToInt32(myReader["idOfAuthor"]));
+                    result.Add(cortage);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUsing4net.WriteError(ex.ToString());
+            }
+            DBconnection.ConnectionClose();
+            return result;
         }
 
         public List<TweetModel> GetLimitTweets(int limit)
@@ -186,10 +210,5 @@ namespace Pineapple.DBServices
             }
             DBconnection.ConnectionClose();
         }
-
-
-
-
-
     }
 }
