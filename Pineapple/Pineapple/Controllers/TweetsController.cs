@@ -30,7 +30,6 @@ namespace Pineapple.Controllers
                     {
                         UserModel user = us.GetUserById(tweet.AuthorId);
                         string nickname = user == null ? "Error" : user.Nickname;
-                        tweet.Date = tweet.Date.ToLocalTime();
                         response.Add(new TweetViewModel (tweet, nickname));
                     }                    
                 }
