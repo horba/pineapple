@@ -122,9 +122,9 @@ namespace Pineapple.Controllers
 
                     foreach (var i in followers) {
                         UserModel followLikeUser = us.GetUserById(i.CurrentUser);
-                        if (user != null)
+                        if (followLikeUser != null)
                         {
-                            followersLikeUser.Add(new FollowViewModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName, fs.CheckFollow(id, user.Id)));
+                            followersLikeUser.Add(new FollowViewModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName, fs.CheckFollow(id, followLikeUser.Id)));
                         }
                     }
 
@@ -168,7 +168,7 @@ namespace Pineapple.Controllers
                     foreach (var i in following)
                     {
                         UserModel followLikeUser = us.GetUserById(i.TargetUser);
-                        if (user != null) {
+                        if (followLikeUser != null) {
                             followingLikeUser.Add(new SimpleUserModel(followLikeUser.Id, followLikeUser.Nickname, followLikeUser.FirstName, followLikeUser.LastName));
                         }
                     }
