@@ -217,7 +217,7 @@
         }
     }
 
-    function follow(button) { 
+    function follow(button) {
 
         button = $(button);
 
@@ -227,11 +227,11 @@
             if (button.hasClass("unfollow")) {
                 $.post("/api/Follow/unfollow", { targetUser: button.data("id") }, function (response) {
                     button.removeClass("load unfollow");
-                    if (response == "true") {
+                    if (response.status === true) {
                         button.addClass("success");
                     } else {
                         button.addClass("fail");
-                        console.log(response);
+                        console.log(response.message);
                     }
 
                     setTimeout(function (e) { button.removeClass("fail success"); }, 1000);
@@ -239,14 +239,14 @@
             } else {
                 $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
                     button.removeClass("load");
-                    if (response == "true") {
+                    if (response.status === true) {
                         button.addClass("success");
                     } else {
                         button.addClass("fail");
-                        console.log(response);
+                        console.log(response.message);
                     }
 
-                    setTimeout(function (e) { button.removeClass("fail success"); button.addClass("unfollow");}, 1000);
+                    setTimeout(function (e) { button.removeClass("fail success"); button.addClass("unfollow"); }, 1000);
                 });
             }
         }

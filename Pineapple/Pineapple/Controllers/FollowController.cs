@@ -13,43 +13,50 @@ namespace Pineapple.Controllers
     public class FollowController : Controller
     {
         [HttpPost]
-        public string Follow(int targetUser)
+        public IActionResult Follow(int targetUser)
         {
-            int currentUser;
-
             FollowService fs = new FollowService();
 
             if (Request.Cookies.ContainsKey("session_id"))
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"])) {
-                    currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
 
-                    if (currentUser == targetUser) {
-                        return "You can't follow yourself";
+                    UserModel currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int currentUserId = 0;
+                    if (currentUser != null)
+                    {
+                        currentUserId = currentUser.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Something is wrong. Try again later." });
                     }
 
-                    if (!fs.CheckFollow(currentUser, targetUser))
+                    if (currentUserId == targetUser) {
+                        return Json(new { status = false,  message = "You can't follow yourself"});
+                    }
+
+                    if (!fs.CheckFollow(currentUserId, targetUser))
                     {
-                        if (fs.AddFollow(currentUser, targetUser))
+                        if (fs.AddFollow(currentUserId, targetUser))
                         {
-                            return "true";
+                            return Json(new { status = true, message = "" });
                         }
                         else {
-                            return "Something is wrong. Try again later.";
+                            return Json(new { status = false, message = "Something is wrong. Try again later." });
                         }
                     }
                     else {
-                        return "Already follow";
+                        return Json(new { status = false, message = "Already follow" });
                     }
                 }
             }
 
-            return "Not logged in";
+            return Json(new { status = false, message = "Not logged in" });
         }
 
         [HttpPost, Route("unfollow")]
-        public string Unfollow(int targetUser) {
-            int currentUser;
+        public IActionResult Unfollow(int targetUser) {
 
             FollowService fs = new FollowService();
 
@@ -57,27 +64,35 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-
-                    if (fs.CheckFollow(currentUser, targetUser))
+                    UserModel currentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int currentUserId = 0;
+                    if (currentUser != null)
                     {
-                        if (fs.DeleteFollow(currentUser, targetUser))
+                        currentUserId = currentUser.Id;
+                    }
+                    else {
+                        return Json(new { status = false, message = "Something is wrong. Try again later." });
+                    }
+
+                    if (fs.CheckFollow(currentUserId, targetUser))
+                    {
+                        if (fs.DeleteFollow(currentUserId, targetUser))
                         {
-                            return "true";
+                            return Json(new { status = true, message = "" });
                         }
                         else
                         {
-                            return "Something is wrong. Try again later.";
+                            return Json(new { status = false, message = "Something is wrong. Try again later." });
                         }
                     }
                     else
                     {
-                        return "Already unfollow";
+                        return Json(new { status = false, message = "Already follow" });
                     }
                 }
             }
 
-            return "Not logged in";
+            return Json(new { status = false, message = "Not logged in" });
         }
 
         [HttpGet, Route("followers")]

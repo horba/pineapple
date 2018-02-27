@@ -26,7 +26,16 @@ namespace Pineapple.Controllers
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
                     FollowService fs = new FollowService();
-                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else
+                    {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
 
                     List<FollowViewModel> usersWithFollow = new List<FollowViewModel>();
 
@@ -37,9 +46,9 @@ namespace Pineapple.Controllers
 
                     if (findedusers.Count == 0)
                     {
-                        return Json(new { status = "empty" });
+                        return Json(new { status = true, message = "No data", FindedPeoples = new List<FollowViewModel>(), withFollow = true });
                     }
-                    return Json(new { FindedPeoples = usersWithFollow, status = "true", withFollow = true });
+                    return Json(new { status = true, message = "", FindedPeoples = usersWithFollow, withFollow = true });
                 }
             }
 
@@ -52,9 +61,9 @@ namespace Pineapple.Controllers
 
             if (findedusers.Count == 0)
             {
-                return Json(new { status = "empty" });
+                return Json(new { status = true, message = "No data", FindedPeoples = new List<FollowViewModel>(), withFollow = false });
             }
-            return Json(new { status = true, message = "", FindedPeoples = findedusers, followButton = false } );
+            return Json(new { status = true, message = "", FindedPeoples = users, withFollow = false });
         }
 
         [HttpGet("searchFollowers/{searchLine}")]

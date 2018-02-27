@@ -17,11 +17,11 @@
             if (button.hasClass("unfollow")) {
                 $.post("/api/Follow/unfollow", { targetUser: button.data("id") }, function (response) {
                     button.removeClass("load unfollow");
-                    if (response == "true") {
+                    if (response.status === true) {
                         button.addClass("success");
                     } else {
                         button.addClass("fail");
-                        console.log(response);
+                        console.log(response.message);
                     }
 
                     setTimeout(function (e) { button.removeClass("fail success"); }, 1000);
@@ -29,11 +29,11 @@
             } else {
                 $.post("/api/Follow", { targetUser: button.data("id") }, function (response) {
                     button.removeClass("load");
-                    if (response == "true") {
+                    if (response.status === true) {
                         button.addClass("success");
                     } else {
                         button.addClass("fail");
-                        console.log(response);
+                        console.log(response.message);
                     }
 
                     setTimeout(function (e) { button.removeClass("fail success"); button.addClass("unfollow"); }, 1000);
@@ -53,47 +53,51 @@
                 let values = response;
                 let $dude = $("#finded-people");
                 $dude.html("");
-                if (values.status == "true") {
-                    if (values.withFollow) {
-                        values.findedPeoples.forEach(function (v) {
-                            var follow = v.follow ? "unfollow" : "";
-                            var button = "";
-                            if (v.followButton) {
-                                button = '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
-                                    '<div class="fa fa-user user-icon"></div>' +
-                                    '</div>';
-                            }
+                if (values.status === true) {
+                    if (values.message == "") {
+                        if (values.withFollow) {
+                            values.findedPeoples.forEach(function (v) {
+                                var follow = v.follow ? "unfollow" : "";
+                                var button = "";
+                                if (v.followButton) {
+                                    button = '<div class="follow-button ' + follow + '" data-id="' + v.id + '" onclick="follow(this);">' +
+                                        '<div class="fa fa-user user-icon"></div>' +
+                                        '</div>';
+                                }
 
-                            $dude.append(
-                                '<div class="search-result block-with-shadow">' +
-                                '<div class="search-image-wrapper">' +
-                                '<img src="img/avatar.png" class="search-image" />' +
-                                '</div>' +
-                                '<div>' +
-                                '<div class="search-username">' + v.nickname + '</div>' +
-                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                                '</div >' +
-                                button +
-                                '</div>'
-                            );
-                        });
-                    } else {
-                        values.findedPeoples.forEach(function (v) {
-                            $dude.append(
-                                '<div class="search-result block-with-shadow">' +
-                                '<div class="search-image-wrapper">' +
-                                '<img src="img/avatar.png" class="search-image" />' +
-                                '</div>' +
-                                '<div>' +
-                                '<div class="search-username">' + v.nickname + '</div>' +
-                                '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
-                                '</div >' +
-                                '</div>'
-                            );
-                        });
+                                $dude.append(
+                                    '<div class="search-result block-with-shadow">' +
+                                    '<div class="search-image-wrapper">' +
+                                    '<img src="img/avatar.png" class="search-image" />' +
+                                    '</div>' +
+                                    '<div>' +
+                                    '<div class="search-username">' + v.nickname + '</div>' +
+                                    '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                    '</div >' +
+                                    button +
+                                    '</div>'
+                                );
+                            });
+                        } else {
+                            values.findedPeoples.forEach(function (v) {
+                                $dude.append(
+                                    '<div class="search-result block-with-shadow">' +
+                                    '<div class="search-image-wrapper">' +
+                                    '<img src="img/avatar.png" class="search-image" />' +
+                                    '</div>' +
+                                    '<div>' +
+                                    '<div class="search-username">' + v.nickname + '</div>' +
+                                    '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
+                                    '</div >' +
+                                    '</div>'
+                                );
+                            });
+                        }
+                    } else { 
+                        $dude.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
                     }
                 } else {
-                    $dude.append("<div class='no-data'><div class='fa fa-search fa-3x'></div><div>We did not find any users</div></div>");
+                    console.log(values.message);
                 }
             });
         }
