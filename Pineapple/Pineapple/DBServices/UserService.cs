@@ -63,7 +63,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserNick(string nickname)
         {
-            string status = "true";
+            string status = "";
 
             if (nickname.Length > 50)
             {
@@ -101,7 +101,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserEmail(string email)
         {
-            string status = "true";
+            string status = "";
 
             if (email.Length > 50)
             {
@@ -139,7 +139,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserFirstName(string firstName)
         {
-            string status = "true";
+            string status = "";
 
             if (firstName == "")
             {
@@ -162,7 +162,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserSecondName(string secondName)
         {
-            string status = "true";
+            string status = "";
 
             if (secondName == "")
             {
@@ -185,7 +185,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserPassword(string password)
         {
-            string status = "true";
+            string status = "";
 
             if (password.Length < 8)
             {
@@ -197,7 +197,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserRPassword(string password, string rPassword)
         {
-            string status = "true";
+            string status = "";
 
             if (password != rPassword)
             {

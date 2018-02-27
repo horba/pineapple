@@ -24,27 +24,27 @@ namespace Pineapple.Controllers
             UserModel response = new UserModel();
             UserService user = new UserService();
 
-            if (user.CheckUserNick(data.Nickname) != "true")
+            if (user.CheckUserNick(data.Nickname) != "")
             {
                 errors.Add("Nickname", user.CheckUserNick(data.Nickname));
             }
-            if (user.CheckUserEmail(data.Email) != "true")
+            if (user.CheckUserEmail(data.Email) != "")
             {
                 errors.Add("Email", user.CheckUserEmail(data.Email));
             }
-            if (user.CheckUserFirstName(data.FirstName) != "true")
+            if (user.CheckUserFirstName(data.FirstName) != "")
             {
                 errors.Add("FirstName", user.CheckUserFirstName(data.FirstName));
             }
-            if (user.CheckUserSecondName(data.LastName) != "true")
+            if (user.CheckUserSecondName(data.LastName) != "")
             {
                 errors.Add("LastName", user.CheckUserSecondName(data.LastName));
             }
-            if (user.CheckUserPassword(data.Password) != "true")
+            if (user.CheckUserPassword(data.Password) != "")
             {
                 errors.Add("Password", user.CheckUserPassword(data.Password));
             }
-            if (user.CheckUserRPassword(data.Password, data.RPassword) != "true")
+            if (user.CheckUserRPassword(data.Password, data.RPassword) != "")
             {
                 errors.Add("RPassword", user.CheckUserRPassword(data.Password, data.RPassword));
             }
