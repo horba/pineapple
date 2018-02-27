@@ -51,12 +51,12 @@
             if (values.status == "true") {
                 values.tweets.forEach(function (v) {
                     $tweets.append("<div class=\"feed block-with-shadow\" >" +
-                                        "<div class=\"image-wrapper\">" +
+                        "<div class=\"image-wrapper\" onclick='goToAnotherUser('" + v.id + "');'>" +
                                             "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
                                         "</div>" +
                                         "<div class=\"not-avatar-part-of-tweet\">" +
                                             "<div class=\"tweet-info\">" +
-                                                "<div class=\"nickname-in-tweet\">" +
+                                                "<div class=\"nickname-in-tweet\" onclick='goToAnotherUser('" + v.id + "');'>" +
                                                     v.nickname +
                                                 "</div >" +
                                                 "<div class=\"tweet-date\">" +
@@ -82,7 +82,7 @@
             $followers.html("");
             if (values.status == "true") {
                 values.followers.forEach(function (v) {
-                    $followers.append('<div class="search-result block-with-shadow">' +
+                    $followers.append('<div class="search-result block-with-shadow" onclick="goToAnotherUser("' + v.id + '");">' +
                         '<div class="search-image-wrapper">' +
                         '<img src="img/avatar.png" class="search-image" />' +
                         '</div>' +
@@ -105,7 +105,7 @@
             $following.html("");
             if (values.status == "true") {
                 values.following.forEach(function (v) {
-                    $following.append('<div class="search-result block-with-shadow">' +
+                    $following.append('<div class="search-result block-with-shadow" onclick="goToAnotherUser("' + v.id + '");">' +
                                             '<div class="search-image-wrapper">' +
                                                 '<img src="img/avatar.png" class="search-image" />' +
                                             '</div>' +
@@ -135,7 +135,7 @@
                 $followers.html("");
                 if (values.status == "true") {
                     values.foundPeople.forEach(function (v) {
-                        $followers.append('<div class="search-result block-with-shadow">' +
+                        $followers.append('<div class="search-result block-with-shadow" onclick="goToAnotherUser("' + v.id + '");">' +
                             '<div class="search-image-wrapper">' +
                             '<img src="img/avatar.png" class="search-image" />' +
                             '</div>' +
@@ -167,7 +167,7 @@
                 $following.html("");
                 if (values.status == "true") {
                     values.foundPeople.forEach(function (v) {
-                        $following.append('<div class="search-result block-with-shadow">' +
+                        $following.append('<div class="search-result block-with-shadow" onclick="goToAnotherUser("' + v.id + '");">' +
                             '<div class="search-image-wrapper">' +
                             '<img src="img/avatar.png" class="search-image" />' +
                             '</div>' +
@@ -185,6 +185,11 @@
         } else {
             getFollowing();
         }
+    }
+
+    function goToAnotherUser(elem)
+    {
+        $.get("UserPage/" + elem);
     }
 
     $(function () {
