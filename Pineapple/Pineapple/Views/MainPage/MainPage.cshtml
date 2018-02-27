@@ -79,7 +79,7 @@
     <div class="modal-window">
         <p id="messageHead"></p>
         <p id="message"></p>
-        <button class="pa-button pa-adaptive-button-100 pa-negative-button" id="blackout-close-message">Cancel</button>
+        <button class="pa-button pa-adaptive-button-100" id="blackout-close-message">Ok</button>
     </div>
 </div>
 <footer>© 2018 Pineapple, Inc.</footer>
@@ -151,58 +151,62 @@
                 $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
 
                 $.post("/api/user/register", data, function (response) {
-
+                    var count = 0;
+                    for (var elem in response)
+                    {
+                        count++;
+                    }
                     var error = document.getElementsByClassName("error-info");
 
-                    if (response.nickname == "true") {
+                    if (!("Nickname" in response)) {
                         $("#Nickname").addClass("right");
                     } else {
                         $("#Nickname").addClass("wrong");
-                        error[0].innerHTML = response.nickname;
+                        error[0].innerHTML = response["Nickname"];
                     }
 
-                    if (response.firstName == "true") {
+                    if (!("FirstName" in response)) {
                         $("#Name").addClass("right");
                     } else {
                         $("#Name").addClass("wrong");
-                        error[1].innerHTML = response.firstName;
+                        error[1].innerHTML = response["FirstName"];
                     }
 
-                    if (response.lastName == "true") {
+                    if (!("LastName" in response)) {
                         $("#LName").addClass("right");
                     } else {
                         $("#LName").addClass("wrong");
-                        error[2].innerHTML = response.lastName;
+                        error[2].innerHTML = response["LastName"];
                     }
 
-                    if (response.email == "true") {
+                    if (!("Email" in response)) {
                         $("#EMail").addClass("right");
                     } else {
                         $("#EMail").addClass("wrong");
-                        error[3].innerHTML = response.email;
+                        error[3].innerHTML = response["Email"];
                     }
 
-                    if (response.password == "true") {
+                    if (!("Password" in response)) {
                         $("#Pass").addClass("right");
                     } else {
                         $("#Pass").addClass("wrong");
-                        error[4].innerHTML = response.password;
+                        error[4].innerHTML = response["Password"];
                     }
 
-                    if (response.rPassword == "true") {
+                    if (!("RPassword" in response)) {
                         $("#RPass").addClass("right");
                     } else {
                         $("#RPass").addClass("wrong");
-                        error[5].innerHTML = response.rPassword;
+                        error[5].innerHTML = response["RPassword"];
                     }
+                    console.log(count);
+                    if (count == 0 || ("DB" in response && count == 1)) {
 
-                    if (response.status != "wrong parameter(s)") {
-
-                        if (response.allRight)
+                        if (count == 0)
                         {
                             $("#messageHead").html("Successful registration");
                             $("#message").html("You have been successfully registered.");
-                            $("#registerForm").data("registrtionWasSuccesful", "true");                           
+                            $("#registerForm").data("registrtionWasSuccesful", true);                           
                         }
                         else
                         {
@@ -236,7 +240,7 @@
                 $("#blackout-message").removeClass("active");
                 setTimeout(function () {
                     $("#blackout-message").addClass("hidden");
-                    if ($("#registerForm").data("registrtionWasSuccesful") == "true")
+                    if ($("#registerForm").data("registrtionWasSuccesful"))
                     {
                         var data = { nickname: $("#Nickname").val(), password: $("#Pass").val() };
                         $.post("api/auth", data, function (response) {
