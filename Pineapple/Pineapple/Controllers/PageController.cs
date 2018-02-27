@@ -70,22 +70,26 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
+                    FollowService fs = new FollowService();
+
                     UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
                     int currentId = 0;
                     if (user != null)
                     {
                         currentId = user.Id;
                     }
-                    /*else {
+                    else {
                         return View("~/Views/UserPage/ErrorPage.cshtml");
-                    }*/
+                    }
 
                     if (currentId == id) {
                         return View("~/Views/UserPage/ProfilePage.cshtml");
                     }
                     else
                     {
-                        return View("~/Views/UserPage/AnotherUserPage.cshtml", new { userId = id });
+                        ViewBag.id = id;
+                        ViewBag.follow = fs.CheckFollow(currentId, id);
+                        return View("~/Views/UserPage/AnotherUserPage.cshtml");
                     }
                 }
                 else

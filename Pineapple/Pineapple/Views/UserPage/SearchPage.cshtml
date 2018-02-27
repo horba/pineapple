@@ -67,11 +67,11 @@
 
                                 $dude.append(
                                     '<div class="search-result block-with-shadow">' +
-                                    '<div class="search-image-wrapper">' +
+                                    '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
                                     '<img src="img/avatar.png" class="search-image" />' +
                                     '</div>' +
                                     '<div>' +
-                                    '<div class="search-username">' + v.nickname + '</div>' +
+                                    '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
                                     '<div class="search-fullname" >' + v.firstName + ' ' + v.lastName + '</div>' +
                                     '</div >' +
                                     button +
