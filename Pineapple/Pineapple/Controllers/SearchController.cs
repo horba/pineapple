@@ -44,10 +44,6 @@ namespace Pineapple.Controllers
                         usersWithFollow.Add(new FollowViewModel(i.Id, i.Nickname, i.FirstName, i.LastName, fs.CheckFollow(id, i.Id), !(id == i.Id)));
                     }
 
-                    if (findedusers.Count == 0)
-                    {
-                        return Json(new { status = true, message = "No data", FindedPeoples = new List<FollowViewModel>(), withFollow = true });
-                    }
                     return Json(new { status = true, message = "", FindedPeoples = usersWithFollow, withFollow = true });
                 }
             }
@@ -59,10 +55,6 @@ namespace Pineapple.Controllers
                 users.Add(new SimpleUserModel(i.Id, i.Nickname, i.FirstName, i.LastName));
             }
 
-            if (findedusers.Count == 0)
-            {
-                return Json(new { status = true, message = "No data", FindedPeoples = new List<FollowViewModel>(), withFollow = false });
-            }
             return Json(new { status = true, message = "", FindedPeoples = users, withFollow = false });
         }
 
@@ -91,14 +83,7 @@ namespace Pineapple.Controllers
                         users.Add(new FollowViewModel(i.Id, i.Nickname, i.FirstName, i.LastName, fs.CheckFollow(id, i.Id)));
                     }
 
-                    if (response.Count > 0)
-                    {
-                        return Json(new { status = true, message = "", foundPeople = response });
-                    }
-                    else
-                    {
-                        return Json(new { status = true, message = "No data", foundPeople = new List<SimpleUserModel>() });
-                    }
+                    return Json(new { status = true, message = "", foundPeople = response });           
                 }
                 else
                 {
@@ -131,14 +116,7 @@ namespace Pineapple.Controllers
 
                     List<SimpleUserModel> response = SearchEngine.FindPeoplesInFollowing(searchLine, id);
 
-                    if (response.Count > 0)
-                    {
-                        return Json(new { status = true, message = "", foundPeople = response });
-                    }
-                    else
-                    {
-                        return Json(new { status = true, message = "No data", foundPeople = response });
-                    }
+                    return Json(new { status = true, message = "", foundPeople = response });
                 }
                 else
                 {

@@ -54,7 +54,7 @@
                 let $dude = $("#finded-people");
                 $dude.html("");
                 if (values.status === true) {
-                    if (values.message == "") {
+                    if (values.findedPeoples.length > 0) {
                         if (values.withFollow) {
                             values.findedPeoples.forEach(function (v) {
                                 var follow = v.follow ? "unfollow" : "";

@@ -128,14 +128,7 @@ namespace Pineapple.Controllers
                         }
                     }
 
-                    if (followers.Count > 0)
-                    {
-                        return Json(new { status = true, message = "", followers = followersLikeUser });
-                    }
-                    else
-                    {
-                        return Json(new { status = true, message = "No followers", followers = new List<SimpleUserModel>() });
-                    }
+                    return Json(new { status = true, message = "", followers = followersLikeUser });
                 }
                 else
                 {
@@ -180,14 +173,7 @@ namespace Pineapple.Controllers
                         }
                     }
 
-                    if (following.Count > 0)
-                    {
-                        return Json(new { status = true, message = "", following = followingLikeUser });
-                    }
-                    else
-                    {
-                        return Json(new { status = true, message = "No following", following = new List<SimpleUserModel>() });
-                    }
+                    return Json(new { status = true, message = "", following = followingLikeUser });
                 }
                 else
                 {

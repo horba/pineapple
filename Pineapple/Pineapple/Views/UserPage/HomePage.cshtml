@@ -36,7 +36,6 @@
                 if (values.length != 0) {
                     var timezone = new Date().getTimezoneOffset();
                     values.forEach(function (v) {
-                        console.log(timezone);
                         var time = new Date(v.date).getTime() - timezone * 60 * 1000;
                         var date = new Date(time);
                         $feed.append(   "<div class=\"feed block-with-shadow\" >" +
