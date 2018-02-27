@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pineapple.DBServices;
 using Pineapple.Model;
+using System.Data;
 using Pineapple.Services;
 
 namespace Pineapple.Controllers
@@ -14,23 +15,27 @@ namespace Pineapple.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            List<string> stringTweets = new List<string>();
-            TweetsService modelReader = new TweetsService();
+        public IEnumerable<TweetViewModel> Get()
+        {   
+            List<TweetViewModel> response = new List<TweetViewModel>();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfCurrentUser = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                List<TweetModel> tweetsFromFeed = modelReader.GetTweetsFromFeed(idOfCurrentUser);
-                if (tweetsFromFeed != null)
+                if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    foreach (TweetModel tweet in tweetsFromFeed)
+                    int CurrentUserId = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    TweetsService modelReader = new TweetsService();
+                    UserService us = new UserService();
+                    List<TweetModel> tweets = modelReader.GetTweetsFromFeed(CurrentUserId);
+                    foreach (var tweet in tweets)
                     {
-                        stringTweets.Add(tweet.ToString());
-                    }
+                        UserModel user = us.GetUserById(tweet.AuthorId);
+                        string nickname = user == null ? "Error" : user.Nickname;
+                        tweet.Date = tweet.Date.ToLocalTime();
+                        response.Add(new TweetViewModel (tweet, nickname));
+                    }                    
                 }
             }
-            return stringTweets;
+            return response;
         }
 
         // GET api/values/5
@@ -49,8 +54,8 @@ namespace Pineapple.Controllers
             TweetsService modelReader = new TweetsService();
             if (Request.Cookies.ContainsKey("session_id"))
             {
-                int idOfAuthor = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
-                modelReader.AddTweet(value, idOfAuthor);
+                int AuthorId = Services.UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                modelReader.AddTweet(new TweetModel(DateTime.UtcNow, value, AuthorId));
             }
         }
 
@@ -76,35 +81,44 @@ namespace Pineapple.Controllers
             {
                 if (UserAuth.CheckUserSession(Request.Cookies["session_id"]))
                 {
-                    int id = UserAuth.GetUserBySession(Request.Cookies["session_id"]).Id;
+                    UserModel user = UserAuth.GetUserBySession(Request.Cookies["session_id"]);
+                    int id = 0;
+                    if (user != null)
+                    {
+                        id = user.Id;
+                    }
+                    else {
+                        return Json(new { status = false, message = "Error: User not found" });
+                    }
+
                     TweetsService modelReader = new TweetsService();
                     UserService us = new UserService();
 
                     List<TweetModel> tweets = modelReader.GetTweetsByUserId(id);
 
-                    List<object> response = new List<object>();
+                    List<TweetViewModel> response = new List<TweetViewModel>();
                     foreach (var tweet in tweets) {
-                        UserModel user = us.GetUserById(tweet.IdOfAuthor);
-                        string nickname = user == null ? "Error" : user.Nickname;
-                        response.Add(new { text = tweet.Text, date = tweet.Date.ToString(), nickname });
+                        UserModel AuthorTweet = us.GetUserById(tweet.AuthorId);
+                        string nickname = user == null ? "Error" : AuthorTweet.Nickname;
+                        response.Add(new TweetViewModel(tweet, nickname));
                     }
 
                     if (response.Count > 0)
                     {
-                        return Json(new { status = "true", tweets = response });
+                        return Json(new { status = true, message = "", tweets = response });
                     }
                     else {
-                        return Json(new { status = "empty" });
+                        return Json(new { status = true, message = "No tweets", tweets = new List<TweetViewModel>() });
                     }
                 }
                 else
                 {
-                    return Json(new { status = "error" });
+                    return Json(new { status = false, message = "Error: Wrong user" });
                 }
             }
             else
             {
-                return Json(new { status = "error" });
+                return Json(new { status = false, message = "Error: Cookie not found" });
             }
         }
     }

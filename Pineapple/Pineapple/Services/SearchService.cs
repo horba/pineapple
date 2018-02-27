@@ -21,7 +21,7 @@ namespace Pineapple.Services
             string[] searchText = searchModel.SearchText.Split(' ');
             foreach (var item in searchText)
             {
-                HelpMethod(item);
+                SqlQuery(item);
             }
             FindedUsers = FindedUsers.Distinct().ToList();
             return FindedUsers;
@@ -35,15 +35,15 @@ namespace Pineapple.Services
             {
                 FindedUser = new UserModel();
                 FindedUser.Id = Convert.ToInt32(dataReader["Id"]);
-                FindedUser.Nickname = (string)dataReader.GetValue(1);
-                FindedUser.FirstName = (string)dataReader.GetValue(2);
-                FindedUser.LastName = (string)dataReader.GetValue(3);
+                FindedUser.Nickname = (string)dataReader["Nick"];
+                FindedUser.FirstName = (string)dataReader["FirstName"];
+                FindedUser.LastName = (string)dataReader["SecondName"];
                 AllFindedUsers.Add(FindedUser);
             }
             return AllFindedUsers;
         }
 
-        private void HelpMethod(string SearchText)
+        private void SqlQuery(string SearachText)
         {
             try
             {

@@ -577,6 +577,41 @@ header {
     padding: 0 10px;
 }
 
+.nickname-in-tweet {
+    color: rgba(40,40,40,1);
+    font-weight: bold;
+}
+
+.tweet-date {
+    color: rgba(120,120,120,1);
+    font-size: 13px;
+}
+
+.text-in-tweet {
+    display: block;
+    font-size: 15px;
+    text-align: justify;
+    color: rgba(50,50,50,1);
+}
+
+.no-data {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed rgba(170,170,170,1);
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: rgba(170,170,170,1);
+    cursor: default;
+}
+
+    .no-data > .fa {
+        margin-bottom: 20px;
+    }
+
 footer {
     display: flex;
     align-items: center;
