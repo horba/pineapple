@@ -56,33 +56,6 @@ namespace Pineapple.DBServices
             return result;
         }
 
-        public List<UserModel> GetLastRegisteredUsers(int count)
-        {
-
-            List<UserModel> users = new List<UserModel>();
-
-            DBconnection.ConnectionOpen();
-            try
-            {
-                SqlDataReader myReader = null;
-                SqlCommand myCommand = new SqlCommand("SELECT TOP "+count+" Nick, Id FROM dbo.Users ORDER BY RegistrationDate DESC", DBconnection.myConnection);
-                myReader = myCommand.ExecuteReader();
-
-                while (myReader.Read())
-                {
-                    users.Add(new UserModel() { Id = Convert.ToInt32(myReader["Id"]), Nickname = myReader["Nick"].ToString(), Message = "false" });
-                }
-            }
-            catch (Exception e)
-            {
-                users.Add(new UserModel() { Id = 0, Nickname = e.Message, Message = "false"});
-            }
-
-            DBconnection.ConnectionClose();
-
-            return users;
-        }
-
         public string CheckUserNick(string nickname)
         {
             string status = "true";
