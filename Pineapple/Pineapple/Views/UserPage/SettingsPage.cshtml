@@ -55,8 +55,8 @@
             $("#Name").val(response.firstName);
             $("#LName").val(response.lastName);
             $("#EMail").val(response.email);
-            $.get("/api/user/photo", function (data, status) {
-                $('#preview').attr('src', data + "?"+new Date().getTime());
+            $.get("/api/user/photo", function (image_url, status) {
+                $('#preview').attr('src', image_url + "?"+new Date().getTime());
             });
         });
 

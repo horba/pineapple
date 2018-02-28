@@ -64,11 +64,11 @@
                                         '<div class="fa fa-user user-icon"></div>' +
                                         '</div>';
                                 }
-                                $.get("/api/user/photo/" + v.id, function (data, status) {
+                                $.get("/api/user/photo/" + v.id, function (image_url, status) {
                                     $dude.append(
                                         '<div class="search-result block-with-shadow">' +
                                         '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
-                                        '<img src ="' + data + '"  class="search-image" />' +
+                                        '<img src ="' + image_url + "?" + new Date().getTime() + '"  class="search-image" />' +
                                             '</div>' +
                                         '<div>' +
                                         '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
@@ -81,11 +81,11 @@
                             });
                         } else {
                             values.findedPeoples.forEach(function (v) {
-                                $.get("/api/user/photo/" + v.id, function (data, status) {
+                                $.get("/api/user/photo/" + v.id, function (image_url, status) {
                                     $dude.append(
                                         '<div class="search-result block-with-shadow">' +
                                         '<div class="search-image-wrapper">' +
-                                        '<img src ="' + data + '"  class="search-image" />' +
+                                        '<img src ="' + image_url + '"  class="search-image" />' +
                                             '</div>' +
                                         '<div>' +
                                         '<div class="search-username">' + v.nickname + '</div>' +

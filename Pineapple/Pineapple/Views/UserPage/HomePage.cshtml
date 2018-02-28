@@ -21,7 +21,7 @@
                     var date = new Date(time);
                     $feed.append("<div class=\"feed block-with-shadow\" >" +
                         "<div class=\"image-wrapper\" onclick='goToAnotherUser(" + v.authorId + ");'>" +
-                        "<img class=\"avatar-in-tweet\" src ='" + v.authorPhoto + "'>" +
+                        "<img class=\"avatar-in-tweet\" src ='" + v.authorPhoto + "?" + new Date().getTime()+"'>" +
                         "</div>" +
                         "<div class=\"not-avatar-part-of-tweet\">" +
                         "<div class=\"tweet-info\">" +

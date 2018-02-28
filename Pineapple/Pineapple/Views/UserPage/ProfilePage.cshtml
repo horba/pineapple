@@ -59,7 +59,7 @@
 
                         $tweets.append("<div class=\"feed block-with-shadow\" >" +
                             "<div class=\"image-wrapper\" onclick='goToAnotherUser(" + v.authorId + ");'>" +
-                            "<img class=\"avatar-in-tweet\" src ='" + v.authorPhoto  + "'>" +
+                            "<img class=\"avatar-in-tweet\" src ='" + v.authorPhoto + "?" + new Date().getTime() + "'>" +
                             "</div>" +
                             "<div class=\"not-avatar-part-of-tweet\">" +
                             "<div class=\"tweet-info\">" +
@@ -95,10 +95,10 @@
                     values.followers.forEach(function (v) {
                         var follow = v.follow ? "unfollow" : "";
 
-                        $.get("/api/user/photo/" + v.id, function (data, status) {
-                            $followers.append('$followers.append('<div class="search-result block-with-shadow">' +
+                        $.get("/api/user/photo/" + v.id, function (image_url, status) {
+                            $followers.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper">' +
-                                '<img src ="' + data + '" class="search-image" onclick="goToAnotherUser(' + v.id + ');" />' +
+                                '<img src ="' + image_url + "?" + new Date().getTime()+ '" class="search-image" onclick="goToAnotherUser(' + v.id + ');" />' +
                              '</div>' +
                             '<div>' +
                             '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
@@ -127,10 +127,10 @@
             if (values.status == true) {
                 if (values.following.length > 0) {
                     values.following.forEach(function (v) {
-                        $.get("/api/user/photo/" + v.id, function (data, status) {
+                        $.get("/api/user/photo/" + v.id, function (image_url, status) {
                         $following.append('<div class="search-result block-with-shadow">' +
                             '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
-                            '<img src ="' + data + '"  class="search-image" />' +
+                            '<img src ="' + image_url + "?" + new Date().getTime() + '"  class="search-image" />' +
                             '</div>' +
                             '<div>' +
                             '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
@@ -167,10 +167,10 @@
                     if (values.foundPeople.length > 0) {
                         values.foundPeople.forEach(function (v) {
                             var follow = v.follow ? "unfollow" : "";
-                            $.get("/api/user/photo/" + v.id, function (data, status) {
+                            $.get("/api/user/photo/" + v.id, function (image_url, status) {
                             $followers.append('<div class="search-result block-with-shadow">' +
                                 '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
-                                '<img src ="' + data + '"  class="search-image" />' +
+                                '<img src ="' + image_url + "?" + new Date().getTime() +'"  class="search-image" />' +
                                 '</div>' +
                                 '<div>' +
                                 '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
@@ -207,10 +207,10 @@
                 if (values.status == true) {
                     if (values.foundPeople.length > 0) {
                         values.foundPeople.forEach(function (v) {
-                            $.get("/api/user/photo/" + v.id, function (data, status) {
+                            $.get("/api/user/photo/" + v.id, function (image_url, status) {
                                 $following.append('<div class="search-result block-with-shadow">' +
                                 '<div class="search-image-wrapper" onclick="goToAnotherUser(' + v.id + ');">' +
-                                    '<img src ="' + data + '" class="search-image" />' +
+                                    '<img src ="' + image_url + '" class="search-image" />' +
                                     '</div>' +
                                 '<div>' +
                                 '<div class="search-username" onclick="goToAnotherUser(' + v.id + ');">' + v.nickname + '</div>' +
@@ -362,9 +362,8 @@
         $(".active-elem").css("width", $(".internal-menu > .internal-menu-item.active").outerWidth());
         $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
 
-        $.get("/api/user/photo", function (data, status) {
-            $('#main-image').attr('src', data + "?" + new Date().getTime());
-
+        $.get("/api/user/photo", function (image_url, status) {
+            $('#main-image').attr('src', image_url + "?" + new Date().getTime());
             $.get("/api/auth").done(function (data) {
                 $(".profile-nickname").text(data.nickname);
                 $(".profile-fullname").text(data.firstName + " " + data.lastName);
