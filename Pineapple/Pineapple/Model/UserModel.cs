@@ -28,8 +28,7 @@ namespace Pineapple.Model
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string RPassword { get; set; }
-        public string Status { get; set; }
+        public string RPassword { get; set; }     
 
         public override string ToString()
         {

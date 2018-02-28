@@ -61,36 +61,9 @@ namespace Pineapple.DBServices
             return result;
         }
 
-        public List<UserModel> GetLastRegisteredUsers(int count)
-        {
-
-            List<UserModel> users = new List<UserModel>();
-
-            DBconnection.ConnectionOpen();
-            try
-            {
-                SqlDataReader myReader = null;
-                SqlCommand myCommand = new SqlCommand("SELECT TOP "+count+" Nick, Id FROM dbo.Users ORDER BY RegistrationDate DESC", DBconnection.myConnection);
-                myReader = myCommand.ExecuteReader();
-
-                while (myReader.Read())
-                {
-                    users.Add(new UserModel() { Id = Convert.ToInt32(myReader["Id"]), Nickname = myReader["Nick"].ToString(), Status = "false" });
-                }
-            }
-            catch (Exception e)
-            {
-                users.Add(new UserModel() { Id = 0, Nickname = e.Message, Status = "false"});
-            }
-
-            DBconnection.ConnectionClose();
-
-            return users;
-        }
-
         public string CheckUserNick(string nickname)
         {
-            string status = "true";
+            string status = "";
 
             if (nickname.Length > 50)
             {
@@ -128,7 +101,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserEmail(string email)
         {
-            string status = "true";
+            string status = "";
 
             if (email.Length > 50)
             {
@@ -166,7 +139,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserFirstName(string firstName)
         {
-            string status = "true";
+            string status = "";
 
             if (firstName == "")
             {
@@ -189,7 +162,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserSecondName(string secondName)
         {
-            string status = "true";
+            string status = "";
 
             if (secondName == "")
             {
@@ -212,7 +185,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserPassword(string password)
         {
-            string status = "true";
+            string status = "";
 
             if (password.Length < 8)
             {
@@ -224,7 +197,7 @@ namespace Pineapple.DBServices
 
         public string CheckUserRPassword(string password, string rPassword)
         {
-            string status = "true";
+            string status = "";
 
             if (password != rPassword)
             {

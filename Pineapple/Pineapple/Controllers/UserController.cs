@@ -17,8 +17,10 @@ namespace Pineapple.Controllers
     {
         // POST
         [HttpPost("register")]
-        public UserModel Post(UserModel data)
+        public Dictionary<string, string> Post(UserModel data)
         {
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+
             data.Email = data.Email.ToLower();
             data.FirstName = data.FirstName == null ? "" : data.FirstName;
             data.LastName = data.LastName == null ? "" : data.LastName;
@@ -26,20 +28,40 @@ namespace Pineapple.Controllers
             UserModel response = new UserModel();
             UserService user = new UserService();
 
-            response.Nickname = user.CheckUserNick(data.Nickname);
-            response.Email = user.CheckUserEmail(data.Email);
-            response.FirstName = user.CheckUserFirstName(data.FirstName);
-            response.LastName = user.CheckUserSecondName(data.LastName);
-            response.Password = user.CheckUserPassword(data.Password);
-            response.RPassword = user.CheckUserRPassword(data.Password, data.RPassword);
-
-            if (response.Nickname == "true" && response.Email == "true" && response.FirstName == "true" && response.LastName == "true" &&
-                response.Password == "true" && response.RPassword == "true")
+            if (user.CheckUserNick(data.Nickname) != "")
             {
-                response.Status = user.RegisterUser(data);
+                errors.Add("Nickname", user.CheckUserNick(data.Nickname));
+            }
+            if (user.CheckUserEmail(data.Email) != "")
+            {
+                errors.Add("Email", user.CheckUserEmail(data.Email));
+            }
+            if (user.CheckUserFirstName(data.FirstName) != "")
+            {
+                errors.Add("FirstName", user.CheckUserFirstName(data.FirstName));
+            }
+            if (user.CheckUserSecondName(data.LastName) != "")
+            {
+                errors.Add("LastName", user.CheckUserSecondName(data.LastName));
+            }
+            if (user.CheckUserPassword(data.Password) != "")
+            {
+                errors.Add("Password", user.CheckUserPassword(data.Password));
+            }
+            if (user.CheckUserRPassword(data.Password, data.RPassword) != "")
+            {
+                errors.Add("RPassword", user.CheckUserRPassword(data.Password, data.RPassword));
             }
 
-            return response;
+
+            if (errors.Count == 0)
+            {
+                if (user.RegisterUser(data) != "true")
+                {
+                    errors.Add("DB", user.RegisterUser(data));
+                }    
+            }
+            return errors;
         }
 
         [HttpPost("change")]
