@@ -81,8 +81,8 @@ namespace Pineapple.Controllers
 
             data.Nickname = data.Nickname == null ? current.Nickname : data.Nickname;
             data.Email = data.Email == null ? current.Email : data.Email;
-            data.FirstName = data.FirstName == null ? current.FirstName : data.FirstName;
-            data.LastName = data.LastName == null ? current.LastName : data.LastName;
+            data.FirstName = data.FirstName == null ? "" : data.FirstName;
+            data.LastName = data.LastName == null ? "" : data.LastName;
             data.Email = data.Email.ToLower();
 
             response.FirstName = user.CheckUserFirstName(data.FirstName);
