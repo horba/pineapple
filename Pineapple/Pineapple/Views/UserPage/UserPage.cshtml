@@ -5,7 +5,15 @@
         <div class="logo-header">Pineapple</div>
     </div>
     <div class="main-menu">
-        <div class="user-info">Here can be your advertising</div>
+        <div class="user-info">
+            <div class="menu-image-wrapper">
+                <img src="img/avatar.png" class="menu-image" id="menu-image" />
+            </div>
+            <div class="menu-user-info">
+                <div class="menu-nickname"></div>
+                <div class="menu-fullname"></div>
+            </div>
+        </div>
         <div class="active" id="homeButton">Home</div>
         <div id="profileButton">Profile</div>
         <div id="searchButton">Search</div>
@@ -48,10 +56,19 @@
 <footer>© 2018 Pineapple, Inc.</footer>
 <script>
     $(function () {
-        $(".open-menu-button").click(function (e) { 
+        $(".open-menu-button").click(function (e) {
+            $.get("/api/user/photo", function (image_url, status) {
+                $('#main-image').attr('src', image_url + "?" + new Date().getTime());
+                $.get("/api/auth").done(function (data) {
+                    $(".profile-nickname").text(data.nickname);
+                    $(".profile-fullname").text(data.firstName + " " + data.lastName);
+                });
+            });
+
             $(".main-menu").addClass("open");
             $("#blackout-menu").removeClass("hidden");
             $("#blackout-menu").addClass("active");
+
         });
 
         $("#blackout-menu").click(function (e) {

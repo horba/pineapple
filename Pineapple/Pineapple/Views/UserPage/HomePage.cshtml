@@ -8,6 +8,7 @@
 </div>
 
 <script>
+        
     function updateTweets() {
         $.get("/api/tweets").done(function (data) {
             let values = data;
@@ -20,7 +21,7 @@
                     var date = new Date(time);
                     $feed.append("<div class=\"feed block-with-shadow\" >" +
                         "<div class=\"image-wrapper\" onclick='goToAnotherUser(" + v.authorId + ");'>" +
-                        "<img class=\"avatar-in-tweet\" src =\"img/avatar.png\">" +
+                        "<img class=\"avatar-in-tweet\" src ='" + v.authorPhoto + "?" + new Date().getTime()+"'>" +
                         "</div>" +
                         "<div class=\"not-avatar-part-of-tweet\">" +
                         "<div class=\"tweet-info\">" +
@@ -77,7 +78,15 @@
                 return false;
             }
         });
-            
-        updateTweets();
+
+        $.get("/api/user/photo", function (image_url, status) {
+            $('#menu-image').attr('src', image_url + "?" + new Date().getTime());
+            $.get("/api/auth").done(function (data) {
+                $(".menu-nickname").text(data.nickname);
+                $(".menu-fullname").text(data.firstName + " " + data.lastName);
+
+                updateTweets();
+            });
+        });
     });
 </script>

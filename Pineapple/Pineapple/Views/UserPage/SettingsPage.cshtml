@@ -1,16 +1,7 @@
-﻿
-    <div class="content-wrapper">
+﻿<div class="content-wrapper settings-wrapper">
+    <div class="form-user-wrapper">
+        <form id="user-form" class="form-user block-with-shadow">
 
-        <form id="photo-form" class="form-photo" >
-            <div class="image-preview">
-                <img id="preview" class="user-photo" src="avatar.png" alt="">
-            </div>
-            <div class="info-container">
-                <input type="file" class="pa-input" name="image" id="image">
-            </div>
-        </form>
-
-        <form id="user-form" class="form-user">
             <div class="info-container">
                 <label for="Nickname" class="pa-label">Nickname</label>
                 <div class="error-info"></div>
@@ -35,18 +26,29 @@
             </div>
             <input type="email" name="email" class="pa-input" id="EMail" placeholder="Type your e-Mail" />
 
-            <input type="submit" class="pa-input">
+            <input type="submit" class="pa-button pa-adaptive-button-100" value="Save">
         </form>
 
-
-        <div class="blackout hidden" id="blackout-message">
-            <div class="modal-window">
-                <p id="messageHead"></p>
-                <p id="message"></p>
-                <button class="pa-button pa-adaptive-button-100 pa-negative-button" id="blackout-close-message">Cancel</button>
+        <div class="logout-wrapper block-with-shadow"><button class="pa-button pa-adaptive-button-100 pa-negative-button" id="BTNLogout">Log out</button></div>
+    </div>
+    <form id="photo-form" class="form-photo">
+        <div class="image-preview">
+            <img id="preview" class="user-photo" src="img/avatar.png" alt="">
+        </div>
+        <div class="info-container">
+            <div class="avatar-input-wrapper">
+                <label for="image" class="pa-button">Change avatar</label>
+                <input type="file" class="avatar-input" name="image" id="image">
             </div>
         </div>
-
+    </form>
+    <div class="blackout hidden" id="blackout-message">
+        <div class="modal-window">
+            <p id="messageHead"></p>
+            <p id="message"></p>
+            <button class="pa-button pa-adaptive-button-100 pa-negative-button" id="blackout-close-message">Cancel</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -56,8 +58,8 @@
             $("#Name").val(response.firstName);
             $("#LName").val(response.lastName);
             $("#EMail").val(response.email);
-            $.get("/api/user/photo", function (data, status) {
-                $('#preview').attr('src', data + "?"+new Date().getTime());
+            $.get("/api/user/photo", function (image_url, status) {
+                $('#preview').attr('src', image_url + "?"+new Date().getTime());
             });
         });
 
@@ -161,6 +163,19 @@
         $("#blackout-close-message").click(function (e) {
             $("#blackout-message").removeClass("active");
             setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
+        });
+
+        $("#BTNLogout").click(function (e) {
+            $("#logo").removeClass("hidden");
+            $("#logo").removeClass("close");
+            $.post("/api/auth/logout").done(function () {
+                $.get("/Page", function (response) {
+                    $("#pageContainer").html(response);
+                    $("#logo").addClass("close");
+                    setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+
+                });
+            });
         });
     });
 

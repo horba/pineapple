@@ -152,6 +152,18 @@ namespace Pineapple.Controllers
             }
             return "\\img\\avatar.png";
         }
+
+
+        [HttpGet("photo/{id}")]
+        public string GetPhoto(int id)
+        {
+            if (System.IO.File.Exists(Directory.GetCurrentDirectory() + "\\wwwroot\\img\\" + id + ".jpg"))
+            {
+                return "\\img\\" + id + ".jpg";
+            }
+            return "\\img\\avatar.png";
+        }
+
     }
 
 }

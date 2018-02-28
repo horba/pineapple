@@ -1,18 +1,109 @@
-﻿
-.user-photo {
-    width: 400px;
-    height: 400px;
-    margin-right: 50%;
+﻿.settings-wrapper {
+    flex-direction: row;
 }
-.form-photo {
-    text-align: center;
-    margin-right: 50%;
-    top: 50%;
-    left: 50%;
+
+.form-user-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-right: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
 .form-user {
-    text-align: center;
-    margin-right: 50%;
-    top: 50%;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+
+.form-photo {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin-right: 10px;
+}
+
+.image-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: rgba(250,250,250,1);
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+
+.user-photo {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.avatar-input-wrapper {
+    position: relative;
+    width: 150px;
+    height: 35px;
+}
+
+.avatar-input-wrapper > .pa-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.avatar-input {
+    position: absolute;
+    bottom: 0;
     left: 50%;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.form-photo > .info-container {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.logout-wrapper {
+    padding: 10px;
+}
+
+@media only screen and (max-width: 640px) {
+
+    .settings-wrapper {
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        padding: 10px 10px;
+        box-sizing: border-box;
+    }
+
+    .form-user-wrapper {
+        width: 100%;
+        padding-left: 0px;
+    }
+
+    .form-photo {
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 5px;
+        box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+    }
+
+    .image-preview {
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+
 }

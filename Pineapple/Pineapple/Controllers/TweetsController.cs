@@ -112,7 +112,7 @@ namespace Pineapple.Controllers
                     List<TweetViewModel> response = new List<TweetViewModel>();
                     foreach (var tweet in tweets) {
                         UserModel AuthorTweet = us.GetUserById(tweet.AuthorId);
-                        string nickname = user == null ? "Error" : AuthorTweet.Nickname;
+                        string nickname = AuthorTweet == null ? "Error" : AuthorTweet.Nickname;
                         response.Add(new TweetViewModel(tweet, nickname));
                     }
 
