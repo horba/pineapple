@@ -78,7 +78,15 @@
                 return false;
             }
         });
-            
-        updateTweets();
+
+        $.get("/api/user/photo", function (image_url, status) {
+            $('#menu-image').attr('src', image_url + "?" + new Date().getTime());
+            $.get("/api/auth").done(function (data) {
+                $(".menu-nickname").text(data.nickname);
+                $(".menu-fullname").text(data.firstName + " " + data.lastName);
+
+                updateTweets();
+            });
+        });
     });
 </script>
