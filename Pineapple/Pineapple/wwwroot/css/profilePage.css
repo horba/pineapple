@@ -1,0 +1,292 @@
+﻿.profile-wrapper {
+    flex-direction: row;
+    position: relative;
+    left: 30px;
+}
+
+.data-column {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 70%;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.internal-menu {
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+    width: 100%;
+    height: 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    color: rgba(130,130,130,1);
+}
+.internal-menu > .internal-menu-item {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: ease 0.2s all;
+    -o-transition: ease 0.2s all;
+    -moz-transition: ease 0.2s all;
+    -webkit-transition: ease 0.2s all;
+}
+.internal-menu > .internal-menu-item:hover {
+    background-color: rgba(250,250,250,1);
+}
+.internal-menu > .internal-menu-item.active {
+    cursor: default;
+    color: rgba(2,141,240,1);
+}
+.internal-menu > .internal-menu-item.active:hover {
+    background-color: transparent;
+}
+.active-elem {
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    height: 3px;
+    background-color: rgba(2,141,240,1);
+    transition: ease 0.2s all;
+    -o-transition: ease 0.2s all;
+    -moz-transition: ease 0.2s all;
+    -webkit-transition: ease 0.2s all;
+}
+
+.data-wrapper {
+    display: flex;
+    flex: 1;
+    position: relative;
+    width: 100%;
+}
+
+.data-container {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    flex-direction: column;
+    opacity: 1;
+    -webkit-animation: fade_in .3s;
+    -moz-animation: fade_in .3s;
+    animation: fade_in .3s;
+}
+.data-container.hidden {
+    display: none;
+}
+.data-container.close {
+    -webkit-animation: fade_out .3s;
+    -moz-animation: fade_out .3s;
+    animation: fade_out .3s;
+    opacity: 0;
+}
+
+@-webkit-keyframes fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fade_out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+@-moz-keyframes fade_out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+@keyframes fade_out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.profile-tweets, .followers-tweets, .following-tweets {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.no-data {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed rgba(170,170,170,1);
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: rgba(170,170,170,1);
+    cursor: default;
+}
+.no-data > .fa {
+    margin-bottom: 20px;    
+}
+
+.user-info-column {
+    display: block;
+    width: 30%;
+    box-sizing: border-box;
+    color: rgba(50,50,50,1);
+    text-align: center;
+}
+
+.main-image-wrapper {
+    width: 100%;
+}
+
+.main-image {
+    width: 100%;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+
+.profile-user-info {
+    margin: 10px 0;
+}
+
+.profile-nickname {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+.profile-fullname {
+    font-size: 16px;
+    color: rgba(90,90,90,1);
+}
+
+.follow-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 860px) {
+    .profile-wrapper {
+        left: 0;
+    }
+
+    .data-column {
+        padding: 0 10px;
+    }
+
+    .user-info-column {
+        padding-right: 10px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+
+    .profile-wrapper {
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+    }
+
+    .data-column {
+        width: 100%;
+    }
+
+    .internal-menu {
+        height: 35px;
+        padding: 0;
+        box-sizing: unset;
+        overflow: hidden;
+    }
+    .internal-menu > .internal-menu-item {
+        width: 100%;
+        justify-content: center;
+        font-size: 14px;
+    }
+    .internal-menu > .internal-menu-item.active {
+        color: rgba(255,255,255,1);
+        background-color: rgba(2,141,240,1);
+    }
+    .internal-menu > .internal-menu-item.active:hover {
+        background-color: rgba(2,141,240,1);
+    }
+
+    .active-elem {
+        display: none;
+    }
+
+    .user-info-column {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .profile-user-info-container {
+        display: flex;
+        width: 100%;
+        padding: 10px;
+        background-color: rgba(255,255,255,1);
+        border-radius: 5px;
+        box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+        box-sizing: border-box;
+    }
+
+    .main-image-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        width: 70px;
+        height: 70px;
+    }
+    .main-image {
+        width: 100%;
+        box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+    }
+
+    .profile-user-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        text-align: left;
+        padding-left: 10px;
+    }
+    .profile-nickname {
+        margin-bottom: 0px;
+    }
+
+}

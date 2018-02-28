@@ -4,28 +4,60 @@
 @{
 }
 <!doctype html>
-<html><head></head>
+<html>
+<head>
+    <title>Pineapple</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> 
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/mainPage.css">
+    <link rel="stylesheet" type="text/css" href="css/profilePage.css">
+    <link rel="stylesheet" type="text/css" href="css/searchPage.css">
+    <link rel="stylesheet" type="text/css" href="css/loadAnimation.css">
+    <link rel="stylesheet" type="text/css" href="css/loadLogo.css">
+    <link rel="stylesheet" type="text/css" href="~/css/settingsPage.css">
+    <link rel="stylesheet" type="text/css" href="Fonts/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/homePage.css">
+</head>
 <body>
-hi
-<button id="values">get tweets</button>
-    <div style="min-width: 200px; min-height: 200px; border:1px solid green" id="output"></div>
-<script src="js/jquery-3.2.1.min.js"></script>
-<script>
-    $(function() {
-        $("#values").click(function(e) {
-            e.preventDefault();
-            $.get("/api/tweets").done(function (data) {
-                let values = data;
-                let $output = $("#output");
-                $output.html("");
-                values.forEach(function(v) {
-                    $output.append("<div style=\"border:1px solid blue;margin:10px\">" + v + "</div>");
-                });
-                
-                
+    <div id="logo" class="load-logo">
+        <div class="logo-container">
+            <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                 xmlns:cc="http://creativecommons.org/ns#"
+                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                 xmlns:svg="http://www.w3.org/2000/svg"
+                 xmlns="http://www.w3.org/2000/svg"
+                 id="svg8"
+                 version="1.1"
+                 viewBox="0 0 26.458332 45.475327"
+                 height="45.475327mm"
+                 width="26.458332mm">
+                <g transform="translate(-97.312144,-127.50481)"
+                   id="layer1">
+                    <path class="path"
+                          d="m 110.49107,172.80183 -5.96549,0.0214 -7.061956,-14.49528 7.162556,-14.50072 -7.162556,-9.79368 h 6.840636 l 2.33387,3.18864 3.86295,-9.56592 3.86295,9.33816 2.49482,-3.0368 h 6.76016 l -7.64542,9.8696 7.56494,14.27295 -7.00159,14.72848 -6.04587,-0.0268"
+                          fill="none"
+                          stroke="#0892fe"
+                          stroke-width="0.5"
+                          stroke-miterlimit="4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                </g>
+            </svg>
+        </div>
+        <p>Loading...</p>
+    </div>
+    <div id="pageContainer">
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.get("/Page", function (response) {
+                $("#pageContainer").html(response);
+                $("#logo").addClass("close");
+                setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
             });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

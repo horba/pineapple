@@ -1,0 +1,10 @@
+﻿.search-wrapper {
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
+}
+
+.users-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}

@@ -1,0 +1,125 @@
+﻿.load-logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 1);
+    animation: ease fade_in .6s;
+    -moz-animation: ease fade_in .6s;
+    -webkit-animation: ease fade_in .6s;
+}
+
+.load-logo.close {
+    display: flex;
+    opacity: 0;
+    animation: ease fade_out .6s;
+    -moz-animation: ease fade_out .6s;
+    -webkit-animation: ease fade_out .6s;
+}
+
+.load-logo.hidden {
+    display: none;
+    opacity: 0;
+}
+
+@keyframes fade_out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+@-moz-keyframes fade_out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+@-webkit-keyframes fade_out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.load-logo > p{
+    font-family: Arial;
+    font-size: 1.2em;
+    color: rgba(8, 146, 254, 1);
+}
+
+.logo-container {
+    width: 100px;
+}
+
+.path {
+    stroke-dasharray: 6 137;
+    stroke-dashoffset: 143;
+    stroke-opacity: 1;
+    animation: dash 5s linear infinite;
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 6 137;
+        stroke-dashoffset: 143;
+    }
+
+    5% {
+    }
+
+    50% {
+        stroke-dasharray: 143 0;
+        stroke-dashoffset: 143;
+    }
+
+    97% {
+        stroke-dasharray: 6 137;
+        stroke-dashoffset: 6;
+    }
+
+    100% {
+        stroke-dashoffset: 1;
+    }
+}

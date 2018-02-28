@@ -1,0 +1,642 @@
+﻿#pageContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    border-bottom: solid 1px rgba(200,200,200,1);
+}
+
+.open-menu-button {
+    display: none;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 5px 0;
+    padding-left: 4%;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+.logo {
+    height: 100%;
+    vertical-align: middle;
+    float: left;
+}
+
+.logo-header {
+    display: inline-block;
+    color: rgba(2,141,240,1);
+    font-size: 1.8em;
+    text-align: center;
+    margin-left: 10px;
+}
+
+#blackout-menu {
+    display: none;
+}
+
+.main-menu {
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding: 0 10px 0 0;
+}
+
+.main-menu > div {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    font-family: Roboto, Arial, Tahoma;
+    font-size: 16px;
+    color: rgba(100,100,100,1);
+    background-color: transparent;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: ease 0.2s color, ease 0.2s background-color;
+    -o-transition: ease 0.2s color, ease 0.2s background-color;
+    -moz-transition: ease 0.2s color, ease 0.2s background-color;
+    -webkit-transition: ease 0.2s color, ease 0.2s background-color;
+}
+
+.main-menu > div:hover {
+    background-color: rgba(245,245,245,1);
+}
+
+.main-menu > div.active {
+    color: rgba(255,255,255,1);
+    background-color: rgba(2,141,240,1);
+    cursor: default;
+}
+
+.main-menu > .user-info {
+    display: none;
+}
+
+.menu-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+}
+
+.menu-image {
+    width: 100%;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+
+.menu-user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.menu-nickname {
+    font-size: 22px;
+    margin-bottom: 0px;
+    color: rgba(50,50,50,1);
+}
+
+.menu-fullname {
+    font-size: 16px;
+    color: rgba(90,90,90,1);
+}
+
+@media only screen and (max-width: 640px) {
+
+    header{
+        justify-content: center;
+    }
+
+    .logo-wrapper {
+        padding: 5px 0;
+    }
+
+    .open-menu-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+        color: rgba(2,141,240,1);
+    }
+
+    #blackout-menu {
+        display: flex;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 7;
+    }
+
+    #blackout-menu.hidden {
+        display: none;
+    }
+
+    #blackout-menu.active {
+        opacity: 1;
+    }
+
+    .main-menu {
+        position: fixed;
+        flex-direction: column;
+        top: 0;
+        left: -70%;
+        width: 70%;
+        height: 100%;
+        background-color: rgba(255,255,255,1);
+        padding: 0 10px;
+        box-sizing: border-box;
+        z-index: 8;
+        transition: ease 0.6s left;
+        -o-transition: ease 0.6s left;
+        -moz-transition: ease 0.6s left;
+        -webkit-transition: ease 0.6s left;
+    }
+
+    .main-menu.open {
+        left: 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+
+    .main-menu > div {
+        width: 100%;
+        height: 50px;
+        padding: 0 0 0 20px;
+        border-bottom: 1px solid rgba(100,100,100,1);
+        box-sizing: border-box;
+        color: rgba(0, 136, 204, 1);
+    }
+
+    .main-menu > div.active {
+        color: rgba(100,100,100,1);
+        background-color: transparent;
+    }
+
+    .main-menu > .user-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        padding: 10px;
+        cursor: default;
+        text-align: center;
+    }
+
+    .main-menu > .user-info:hover {
+        background-color: transparent;  
+    }
+}
+
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    position: relative;
+}
+
+.main {
+    display: flex;
+    width: 100%;
+    flex: 1;
+}
+
+.follow-button {
+    flex-shrink: 0;
+    width: 35px;
+    height: 25px;
+    border: 1.5px solid rgba(2,141,240,1);
+    border-radius: 5px;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+.follow-button.load {
+    animation: ease load-border 1s infinite;
+    -moz-animation: ease load-border 1s infinite;
+    -webkit-animation: ease load-border 1s infinite;
+    cursor: default;
+}
+.follow-button.load:hover, .follow-button.success:hover, .follow-button.fail:hover {
+        background-color: transparent;
+    }
+.follow-button.load::before, .follow-button.load::after {
+    animation: ease load-bgcolor 1s infinite;
+    -moz-animation: ease load-bgcolor 1s infinite;
+    -webkit-animation: ease load-bgcolor 1s infinite;
+}
+.follow-button.load > .user-icon {
+    animation: ease load-color 1s infinite;
+    -moz-animation: ease load-color 1s infinite;
+    -webkit-animation: ease load-color 1s infinite;
+}
+    
+@keyframes load-border {
+    0% {
+    border: 1.5px solid rgba(8,146,254,1);
+}
+
+50% {
+    border: 1.5px solid rgba(200,200,200,1);
+}
+
+100% {
+    border: 1.5px solid rgba(8,146,254,1);
+}
+}
+@-moz-keyframes load-border {
+    0% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+
+    50% {
+        border: 1.5px solid rgba(200,200,200,1);
+    }
+
+    100% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+}
+@-webkit-keyframes load-border {
+    0% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+
+    50% {
+        border: 1.5px solid rgba(200,200,200,1);
+    }
+
+    100% {
+        border: 1.5px solid rgba(8,146,254,1);
+    }
+}
+
+@keyframes load-bgcolor {
+    0% {
+        background-color: rgba(8,146,254,1);
+    }
+
+    50% {
+        background-color: rgba(200,200,200,1);
+    }
+
+    100% {
+        background-color: rgba(8,146,254,1);
+    }
+}
+@-moz-keyframes load-bgcolor {
+    0% {
+        background-color: rgba(8,146,254,1);
+    }
+
+    50% {
+        background-color: rgba(200,200,200,1);
+    }
+
+    100% {
+        background-color: rgba(8,146,254,1);
+    }
+}
+@-webkit-keyframes load-bgcolor {
+    0% {
+        background-color: rgba(8,146,254,1);
+    }
+
+    50% {
+        background-color: rgba(200,200,200,1);
+    }
+
+    100% {
+        background-color: rgba(8,146,254,1);
+    }
+}
+
+@keyframes load-color {
+    0% {
+        color: rgba(8,146,254,1);
+    }
+
+    50% {
+        color: rgba(200,200,200,1);
+    }
+
+    100% {
+        color: rgba(8,146,254,1);
+    }
+}
+@-moz-keyframes load-color {
+    0% {
+        color: rgba(8,146,254,1);
+    }
+
+    50% {
+        color: rgba(200,200,200,1);
+    }
+
+    100% {
+        color: rgba(8,146,254,1);
+    }
+}
+@-webkit-keyframes load-color {
+    0% {
+        color: rgba(8,146,254,1);
+    }
+
+    50% {
+        color: rgba(200,200,200,1);
+    }
+
+    100% {
+        color: rgba(8,146,254,1);
+    }
+}
+
+.follow-button:hover {
+    background-color: rgba(2,141,240,1);
+}
+.follow-button.success {
+    width: 25px;
+    border-color: rgba(0,200,0,1);
+    border-radius: 12.5px;
+    cursor: default;
+}
+.follow-button.fail {
+    width: 25px;
+    border-color: rgba(200,0,0,1);
+    border-radius: 12.5px;
+    cursor: default;
+}
+.follow-button:hover::before, .follow-button:hover::after, .follow-button.unfollow:hover::before, .follow-button.unfollow:hover::after {
+    background-color: rgba(255,255,255,1);
+}
+.follow-button.success:hover::before, .follow-button.success:hover::after {
+    background-color: rgba(0,200,0,1);
+}
+.follow-button.fail:hover::before, .follow-button.fail:hover::after {
+    background-color: rgba(200,0,0,1);
+}
+.follow-button::before {
+    content: "";
+    width: 8px;
+    height: 1.5px;
+    background-color: rgba(2,141,240,1);
+    position: absolute;
+    left: 4px;
+    top: 10.5px;
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+.follow-button.success::before {
+    background-color: rgba(0,200,0,1);
+    width: 7px;
+    top: 13px;
+    left: 4px;
+    transform: rotateZ(45deg);
+    -o-transform: rotateZ(45deg);
+    -moz-transform: rotateZ(45deg);
+    -webkit-transform: rotateZ(45deg);
+}
+.follow-button.fail::before {
+    background-color: rgba(0,200,0,1);
+    width: 12px;
+    left: 5.5px;
+}
+.follow-button::after {
+    content: "";
+    width: 8px;
+    height: 1.5px;
+    background-color: rgba(2,141,240,1);
+    position: absolute;
+    left: 4px;
+    top: 10.5px;
+    transform: rotateZ(90deg);
+    -o-transform: rotateZ(90deg);
+    -moz-transform: rotateZ(90deg);
+    -webkit-transform: rotateZ(90deg);
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+.follow-button.unfollow::after {
+    content: "";
+    width: 8px;
+    height: 1.5px;
+    background-color: rgba(2,141,240,1);
+    position: absolute;
+    left: 4px;
+    top: 10.5px;
+    transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+.follow-button.success::after {
+    width: 12px;
+    left: 7.5px;
+    top: 11.5px;
+    background-color: rgba(0,200,0,1);
+    transform: rotateZ(135deg);
+    -o-transform: rotateZ(135deg);
+    -moz-transform: rotateZ(135deg);
+    -webkit-transform: rotateZ(135deg);
+}
+.follow-button.fail::after {
+    background-color: rgba(200,0,0,1);
+    width: 12px;
+    left: 5.5px;
+    transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+}
+.follow-button > .user-icon {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    color: rgba(2,141,240,1);
+    opacity: 1;
+    transition: ease 0.4s all;
+    -o-transition: ease 0.4s all;
+    -moz-transition: ease 0.4s all;
+    -webkit-transition: ease 0.4s all;
+}
+.follow-button:hover > .user-icon {
+    color: rgba(255,255,255,1);
+}
+.follow-button.success > .user-icon, .follow-button.fail > .user-icon {
+    opacity: 0;
+}
+
+.output {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+.feed {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    min-height: 70px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+}
+.image-wrapper {
+    position: absolute;
+    top: 0px;
+    left: -60px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+    cursor: pointer;
+}
+.avatar-in-tweet {
+    height: 100%;
+    
+}
+.not-avatar-part-of-tweet {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.tweet-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.nickname-in-tweet {
+    color: rgba(40,40,40,1);
+    font-weight: bold;
+    cursor: pointer;
+    transition: ease 0.2s color;
+    -o-transition: ease 0.2s color;
+    -moz-transition: ease 0.2s color;
+    -webkit-transition: ease 0.2s color;
+}
+.nickname-in-tweet:hover {
+    color: rgba(2,141,240,1);
+}
+.tweet-date {
+    color: rgba(120,120,120,1);
+    font-size: 13px;
+}
+.text-in-tweet {
+    display: block;
+    font-size: 15px;
+    text-align: justify;
+    color: rgba(50,50,50,1);
+}
+@media only screen and (max-width: 860px) {
+    .image-wrapper {
+        position: relative;
+        left: 0px;
+    }
+    .not-avatar-part-of-tweet {
+        padding-left: 10px;
+    }
+}
+
+.search-result {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px 10px 10px;
+    box-sizing: border-box;
+    cursor: default;
+    transition: ease-in-out 0.2s background-color;
+    -o-transition: ease-in-out 0.2s background-color;
+    -moz-transition: ease-in-out 0.2s background-color;
+    -webkit-transition: ease-in-out 0.2s background-color;
+}
+.search-image-wrapper {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+.search-image {
+    width: 100%;
+    box-shadow: 0px 0px 3px rgba(100,100,100,0.6);
+}
+.search-username {
+    font-size: 1.1em;
+    color: rgba(75,75,75,1);
+    padding: 0 10px;
+    cursor: pointer;
+    transition: ease 0.2s color;
+    -o-transition: ease 0.2s color;
+    -moz-transition: ease 0.2s color;
+    -webkit-transition: ease 0.2s color;
+}
+.search-username:hover {
+    color: rgba(2,141,240,1);
+}
+.search-fullname {
+    font-size: 0.9em;
+    font-weight: 400;
+    color: rgba(95,95,95,1);
+    padding: 0 10px;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    bottom: 0px;
+    border-top: 1px solid rgba(200,200,200,1);
+    font-family: Arial;
+    font-size: 1em;
+}

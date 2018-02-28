@@ -1,0 +1,218 @@
+﻿<header>
+    <div class="logo-wrapper">
+        <img class="logo" src="img/Pineapple.png">
+        <div class="logo-header">Pineapple</div>
+    </div>
+    <div class="buttons-container">
+        <button class="pa-button pa-button-margin-right" id="LogIn">Log in</button>
+        <button class="pa-button pa-button-margin-right" id="SignUp">Sign up</button>
+    </div>
+</header>
+<div class="info">Welcome to Pineapple!<br>You are on the our main page of Pineapple project — replica of twitter. Register, authorize and share the new around you!</div>
+<div class="buttons-container-mobile">
+    <button class="pa-button pa-button-margin-top pa-adaptive-button-100" id="LogInMobile">Log in</button>
+    <button class="pa-button pa-button-margin-top pa-adaptive-button-100" id="SignUpMobile">Sign up</button>
+</div>
+<div class="blackout hidden" id="blackout-login">
+    <button class="blackout-close" id="blackout-close-login"></button>
+    <form class="modal-window" id="loginForm">
+        <p>Autorization</p>
+        <label for="loginNickname" class="pa-label">Nickname*</label>
+        <input type="text" name="nickname" class="pa-input" id="loginNickname" placeholder="Type your nickname" required />
+        <label for="loginPass" class="pa-label">Password*</label>
+        <input type="password" name="password" class="pa-input" id="loginPass" placeholder="Type your password" required />
+        <div class="login-error" id="loginError"></div>
+        <div class="login-button-wrapper">
+            <div class="pa-adaptive-button-50 pa-button-relative">
+                <input type="submit" class="pa-button pa-adaptive-button-100" id="login-apply" value="Log in" />
+                <div id="loadLogButton"></div>
+            </div>
+            <input type="button" class="pa-button pa-negative-button pa-button-margin-left pa-adaptive-button-50" id="login-cancel" value="Cancel" />
+        </div>
+    </form>
+</div>
+<div class="blackout hidden" id="blackout-register">
+    <button class="blackout-close" id="blackout-close-register"></button>
+    <form class="modal-window" id="registerForm">
+        <p>Registration</p>
+        <div class="info-container">
+            <label for="Nickname" class="pa-label">Nickname*</label>
+            <div class="error-info" id="Nickname-error-info"></div>
+        </div>
+        <input type="text" name="nickname" class="pa-input" id="Nickname" placeholder="Type your nickname" required />
+        <div class="info-container">
+            <label for="FirstName" class="pa-label">First name</label>
+            <div class="error-info" id="FirstName-error-info"></div>
+        </div>
+        <input type="text" name="firstName" class="pa-input" id="FirstName" placeholder="Type your first name" />
+        <div class="info-container">
+            <label for="LastName" class="pa-label">Last name</label>
+            <div class="error-info" id="LastName-error-info"></div>
+        </div>
+        <input type="text" name="lastName" class="pa-input" id="LastName" placeholder="Type your last name" />
+        <div class="info-container">
+            <label for="Email" class="pa-label">E-Mail*</label>
+            <div class="error-info" id="Email-error-info"></div>
+        </div>
+        <input type="email" name="email" class="pa-input" id="Email" placeholder="Type your e-Mail" required />
+        <div class="info-container">
+            <label for="Password" class="pa-label">Password*</label>
+            <div class="error-info" id="Password-error-info"></div>
+        </div>
+        <input type="password" name="password" class="pa-input" id="Password" placeholder="Type your password" required />
+        <div class="info-container">
+            <label for="RPassword" class="pa-label">Repeat password*</label>
+            <div class="error-info" id="RPassword-error-info"></div>
+        </div>
+        <input type="password" name="rPassword" class="pa-input" id="RPassword" placeholder="Repeat your password" required />
+
+        <div class="register-button-wrapper">
+            <div class="pa-adaptive-button-50 pa-button-relative">
+                <input type="submit" class="pa-button pa-adaptive-button-100" id="register-apply" value="Sign up" />
+                <div id="loadRegButton"></div>
+            </div>
+            <input type="button" class="pa-button pa-negative-button pa-button-margin-left pa-adaptive-button-50" id="register-cancel" value="Cancel" />
+        </div>
+    </form>
+</div>
+<div class="blackout hidden" id="blackout-message">
+    <div class="modal-window">
+        <p id="messageHead"></p>
+        <p id="message"></p>
+        <button class="pa-button pa-adaptive-button-100" id="blackout-close-message">Ok</button>
+    </div>
+</div>
+<footer>© 2018 Pineapple, Inc.</footer>
+<script>
+        $(function () {
+
+            $('#LogIn, #LogInMobile').click(function (event) {
+                $("#blackout-login").removeClass("hidden");
+                $("#blackout-login").addClass("active");
+            });
+
+            $("#blackout-close-login, #login-cancel").click(function (e) {
+                $("#blackout-login").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-login").addClass("hidden");
+                    $("#loginError").html("");
+                }, 600);
+            });
+
+            $('#login-apply').click(function () {
+
+                var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
+                var data = $("#loginForm").serialize();
+
+                $("#loadLogButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
+
+                $.post("api/auth", data, function (response) {
+
+                    $("#loadLogButton").html('');
+
+                    if (response.status) {
+                        $("#logo").removeClass("hidden");
+                        $("#logo").removeClass("close");
+                        $.get("/Page", function (resp) {
+                            $("#pageContainer").html(resp);
+                            $("#logo").addClass("close");
+                            setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                        });
+                    } else {
+                        $("#loginError").html(response.error);
+                    }
+                });
+
+                return false;
+            });
+
+            $("#SignUp, #SignUpMobile").click(function (e) {
+                $("#blackout-register").removeClass("hidden");
+                $("#blackout-register").addClass("active");
+            });
+
+            $("#blackout-close-register, #register-cancel").click(function (e) {
+                $("#blackout-register").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-register").addClass("hidden");
+                    $(".input-area").removeClass("right wrong");
+                    $(".error-info").text("");
+                }, 600);
+            });
+
+            $("#registerForm").submit(function (e) {
+
+                var dataType = 'application/x-www-form-urlencoded; charset=utf-8';
+                var data = $("#registerForm").serialize();
+
+                $(".input-area").removeClass("right wrong");
+                $(".error-info").text("");
+
+                $("#loadRegButton").html('<div class="cssload-container"><div class="cssload-whirlpool"></div></div>');
+
+                $.post("/api/user/register", data, function (errorInfo) {
+
+                    $("#registerForm .pa-input").addClass("right");
+
+                    for (var error_field in errorInfo) {
+                        $('#' + error_field).removeClass("right").addClass("wrong");
+                        $('#' + error_field + '-error-info').html(errorInfo[error_field]);
+                    }
+
+                    if (Object.keys(errorInfo).length == 0 || ("DB" in errorInfo && count == 1)) {
+
+                        if (Object.keys(errorInfo).length == 0)
+                        {
+                            $("#messageHead").html("Successful registration");
+                            $("#message").html("You have been successfully registered.");
+                            $("#registerForm").data("registrtionWasSuccesful", true);     
+                        }
+                        else
+                        {
+                            $("#messageHead").html("Oops. It looks like problem with DB!");
+                            $("#message").html(errorInfo.status);
+                        }
+
+                        $("#blackout-register").removeClass("active");
+                        setTimeout(function () {
+                            $("#blackout-register").addClass("hidden");
+                            $("#blackout-message").removeClass("hidden");
+                            $("#blackout-message").addClass("active");
+
+                            $(".input-area").removeClass("right wrong");
+                            $(".error-info").text("");
+                        }, 600);
+                    }
+                    $("#loadRegButton").html('');
+
+                }, "json");
+
+                return false;
+            });
+
+            $(".input-area").focus(function (e) {
+                $(this).removeClass("right wrong");
+                document.getElementsByClassName("error-info")[$(this).index() / 2 - 1].innerHTML = "";
+            });
+
+            $("#blackout-close-message").click(function (e) {
+                $("#blackout-message").removeClass("active");
+                setTimeout(function () {
+                    $("#blackout-message").addClass("hidden");
+                    if ($("#registerForm").data("registrtionWasSuccesful"))
+                    {
+                        var data = { nickname: $("#Nickname").val(), password: $("#Password").val() };
+                        $.post("api/auth", data, function (response) {
+                            $("#logo").removeClass("hidden");
+                            $("#logo").removeClass("close");
+                            $.get("/Page", function (resp) {
+                                $("#pageContainer").html(resp);
+                                $("#logo").addClass("close");
+                                setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+                            });
+                        });
+                    }
+                }, 600);
+            });
+        });
+</script>
