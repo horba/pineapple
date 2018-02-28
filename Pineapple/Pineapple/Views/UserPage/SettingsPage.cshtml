@@ -1,6 +1,7 @@
 ﻿<div class="content-wrapper settings-wrapper">
     <div class="form-user-wrapper">
         <form id="user-form" class="form-user block-with-shadow">
+
             <div class="info-container">
                 <label for="Nickname" class="pa-label">Nickname</label>
                 <div class="error-info"></div>
@@ -27,6 +28,8 @@
 
             <input type="submit" class="pa-button pa-adaptive-button-100" value="Save">
         </form>
+
+        <div class="logout-wrapper block-with-shadow"><button class="pa-button pa-adaptive-button-100 pa-negative-button" id="BTNLogout">Log out</button></div>
     </div>
     <form id="photo-form" class="form-photo">
         <div class="image-preview">
@@ -160,6 +163,19 @@
         $("#blackout-close-message").click(function (e) {
             $("#blackout-message").removeClass("active");
             setTimeout(function () { $("#blackout-message").addClass("hidden"); }, 600);
+        });
+
+        $("#BTNLogout").click(function (e) {
+            $("#logo").removeClass("hidden");
+            $("#logo").removeClass("close");
+            $.post("/api/auth/logout").done(function () {
+                $.get("/Page", function (response) {
+                    $("#pageContainer").html(response);
+                    $("#logo").addClass("close");
+                    setTimeout(function () { $("#logo").addClass("hidden"); }, 600);
+
+                });
+            });
         });
     });
 
