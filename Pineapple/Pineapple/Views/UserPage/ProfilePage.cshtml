@@ -365,8 +365,11 @@
         $.get("/api/auth").done(function (data) {
             $(".profile-nickname").text(data.nickname);
             $(".profile-fullname").text(data.firstName + " " + data.lastName);
+            $.get("/api/user/photo", function (image_url) {
+                $('#main-image').attr('src', image_url + "?" + new Date().getTime());
 
-            updateTweets();
+                updateTweets();
+            });
         });
 
     });
