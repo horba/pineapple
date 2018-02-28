@@ -363,10 +363,11 @@
         $(".active-elem").css("left", $(".internal-menu > .internal-menu-item.active").position().left);
 
         $.get("/api/auth").done(function (data) {
-        $(".profile-nickname").text(data.nickname);
-        $(".profile-fullname").text(data.firstName + " " + data.lastName);
+            $(".profile-nickname").text(data.nickname);
+            $(".profile-fullname").text(data.firstName + " " + data.lastName);
 
-        updateTweets();
+            updateTweets();
+        }
 
     });
 </script>
