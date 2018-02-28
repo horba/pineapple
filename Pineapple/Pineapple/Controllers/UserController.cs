@@ -85,8 +85,10 @@ namespace Pineapple.Controllers
             data.LastName = data.LastName == null ? "" : data.LastName;
             data.Email = data.Email.ToLower();
 
-            response.FirstName = user.CheckUserFirstName(data.FirstName);
-            response.LastName = user.CheckUserSecondName(data.LastName);
+            string checkFirstName = user.CheckUserFirstName(data.FirstName);
+            string checkSecondName = user.CheckUserSecondName(data.LastName);
+            response.FirstName = checkFirstName == "" ? "true" : checkFirstName;
+            response.LastName = checkSecondName == "" ? "true" : checkSecondName;
 
             if (response.Nickname == "true" && response.Email == "true" && response.FirstName == "true" && response.LastName == "true")
             {
